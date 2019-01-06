@@ -40,9 +40,9 @@ block content
     .tabpanel
       ul.nav.nav-tabs(role='tablist')
         li.active(role='presentation')
-          a(href='#balance', aria-controls='balance', role='tab', data-toggle='tab') Balance
+          a(href='#balance', aria-controls='balance', role='tab', data-toggle='tab') 余额 
         li(role='presentation')
-          a(href='#received', aria-controls='received', role='tab', data-toggle='tab') Received
+          a(href='#received', aria-controls='received', role='tab', data-toggle='tab') 接收 
     .tab-content
       #balance.tabpanel.tab-pane.active 
         include ./includes/rl_balance.jade
@@ -53,7 +53,7 @@ block content
       if show_coin_supply
         .panel.panel-default(style='margin-top:47px;')
           .panel-heading
-            h3.panel-title Coin Supply
+            h3.panel-title 区块货币总量 
           div.text-center(style='padding: 20px 0;')
             =coin_supply
       if show_dist
@@ -64,7 +64,7 @@ block content
             thead
               tr
                 th
-                th Amount (#{settings.symbol})
+                th 余额 (#{settings.symbol})
                 th.text-center %
             tbody
               tr
