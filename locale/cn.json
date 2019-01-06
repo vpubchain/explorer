@@ -80,7 +80,7 @@
     "rl_top100": "最高 76-100",
     "rl_hundredplus": "101+",
 
-    "net_connections": "连接数",
+    "net_connections": "连接",
     "net_address": "地址",
     "net_protocol": "协议",
     "net_subversion": "子版本",
