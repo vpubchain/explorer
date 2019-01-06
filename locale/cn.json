@@ -32,7 +32,7 @@
     // transaction view
     "tx_title": "Transaction Details",
     "tx_block_hash": "区块哈希",
-    "tx_recipients": "接收数",
+    "tx_recipients": "接收",
     "tx_contributors": "转入地址",
     "tx_hash": "区块哈希",
     "tx_address": "地址",
