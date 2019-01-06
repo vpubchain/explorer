@@ -24,6 +24,7 @@ block content
                 json.data[i]['lastpaid'] = new Date((json.data[i]['lastpaid']) * 1000).toLocaleString();
               else
                 json.data[i]['lastpaid'] = '<em>not available</em>';
+              json.data[i]['ip'] = "<a href='/ip/" + json.data[i]['ip'] + "'>" + json.data[i]['ip'] + "</a>";
             }
             return json.data;
           }
@@ -31,8 +32,9 @@ block content
         columns: [
           { data: 'address', width: '25%', className: 'text-left' },
           { data: 'status', width: '15%' },
-          { data: 'lastseen', width:'25%' },
-          { data: 'lastpaid', width:'25%' },
+          { data: 'lastseen', width:'20%' },
+          { data: 'lastpaid', width:'20%' },
+          { data: 'ip', width:'20%' },
         ]
       });
     });
@@ -47,4 +49,5 @@ block content
             th.text-center #{settings.locale.mn_status}
             th.text-center #{settings.locale.mn_lastseen}
             th.text-center #{settings.locale.mn_lastpaid}
+            th.text-center #{settings.locale.mn_ip}
         tbody.text-center
