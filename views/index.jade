@@ -49,7 +49,7 @@ block content
                 json.data[i]['timestamp'] = '';
               } else {
                 json.data[i]['blockindex'] = "<a href='/block/" + json.data[i]['blockhash'] + "'>" + json.data[i]['blockindex'] + "</a>";
-                json.data[i]['txid'] = "<a href='/tx/" + json.data[i]['txid'] + "' class='mono'>" + json.data[i]['txid'] + "</a>";
+                json.data[i]['txid'] = "<a href='/tx/" + json.data[i]['txid'] + "' class='mono'>" + json.data[i]['blockhash'] + "</a>";
                 var amount = json.data[i]['total'] / 100000000;
                 json.data[i]['total'] = amount.toFixed(8);
                 json.data[i]['recipients'] = json.data[i]['vout'].length;

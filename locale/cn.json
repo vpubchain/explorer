@@ -34,7 +34,7 @@
     "tx_block_hash": "区块哈希",
     "tx_recipients": "接收者",
     "tx_contributors": "转入地址",
-    "tx_hash": "交易ID",
+    "tx_hash": "区块哈希",
     "tx_address": "地址",
     "tx_nonstandard": "NONSTANDARD TX",
 
