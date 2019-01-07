@@ -40,7 +40,7 @@ html
             $("#cmc_market_cap").text(json.data[0].marketCapUsd);
             $("#cmc_volume_24h").text(json.data[0].marketVolumeUsd);
 
-            $("#lblConnections").text(json.data[0].connections + ' connections');
+            $("#lblConnections").text(json.data[0].connections + ' 个连接');
             $("#lblBlockcountValue").text(json.data[0].blockcount);
 
 
@@ -274,5 +274,5 @@ html
           if settings.baseType === 'ripple'
             span  ledgers
           else
-            span  blocks
+            span  个区块 
         label#lblConnections.label.label-default -
