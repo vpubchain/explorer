@@ -42,7 +42,7 @@
     "block_previous": "上一个",
     "block_next": "下一个",
     "block_title": "Block Details",
-    "block_genesis": "GENESIS",
+    "block_genesis": "创世区块",
 
     // global
     "difficulty": "难度",
