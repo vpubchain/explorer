@@ -1,8 +1,73 @@
 extends layout
-
+//var log4js = require('log4js');
+//log4js.configure({
+  "appenders":[{
+  "type":"file",
+  "filename":__dirname+"/logs/logger.log",
+  "category":"logger" 
+  }]
+//})
+//var loggerTest = log4js.getLogger('logger');
+//loggerTest.info('test');
+//var logger = log4js.getLogger();
 block content
   script.
+    $(document).ready(function() {
+      $.ajax ({
+        url: '/ext/getlasttxs/0.00000001',
+        success: function( result ) {
+          var extdata = result.data;
+          extdata.sort(function(a,b){
+            return a.blockindex - b.blockindex;//正序
+          });
+          //alert( 'test+++' );
+          AmCharts.makeChart("chartdiv", {
+            "type": "serial",
+            "theme": "black",
+            "marginRight": 80,
+            "dataProvider": result.data,
+            "valueAxes": [{
+              "position": "left",
+              "title": "Difficulty"
+            }],
+            "graphs": [{
+              "id": "g1",
+              "fillAlphas": 0.4,
+              "valueField": "difficult",
+              "balloonText": "<div style='margin:5px; font-size:19px;'>Diff(POS):<b> [[value]]</b></div>"   
+              }
+            ],
+            "chartCursor": {
+              "categoryBalloonDateFormat": "JJ:NN, DD MMMM",
+              "cursorPosition": "mouse"
+            },
+            "categoryField": "blockindex",
+            "categoryAxis": {
+              "gridAlpha": 0,
+              "position": "left",
+              "labelsEnabled": true,
+              "tickLength": 0
+            },
+            "export": {
+              "enabled": true,
+            }
+          });
+          //alert( 'test---' );
+        },
+        error: function(){
+          alert('test');
+        }
+        //success: function( result ) {
+          //var chart = AmCharts.makeChart("chartdiv",{});    
+        //};
+      });
+    });
+  script.
+    //var loggerTest = log4js.getLogger('logger');
+    //loggerTest.info('test');
+    //console.log("work hard start");
     $(document).ready(function(){
+        
       var stable = $('#block-table').dataTable( {  
         autoWidth: true,      
         searching: true,
@@ -15,7 +80,7 @@ block content
         ajax: {
           url: '/ext/summary',
           dataSrc: function ( json ) {
-          console.log(json.data);
+            console.log('hello summary' + json.data);
             json.data[0]['height'] = "<a href='/block/" + json.data[0]['hash'] + "'>" + json.data[0]['height'] + "</a>";
             return json.data;
           }
@@ -29,7 +94,8 @@ block content
           //{ data: 'time', width: '20%' },
         ]
       });
-      var rtable = $('#recent-table').dataTable( {  
+      var rtable = $('#recent-table').dataTable( { 
+          
         autoWidth: true,      
         searching: false,
         ordering: false,
@@ -37,6 +103,7 @@ block content
         lengthChange: true,
         processing: true,
         ajax: {
+            
           url: '/ext/getlasttxs/0.00000001',
           dataSrc: function ( json ) {
             for ( var i=0;i<json.data.length; i++ ) {
@@ -71,6 +138,8 @@ block content
         stable.api().ajax.reload(null, false);
       }, 60000 );
     });
+      
+  <div class="row"><div class="col-md-offset-5 col-md-2"><label>Network Difficulty</label></div><div class="col-md-offset-5"></div><div class="col-md-offset-1 col-md-10"><div id="chartdiv" style="width: 100%; height: 300px;></div></div></div>
   .row
     .col-md-12
       if error !== null        
