@@ -15,15 +15,21 @@ block content
             "theme": "black",
             "marginRight": 80,
             "dataProvider": result.data,
+            "fill": "green",
+            "borderColor": "green",
             "valueAxes": [{
               "position": "left",
-              "title": "区块难度"
+              "axisColor": "green",
+              "color": "#FFF7FB",
+              "title": "区块难度",
+              "titleColor": "white"
             }],
             "graphs": [{
               "id": "g1",
               "fillAlphas": 0.4,
               "valueField": "difficult",
-              "balloonText": "<div style='margin:5px; font-size:19px;'>难度值:<b> [[value]]</b></div>"   
+              "lineColor": "green",
+              "balloonText": "<div style='margin:5px; font-size:19px;'>难度值:<b> [[value]]</b></div>",   
               }
             ],
             "chartCursor": {
@@ -35,6 +41,11 @@ block content
               "gridAlpha": 0,
               "position": "left",
               "labelsEnabled": true,
+              "axisColor": "green",
+              "color": "white",
+              "gridColor": "green",
+              "title": "区块高度",
+              "titleColor": "white",
               "tickLength": 0
             },
             "export": {
