@@ -89,6 +89,7 @@ app.use('/ext/getaddress/:hash', function(req,res){
   });
 });
 
+
 app.use('/ext/getbalance/:hash', function(req,res){
   db.get_address(req.param('hash'), function(address){
     if (address) {

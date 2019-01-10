@@ -456,7 +456,7 @@ router.get('/ext/masternodes', function(req, res) {
           status: mn.status,
           lastseen: mn.lastseen,
           lastpaid: mn.lastpaid,
-	  ip: mn.ip,
+          ip: mn.ip,
 //          ip: ""
         };
         mnList.push(mnItem);

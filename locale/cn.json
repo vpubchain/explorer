@@ -5,12 +5,12 @@
 */
 {
     // menu items
-    "menu_explorer": "浏览器",
+    "menu_explorer": "区块信息",
     "menu_api": "API",
     "menu_markets": "Markets",
-    "menu_richlist": "财富榜100强",
+    "menu_richlist": "财富榜",
     "menu_reward": "奖励",
-    "menu_movement": "交易",
+    "menu_movement": "交易信息",
     "menu_node": "Nodes",
     "menu_network": "网络节点",
     "menu_masternodes": "主节点",
@@ -23,7 +23,7 @@
     "ex_search_message_ripple": "You may enter a ledger height, ledger hash, tx hash or address.",
     "ex_error": "错误!",
     "ex_search_error": "查找无结果: ",
-    "ex_latest_transactions": "最新交易",
+    "ex_latest_transactions": "最新",
     "ex_summary": "Block Summary",
     "ex_supply": "区块货币总量",
     "ex_block": "区块高度",
