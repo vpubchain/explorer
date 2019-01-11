@@ -84,7 +84,7 @@
     "net_connections": "节点",
     "net_address": "地址",
     "net_protocol": "协议",
-    "net_subversion": "子版本",
+    "net_subversion": "版本",
     "net_country": "国家",
     "net_warning": "这是基于过于24小时连接到钱包的网络节点。",
 
