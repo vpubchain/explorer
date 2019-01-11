@@ -33,14 +33,15 @@
     "tx_title": "Transaction Details",
     "tx_block_hash": "区块哈希",
     "tx_recipients": "接收",
-    "tx_contributors": "转入地址",
-    "tx_hash": "区块哈希",
+    "tx_contributors": "发送",
+    "tx_hash": "交易哈希",
     "tx_address": "地址",
     "tx_nonstandard": "NONSTANDARD TX",
 
     // block view
     "block_previous": "上一个",
     "block_next": "下一个",
+    "block_hash": "区块哈希",
     "block_title": "Block Details",
     "block_genesis": "创世区块",
 
@@ -56,7 +57,7 @@
     "total_received": "总接收",
     "confirmations": "确认数",
     "total": "总额",
-    "bits": "比特数(bits)",
+    "bits": "目标值(bits)",
     "nonce": "随机数(Nonce)",
     "new_coins": "New Coins",
     "proof_of_stake": "PoS",
