@@ -19,7 +19,7 @@
     "ex_title": "区块链浏览器",
     "ex_search_title": "搜索",
     "ex_search_button": "搜索",
-    "ex_search_message": "请输入区块高度、区块哈希、交易ID或钱包地址。",
+    "ex_search_message": "请输入区块高度、区块哈希、交易哈希或钱包地址。",
     "ex_search_message_ripple": "You may enter a ledger height, ledger hash, tx hash or address.",
     "ex_error": "错误!",
     "ex_search_error": "查找无结果: ",
