@@ -30,11 +30,11 @@ block content
           }
         },
         columns: [
-          { data: 'address', width: '25%', className: 'text-left' },
+          { data: 'ip', width:'20%' },
           { data: 'status', width: '15%' },
+          { data: 'address', width: '25%', className: 'text-left' },
           { data: 'lastseen', width:'20%' },
           { data: 'lastpaid', width:'20%' },
-          { data: 'ip', width:'20%' },
         ]
       });
     });
@@ -45,9 +45,9 @@ block content
       table#masternodes-table.table.table-bordered.table-striped
         thead
           tr
-            th #{settings.locale.mn_address}
+            th.text-center #{settings.locale.mn_ip}
             th.text-center #{settings.locale.mn_status}
+            th #{settings.locale.mn_address}
             th.text-center #{settings.locale.mn_lastseen}
             th.text-center #{settings.locale.mn_lastpaid}
-            th.text-center #{settings.locale.mn_ip}
         tbody.text-center
