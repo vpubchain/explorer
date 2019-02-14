@@ -151,4 +151,13 @@
     "heavy_changein": "Reward change in approximately",
     "heavy_key": "Key",
     "heavy_lastxvotes": "Last 20 votes",
+
+    // last 24 hours blocks
+    "last24blocks": "last 24 hours blocks",
+    "datefound": "Date Found",
+    "foundby": "Found by",
+    "mnpayment": "MN Payment",
+    "mnpaymentratio": "MNP Ratio Expected/Actual",
+    "mnpayee": "MN Payee",
+    "mnversion": "masternode version",
 }

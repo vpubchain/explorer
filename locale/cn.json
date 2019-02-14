@@ -152,4 +152,13 @@
     "heavy_changein": "Reward change in approximately",
     "heavy_key": "Key",
     "heavy_lastxvotes": "Last 20 votes",
+
+     // last 24 hours blocks
+     "last24blocks": "最近24小时区块详情",
+     "datefound": "发现时间",
+     "foundby": "发现地址",
+     "mnpayment": "主节点费用",
+     "mnpaymentratio": "主节点预期费率/实际",
+     "mnpayee": "主节点钱包地点",
+     "mnversion": "主节点版本",
 }

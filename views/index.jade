@@ -66,8 +66,9 @@ block content
     //var loggerTest = log4js.getLogger('logger');
     //loggerTest.info('test');
     //console.log("work hard start");
+    
     $(document).ready(function(){
-        
+       
       var stable = $('#block-table').dataTable( {  
         autoWidth: true,      
         searching: true,
@@ -133,9 +134,124 @@ block content
           { data: 'timestamp', width: '25%' },
         ]
       });
+
+      var ltable = $('#last24-table').dataTable( { 
+                
+        searching: false,
+        ordering: false,
+        responsive: true,
+        lengthChange: true,
+        processing: true,
+        filter: true,  // 搜索栏
+        searching: true,  
+        fixedColumns:{
+          rightColumns:2,
+          leftColumns:3,
+        },
+        scrollX:true,
+        autoWidth:false, 
+        lengthMenu: [ [20, 70, 136, 272, -1], ["20 (~1h)", "70 (~3h)", "136 (~6h)", "272 (~12h)", "All (24h)"] ],
+        ajax: {
+            
+          url: '/data/blocks24h-0.json',
+          type: 'GET',
+          dataType: "json",
+          dataSrc: function ( json ) {
+            var dataProtocolDesc = [];
+            // Fill per version stats table
+            for (var protocol in json.data.stats.protocoldesc){
+              if(!json.data.stats.protocoldesc.hasOwnProperty(protocol)) {
+                continue;
+              }
+              dataProtocolDesc[protocol] = json.data.stats.protocoldesc[protocol];
+            }
+
+            json.data = json.data.blocks;
+            for ( var i=0;i<json.data.length; i++ ) {
+              //json.data[i]['datefound'] = timeSince((currenttimestamp() - json.data[i]['BlockTime']));
+              //json.data[i]['datefound'] = new Date(json.data[i]['BlockTime']);
+              json.data[i]['datefound'] = new Date((json.data[i]['BlockTime']) * 1000).toLocaleString();
+              if (json.data[i].IsSuperBlock) {
+                    json.data[i]['mnpaymentratio'] = "Super-Block";
+                    if (json.data[i].BlockMNProtocol == 0) {
+                      json.data[i]['mnversion'] = "Dash 0.12.0.44+";
+                    }
+                    else {
+                      json.data[i]['mnversion'] = dataProtocolDesc[json.data[i].BlockMNProtocol];
+                    }
+              }
+              else {
+                json.data[i]['mnpaymentratio'] = (Math.round(json.data[i].BlockMNValueRatioExpected * 1000) / 10).toFixed(1) + "%/" + (Math.round(json.data[i].BlockMNValueRatio * 1000) / 10).toFixed(1) + "%";
+                json.data[i]['mnversion'] = dataProtocolDesc[json.data[i].BlockMNProtocol];
+              }
+              
+              /*
+              json.data[i]['timestamp'] = new Date((json.data[i]['timestamp']) * 1000).toLocaleString();
+
+              if (!json.data[i]['txid']) {
+                json.data[i]['txid'] = "<em>no transactions</em>";
+                json.data[i]['total'] = '';
+                json.data[i]['recipients'] = '';
+                json.data[i]['timestamp'] = '';
+              } else {
+                json.data[i]['blockindex'] = "<a href='/block/" + json.data[i]['blockhash'] + "'>" + json.data[i]['blockindex'] + "</a>";
+                json.data[i]['txid'] = "<a href='/tx/" + json.data[i]['txid'] + "' class='mono'>" + json.data[i]['blockhash'] + "</a>";
+                var amount = json.data[i]['total'] / 100000000;
+                json.data[i]['total'] = amount.toFixed(8);
+                json.data[i]['recipients'] = json.data[i]['vout'].length;
+              }*/
+            }
+            return json.data;
+          },
+          cache: true
+        },
+        columns: [
+          { data: 'datefound', width: '10%' },
+          { data: 'BlockId', width: '10%' },
+          { data: 'BlockHash', width: '10%' },
+          { data: 'BlockDifficulty', width: '10%' },
+          { data: 'BlockSupplyValue', width: '10%' },
+          { data: 'BlockMNPayed', width: '10%' },
+          { data: 'mnpaymentratio', width: '10%' },
+          { data: 'BlockMNPayee', width: '10%' },
+          { data: 'mnversion', width: '10%' },
+        ]
+      });
+
+      //alert( 'test1' );
+      /* 
+      var ltable = $('#last24-table').dataTable( {
+        autoWidth: true,      
+        searching: false,
+        ordering: false,
+        responsive: true,
+        lengthChange: true,
+        processing: true,
+        ajax: {
+
+          type: 'GET',
+          url: '/home/lixu/git/dashninja-fe/data/blocks24h-0.json',
+          dataType: "json",
+          success: function ( json ) {
+            alert('test');
+            console.log('last24 json: ' + json.data);
+            var blocksdata = json.data.blocks;
+            for ( var i=0;i<blocksdata.length; i++ )
+            {
+              blocksdata[i]['blockid'] = "<a href='/tx/" + blocksdata[i]['BlockId'] + "' class='mono'>" + blocksdata[i]['BlockHash'] + "</a>";
+            
+            }
+            return blocksdata;
+          }
+        },
+        columns: [
+          { data: 'blockid', width: '40%' },
+        ]
+      });*/
       setInterval( function () {
         rtable.api().ajax.reload(null, false);
         stable.api().ajax.reload(null, false);
+        ltable.api().ajax.reload(null, false);
       }, 60000 );
     });
       
@@ -166,6 +282,25 @@ block content
             th.hidden-xs.text-center #{settings.locale.tx_recipients}
             th.text-center #{settings.locale.mkt_amount} (#{settings.symbol})
             th.text-center #{settings.locale.timestamp}
+        tbody.text-center
+    .footer-padding
+
+  .col-md-12
+    .panel.panel-default
+      .panel-heading
+        strong #{settings.locale.last24blocks}
+      table#last24-table.table.table-striped.table-condensed.table-responsive.text-nowrap
+        thead
+          tr
+            th.hidden-xs.text-center #{settings.locale.datefound}
+            th.hidden-xs.text-center #{settings.locale.ex_block}
+            th.hidden-xs.text-center #{settings.locale.foundby}
+            th.hidden-xs.text-center #{settings.locale.difficulty}
+            th.hidden-xs.text-center #{settings.locale.mkt_amount}
+            th.hidden-xs.text-center #{settings.locale.mnpayment}
+            th.hidden-xs.text-center #{settings.locale.mnpaymentratio}
+            th.hidden-xs.text-center #{settings.locale.mnpayee}
+            th.hidden-xs.text-center #{settings.locale.mnversion}
         tbody.text-center
     .footer-padding
       
