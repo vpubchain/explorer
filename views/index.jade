@@ -67,8 +67,15 @@ block content
     //loggerTest.info('test');
     //console.log("work hard start");
     
+
     $(document).ready(function(){
        
+      function tableBlockFilter(poolfilter) {
+        ltable.api().search( poolfilter )
+                   .draw();
+        location.hash = "#blocksdetail";
+      }
+
       var stable = $('#block-table').dataTable( {  
         autoWidth: true,      
         searching: true,
