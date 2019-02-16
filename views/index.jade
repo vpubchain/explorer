@@ -2,7 +2,8 @@ extends layout
 block content
   script.
     $(document).ready(function() {
-      $.ajax ({
+      function ajax_function(){
+      var reqajax = $.ajax ({
         url: '/ext/getlasttxs/0.00000001',
         success: function( result ) {
           var extdata = result.data;
@@ -61,6 +62,9 @@ block content
           //var chart = AmCharts.makeChart("chartdiv",{});    
         //};
       });
+      }
+      ajax_function();
+      setInterval( ajax_function, 60000 );
     });
   script.
     //var loggerTest = log4js.getLogger('logger');
@@ -224,7 +228,7 @@ block content
           leftColumns:3,
         },
         scrollX:true,
-        autoWidth:false, 
+        autoWidth:true, 
         columns: [
             { data: null, render: function ( data, type, row ) {
               var outtxt = '';
@@ -421,6 +425,9 @@ block content
             json.data = json.data.blocks;
             for ( var i=0;i<json.data.length; i++ ) {
               json.data[i]['datefound'] = new Date((json.data[i]['BlockTime']) * 1000).toLocaleString();
+              json.data[i]['BlockId'] = "<a href='/block/" + json.data[i]['BlockHash'] + "'>" + json.data[i]['BlockId'] + "</a>";
+              json.data[i]['BlockPoolPubKey'] = "<a href='/address/" + json.data[i]['BlockPoolPubKey'] + "'>" + json.data[i]['BlockPoolPubKey'] + "</a>";
+              json.data[i]['BlockMNPayee'] = "<a href='/address/" + json.data[i]['BlockMNPayee'] + "'>" + json.data[i]['BlockMNPayee'] + "</a>";
               if (json.data[i].IsSuperBlock) {
                     json.data[i]['mnpaymentratio'] = "Super-Block";
                     if (json.data[i].BlockMNProtocol == 0) {
@@ -448,7 +455,7 @@ block content
                  outtxt = data.PoolDescription;
                }
                return outtxt;
-            } },
+            }, width: '20%' },
           { data: 'BlockDifficulty', width: '10%' },
           { data: 'BlockSupplyValue', width: '10%' },
           { data: 'BlockMNValue', width: '10%' },
