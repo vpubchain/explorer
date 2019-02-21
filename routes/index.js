@@ -211,6 +211,10 @@ router.get('/masternodes', function(req, res) {
   res.render('masternodes', {active: 'masternodes'});
 });
 
+router.get('/governance', function(req, res) {
+  res.render('governance', {active: 'governance'});
+});
+
 router.get('/coininfo', function(req, res) {
   if (settings.display.coininfo === false) {
     route_get_index(res, null);

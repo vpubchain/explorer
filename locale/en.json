@@ -14,6 +14,7 @@
     "menu_node": "Nodes",
     "menu_network": "Network",
     "menu_masternodes": "Masternodes",
+    "menu_governance": "governance",
 
     // explorer view
     "ex_title": "Block Explorer",
@@ -193,6 +194,39 @@
     "yellowbackgroundnote": "Should not be a problem (most probably you fixed one of the previous problems and the page is catching up).",
     "updatefailedremark": "REMARK",
     "updatefailedremarknote": "Failing to implement solution described means your blocks will be rejected by the network in the near future (= no payment).",
+
+    // masternodes
+    "masternodesstatistics": "Masternodes Statistics",
+    "actives": "Active",
+    "total": "Total",
+    "inactives": "Inactives",
+    "uniqueips": "Unique IPs",
+    "onlatestprotocol": "on latest protocol",
+    "lastdatarefresh": "Last data refresh:",
+
+    "masterdistributionperreportedversion": "Masternodes Distribution per Reported Version (and Protocol)",
+    "payeeblocktemplatehistory": "Payee Block Template history (Masternode voting consensus)",
+    "consensus": "Consensus",
+    "notinconsensus": "Not in consensus",
+
+    "localnodes": "Local Nodes",
+    "lastblockhash": "Last block hash",
+    "connections": "Connections",
+
+    "actualmasternodeversion": "Actual masternode version",
+    "howtoupdate": "How to uddate",
+    "governanceproposalsvotedeadline": "Governance proposals vote deadline",
+    "checkgovernanceproposals": "Check Governance proposals",
+
+    "masternodeslist": "Maternodes List",
+    "ipport": "IP:Port",
+    "mnstatus": "Status<br>",
+    "mnstatusratio": "(Active Score)",
+    "mnportcheck": "Port check",
+    "mnnextcheck": "(Next check)",
+    "mnlastpaid": "Last Paid",
+    "mnactiveduration": "Active Duration",
+    "mnlastseen": "Last Seen",
 
     "datefound": "Date Found",
     "foundby": "Found by",

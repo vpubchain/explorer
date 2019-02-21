@@ -46,7 +46,7 @@ block content
         li(role='presentation')
           a(href='#masternode_addresses', aria-controls='masternode_addresses', role='tab', data-toggle='tab') 主节点余额
         li(role='presentation')
-          a(href='#masternode_addresses', aria-controls='masternode_addresses', role='tab', data-toggle='tab') 主节点接收
+          a(href='#masternode_addresses_received', aria-controls='masternode_addresses_received', role='tab', data-toggle='tab') 主节点接收
     .tab-content
       #balance.tabpanel.tab-pane.active 
         include ./includes/rl_balance.jade
@@ -54,7 +54,7 @@ block content
         include ./includes/rl_received.jade
       #masternode_addresses.tabpanel.tab-pane
         include ./includes/rl_masternodes_balance.jade
-      #masternode_addresses.tabpanel.tab-pane
+      #masternode_addresses_received.tabpanel.tab-pane
         include ./includes/rl_masternodes_received.jade
   if (show_dist || show_coin_supply)
     .col-md-4.col-xs-12

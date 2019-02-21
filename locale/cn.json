@@ -14,6 +14,7 @@
     "menu_node": "Nodes",
     "menu_network": "网络节点",
     "menu_masternodes": "主节点",
+    "menu_governance": "提案信息",
 
     // explorer view
     "ex_title": "区块链浏览器",
@@ -194,6 +195,38 @@
      "yellowbackgroundnote": "应该不是问题(很可能您已经修复了前面的问题之一)",
      "updatefailedremark": "注意",
      "updatefailedremarknote": "未能实现上面所描述的解决方案意味着您的块在不久的将来可能会被网络拒绝(=不付款).",
+
+     // masternodes
+     "masternodesstatistics": "主节点统计",
+     "actives": "可用数",
+     "total": "总数:",
+     "inactives": "Inactive:",
+     "uniqueips": "独立IP数:",
+     "onlatestprotocol": "为最新协议",
+     "lastdatarefresh": "上一次数据刷新时间",
+     "masterdistributionperreportedversion": "每个上报版本(和协议)的主节点分布",
+     "payeeblocktemplatehistory": "Payee Block Template history (Masternode voting consensus)",
+     "consensus": "共识度",
+     "notinconsensus": "没有共识",
+
+     "localnodes": "本地种子节点",
+     "lastblockhash": "上一个区块哈希",
+     "connections": "连接数",
+
+     "actualmasternodeversion": "当前主节点版本",
+     "howtoupdate": "点击更新",
+     "governanceproposalsvotedeadline": "提案投票截止日期",
+     "checkgovernanceproposals": "查看提案建议信息",
+
+     "masternodeslist": "主节点列表",
+     "ipport": "IP:端口",
+     "mnstatus": "状态",
+     "mnstatusratio": "(百分比)",
+     "mnportcheck": "端口检查",
+     "mnnextcheck": "(下一次检查)",
+     "mnlastpaid": "上一次支付时间",
+     "mnactiveduration": "激活持续时间",
+     "mnlastseen": "上一次同步时间",
 
      "datefound": "发现时间",
      "foundby": "发现地址",

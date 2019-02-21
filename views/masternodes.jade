@@ -38,16 +38,92 @@ block content
         ]
       });
     });
+  //<div class="col-lg-4 col-md-4"><div class="panel panel-info"><div class="panel-heading">Dash Ninja info</div><div class="panel-body">By <a class="badge badge-primary" href="https://keybase.io/elbereth/">elberethzone</a> / Time <span class="label label-info">GMT/UTC</span> / HTML <span class="label label-info">2.5.4</span> / JavaScript <span class="label label-danger" id="dashninjajsversion">required</span></div><div class="panel-footer"><span class="pull-left">Donations:</span><span class="pull-right"><a href="http://chainz.cryptoid.info/dash/address.dws?XkfkHqMnhvQovo7kXQjvnNiFnQhRNZYCsz.htm">XkfkHqMnhvQovo7kXQjvnNiFnQhRNZYCsz</a></span><div class="clearfix"></div></div></div></div>
+  //.col-md-12(style="margin-bottom: 4%")
+    //.panel.panel-default
+      //.panel-heading
+        //strong #{settings.locale.net_connections}
+      //table#masternodes-table.table.table-bordered.table-striped
+        //thead
+          //tr
+            //th.text-center #{settings.locale.mn_ip}
+            //th.text-center #{settings.locale.mn_status}
+            //th #{settings.locale.mn_address}
+            //th.text-center #{settings.locale.mn_lastseen}
+            //th.text-center #{settings.locale.mn_lastpaid}
+        //tbody.text-center
+
+  <div class="col-lg-5 col-md-5"><div class="panel panel-primary"><div class="panel-heading">#{settings.locale.actualmasternodeversion}</div><div class="panel-body"> vpub v<span id="currentdashversion" style="font-weight: bold">?.?.?.?</span> / Sentinel v<span id="currentsentinelversion" style="font-weight: bold">?.?.?</span></div><a href="https://github.com/vpubchain/vpub/tree/v0.1.1"><div class="panel-footer"><span class="pull-left">#{settings.locale.howtoupdate}</span><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span><div class="clearfix"></div></div></a></div></div>
+
+  <div class="col-lg-5 col-md-5"><div id="nextvotepanel" class="panel panel-info"><div class="panel-heading">#{settings.locale.governanceproposalsvotedeadline}</div><div class="panel-body"><span id="nextvotelimithr" style="font-weight: bold">???</span></div><a href="/governance"><div class="panel-footer"><span class="pull-left">#{settings.locale.checkgovernanceproposals}</span><span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span><div class="clearfix"></div></div></a></div></div>
+
+  <div class="col-lg-4 col-md-4"><div class="panel panel-primary"><div class="panel-heading">#{settings.locale.masternodesstatistics}</div><div class="panel-body"><p class="lead"><span class="pull-left">#{settings.locale.actives}:</span><span class="pull-right label label-success" id="mnactive">???</span></p><br><span class="pull-left">#{settings.locale.total}</span><br><span class="pull-right label label-info" id="mntotal">???</span><br><span class="pull-left">#{settings.locale.inactives}</span><br><span class="pull-right label label-warning" id="mninactive">???</span><br><span class="pull-left">#{settings.locale.uniqueips}</span><span class="pull-right label label-info" id="uniquemnips">???</span><br><br><span class="pull-left"><span id="mnlatestprotocolpercent">??.?</span>% #{settings.locale.onlatestprotocol} (<span id="mnlatestprotocol">???</span>):</span><span class="pull-right label label-info" id="mnactivelatest">???</span><br><br></div><div class="panel-footer"><span class="pull-left">#{settings.locale.lastdatarefresh}</span><span class="pull-right"><span id="mnlistLR">Never</span><br><span id="mnlistLRHR"></span></span><div class="clearfix"></div></div></div></div>
+
+  <div class="col-lg-8 col-md-8"><div class="panel panel-primary"><div class="panel-heading">#{settings.locale.masterdistributionperreportedversion}</div><div class="panel-body"><div id="mnversions" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div></div></div></div>
+
+  .row
+    .col-lg-6.col-md-6
+      .panel.panel-info
+        .panel-heading.daemonmonitoring
+          strong #{settings.locale.localnodes}
+        table(width="100%")#localnodes.table.table-striped.table-condensed.table-responsive.nowrap
+          thead
+            tr
+              th.text-center ID
+              th.text-center #{settings.locale.mnstatus}
+              th.text-center #{settings.locale.net_subversion}
+              th.text-center #{settings.locale.net_protocol}
+              th.text-center #{settings.locale.blocknum}
+              th.text-center #{settings.locale.lastblockhash}
+              th.text-center #{settings.locale.connections}
+          tbody
+            tr
+              td(colspan="7") Please wait while loading... (JavaScript needed)
+        panel-footer
+          span.pull-left #{settings.locale.lastdatarefresh}:
+          span.pull-right
+            span#localnodesLR Never
+            <br>
+            span#localnodesLRHR
+          clearfix
+    .col-lg-6.col-md-6
+      .panel.panel-default
+        .panel-heading
+          strong #{settings.locale.payeeblocktemplatehistory}
+        table(width="100%")#blockconsensus.table.table-condensed.table-striped.table-responsive.nowrap
+          thead
+            tr
+              th.text-center #{settings.locale.height}
+              th.text-center #{settings.locale.consensus}
+              th.text-center #{settings.locale.tx_address}
+          tbody
+            tr
+              td(colspan="4") Please wait while loading... (JavaScript needed)
+        panel-footer
+          span.pull-left #{settings.locale.lastdatarefresh}:
+          span.pull-right
+            span#blockconsensusLR Never
+            <br>
+            span#blockconsensusLRHR
+          clearfix
+
   .col-md-12(style="margin-bottom: 4%")
     .panel.panel-default
       .panel-heading
-        strong #{settings.locale.net_connections}
-      table#masternodes-table.table.table-bordered.table-striped
+        strong #{settings.locale.masternodeslist}
+      table(width="100%")#mnlist.table.table-striped.table-bordered.table-condensed.table-responsive.table-hover.text-nowrap
         thead
           tr
-            th.text-center #{settings.locale.mn_ip}
-            th.text-center #{settings.locale.mn_status}
-            th #{settings.locale.mn_address}
-            th.text-center #{settings.locale.mn_lastseen}
-            th.text-center #{settings.locale.mn_lastpaid}
+            //th(data-priority="1").text-center
+            //th(data-priority="12").text-center Vin (Hash-Index)
+            th(data-priority="11").text-center #{settings.locale.tx_address}
+            th(data-priority="4").text-center #{settings.locale.ipport}
+            th(data-priority="2").text-center #{settings.locale.mnstatus}<br>#{settings.locale.mnstatusratio}
+            th(data-priority="3").text-center #{settings.locale.mnportcheck}<br>#{settings.locale.mnnextcheck}
+            th(data-priority="5").text-center #{settings.locale.mnversion}
+            th(data-priority="6").text-center #{settings.locale.net_protocol}
+            th(data-priority="7").text-center #{settings.locale.mkt_amount}
+            th(data-priority="8").text-center #{settings.locale.mnlastpaid}
+            th(data-priority="9").text-center #{settings.locale.mnactiveduration}
+            th(data-priority="10").text-center #{settings.locale.mnlastseen}
         tbody.text-center

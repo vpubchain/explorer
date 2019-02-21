@@ -21,6 +21,9 @@ html
     script(src='/js/jquery.dataTables.min.js')  
     script(src='/js/dataTables.responsive.js')
     script(src='/js/dashninja-common.js')
+    script(src="/static/highcharts.js")
+    script(src="/static/highcharts-more.js")
+    script(src='/js/dashninja-masternodes.js')
     script(src='//cdn.datatables.net/plug-ins/725b2a2115b/integration/bootstrap/3/dataTables.bootstrap.js')
     script(src='/javascripts/chart.js')
     script(src='/javascripts/analytics.js')
@@ -140,6 +143,10 @@ html
                 a.navbar-link.loading(href='/masternodes')
                   span.fa.fa-server
                   span.menu-text #{settings.locale.menu_masternodes}
+            li#governance
+                a.navbar-link.loading(href='/governance')
+                  span.fa.fa-server
+                  span.menu-text #{settings.locale.menu_governance}
             if settings.display.richlist == true
               li#richlist
                 a.navbar-link(href='/richlist')
@@ -157,7 +164,7 @@ html
                   span.menu-text #{settings.locale.menu_coininfo}
             if settings.display.api == true
               li#info
-                a.navbar-link(href='/test.html')
+                a.navbar-link(href='/info')
                   span.glyphicon.glyphicon-info-sign
                   span.menu-text #{settings.locale.menu_api}
           ul.nav.nav-bar.navbar-right
