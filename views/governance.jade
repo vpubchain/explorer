@@ -1,1 +1,182 @@
 extends layout
+
+block content
+    script.
+
+    .page-wrapper
+        .row
+            //.col-lg-4.col-md-4
+                .panel.panel-info
+                    .panel-heading
+                        | Dash Ninja info
+                    //.panel-body
+                        | By 
+                        a.badge.badge-primary(href='https://keybase.io/elbereth/') elberethzone
+                        |  / Time 
+                        span.label.label-info GMT/UTC
+                        |  / HTML 
+                        span.label.label-info 1.6.0
+                        |  / JavaScript 
+                        span#dashninjajsversion.label.label-danger required
+                    .panel-footer
+                        span.pull-left Donations:
+                        span.pull-right
+                        a(href='http://chainz.cryptoid.info/dash/address.dws?XkfkHqMnhvQovo7kXQjvnNiFnQhRNZYCsz.htm') XkfkHqMnhvQovo7kXQjvnNiFnQhRNZYCsz
+                    .clearfix
+            //<div class="col-lg-4 col-md-4"><div class="panel panel-primary"><div class="panel-heading">Next Superblock</div><div class="panel-body"><p class="lead"><span class="pull-left">Next super-block height:</span><span class="pull-right label label-info" id="globalnextsuperblockid">???</span></p><br><span class="pull-left">Expected on:</span><span class="pull-right label label-info" id="globalnextsuperblockdate">???</span><br><span class="pull-left">Time left:</span><span class="pull-right label label-primary" id="globalnextsuperblockremaining">???</span><br><span class="pull-left">Providing:</span><span class="pull-right label label-info" id="globalnextsuperblockamount">???.?????? DASH</span><br><p class="lead"><span class="pull-left">Unallocated:</span><span class="pull-right label label-success" id="globalnextsuperblockunallocated">???.?????? DASH</span></p></div><div class="panel-footer"><div class="progress"><div id="budgetallocatedper" class="progress-bar progress-bar-danger" style="width: 0%">Allocated</div><div id="budgetleftper" class="progress-bar progress-bar-success progress-bar-striped active" style="width: 0%"> Left</div></div></div></div></div>
+            .col-lg-4.col-md-4
+                .panel.panel-primary
+                    .panel-heading
+                        | #{settings.locale.nextsuperblock}
+                    .panel-body
+                        p.lead
+                            span.pull-left #{settings.locale.nextsuperblockheight}
+                            span#globalnextsuperblockid.pull-right.label.label-info ???
+                        br
+                        .clearfix
+                        span.pull-left #{settings.locale.expectedon}
+                        span#globalnextsuperblockdate.pull-right.label.label-info ???
+                        br
+                        .clearfix
+                        span.pull-left #{settings.locale.timeleft}
+                        span#globalnextsuperblockremaining.pull-right.label.label-primary ???
+                        br
+                        .clearfix
+                        span.pull-left #{settings.locale.providing}
+                        span#globalnextsuperblockamount.pull-right.label.label-info ???.?????? VPub
+                        br
+                        .clearfix
+                        p.lead
+                            span.pull-left #{settings.locale.unallocated}
+                            span#globalnextsuperblockunallocated.pull-right.label.label-success ???.?????? VPub
+                    .panel-footer
+                        .progress
+                            #budgetallocatedper.progress-bar.progress-bar-danger(style='width: 0%')
+                                | Allocated
+                            #budgetleftper.progress-bar.progress-bar-success.progress-bar-striped.active(style='width: 0%')
+                                | #{settings.locale.governanceleft}
+            .col-lg-4.col-md-4
+                #votedeadline.panel.panel-info
+                    .panel-heading
+                        | #{settings.locale.governanceproposals}
+                    .panel-body
+                        span.pull-left #{settings.locale.votedeadline}
+                        span#globalnextvotelimitdate.pull-right(style='font-weight: bold') ???
+                        br
+                        .clearfix
+                        span.pull-left #{settings.locale.timeleft}
+                        span#globalnextvotelimitremaining.pull-right(style='font-weight: bold') ???
+                        br
+                        .clearfix
+                        hr
+                        span.pull-left #{settings.locale.validproposals}
+                        span#globalvalidbudget.pull-right.label.label-warning ???
+                        br
+                        .clearfix
+                        span.pull-left #{settings.locale.fundedproposals}
+                        span#globalestablishedbudget.pull-right.label.label-success ???
+                        br
+                        .clearfix
+                        span.pull-left #{settings.locale.fundedamount}
+                        span#globalestablishedbudgetamount.pull-right.label.label-success ???
+            .clearfix
+
+        .row
+            .col-lg-12.col-md-12
+                .panel.panel-info
+                    #budgetinfo.panel-heading
+                        | #{settings.locale.budgetproposalsinfo}
+                    .panel-body
+                        p
+                            | #{settings.locale.budgetproposalsinfo1}
+                        p
+                            | #{settings.locale.budgetproposalsinfo2}
+                        a(href='https://dashpay.atlassian.net/wiki/x/GACD')
+                            .panel-footer
+                                span.pull-left #{settings.locale.moreaboutgovernance}
+                                span.pull-right
+                                    i.fa.fa-arrow-circle-right
+                        .clearfix
+        .row
+            .col-lg-12.col-md-12
+                .panel.panel-primary
+                    #proposalsdetail.panel-heading
+                        | #{settings.locale.budgetproposalsdetail}
+                    .panel-body
+                        table#proposalsdetailtable.table.table-striped.table-bordered.table-condensed.table-responsive.table-hover(width='100%')
+                            thead
+                                tr
+                                    th #{settings.locale.dateadded}
+                                    th #{settings.locale.proposalname}
+                                    th #{settings.locale.proposalstart}
+                                    th #{settings.locale.proposalend}
+                                    th #{settings.locale.mkt_amount}
+                                    th #{settings.locale.voteyes}
+                                    th #{settings.locale.voteno}
+                                    th #{settings.locale.voteabstain}
+                                    th #{settings.locale.totalratio}
+                                    th #{settings.locale.proposalvalid}
+                                    th #{settings.locale.proposalfunded}
+                                    th #{settings.locale.mnlastseen}
+                            tbody
+                                tr
+                                    td(colspan='16') Please wait while loading... (JavaScript needed)
+                    .panel-footer
+                        span.pull-left #{settings.locale.lastdatarefresh}
+                        span.pull-right
+                            span#proposalsdetailtableLR Never
+                            br
+                            span#proposalsdetailtableLRHR
+                        .clearfix
+            hr
+
+        .row
+            .col-lg-12.col-md-12
+                .panel.panel-primary
+                    #superblocksexpected.panel-heading
+                        | #{settings.locale.expectedsuperblock}
+                    .panel-body
+                        table#superblocksexpectedtable.table.table-striped.table-bordered.table-condensed.table-responsive.table-hover.tex-nowrap(width='100%')
+                            thead
+                                tr
+                                    th #{settings.locale.expectedtriggers}
+                                    th #{settings.locale.ex_block}
+                                    th #{settings.locale.position}
+                                    th #{settings.locale.budgetname}
+                                    th #{settings.locale.budgetpayment}
+                            tbody
+                                tr
+                                    td(colspan='5') Please wait while loading... (JavaScript needed)
+                    .panel-footer
+                        span.pull-left #{settings.locale.lastdatarefresh}
+                        span.pull-right
+                            span#superblocksexpectedtableLR Never
+                            br
+                            span#superblocksexpectedtableLRHR
+                        .clearfix
+        
+        .row
+            .col-lg-12.col-md-12
+                .panel.panel-primary
+                    #superblocks.panel-heading
+                        | #{settings.locale.superblockshistory}
+                    .panel-body
+                        table#superblockstable.table.table-striped.table-bordered.table-condensed.table-responsive.table-hover.tex-nowrap(width='100%')
+                            thead
+                                tr
+                                    th #{settings.locale.datefound}
+                                    th #{settings.locale.height}
+                                    th #{settings.locale.foundby}
+                                    th #{settings.locale.proposalname}
+                                    th #{settings.locale.paymentamount}
+                                    th #{settings.locale.paymentaddress}
+                            tbody
+                                tr
+                                    td(colspan='6') Please wait while #{settings.locale.loading}... (JavaScript needed)
+                    .panel-footer
+                        span.pull-left #{settings.locale.lastdatarefresh}
+                        span.pull-right
+                            span#superblockstableLR Never
+                            br
+                            span#superblockstableLRHR
+                        .clearfix

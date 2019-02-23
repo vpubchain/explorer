@@ -402,7 +402,7 @@ $(document).ready(function() {
                 if (data.ConsensusPubKey == '') {
                     return "<i>None</i>";
                 } else {
-                    return data.ConsensusPubKey;
+                    return "<a href='/address/" + data.ConsensusPubKey + "'>" + data.ConsensusPubKey + "</a>";
                 }
             }
             }
@@ -589,11 +589,11 @@ $(document).ready(function() {
                         }
                     }
                     else {
-                        outtxt = data.MasternodePubkey;
+                        outtxt = "<a href='/address/" + data.MasternodePubkey + "'>" + data.MasternodePubkey + "</a>";
                     }
                 }
                 else {
-                    outtxt = data.MasternodePubkey;
+                    outtxt = "<a href='/address/" + data.MasternodePubkey + "'>" + data.MasternodePubkey + "</a>";
                 }
                 return outtxt;
             } },
