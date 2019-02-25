@@ -50,7 +50,7 @@ if (settings.heavy != true) {
   bitcoinapi.setAccess('only', ['getinfo', 'getstakinginfo', 'getnetworkhashps', 'getdifficulty', 'getconnectioncount',
     'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction','getmaxmoney', 'getvote',
     'getmaxvote', 'getphase', 'getreward', 'getnextrewardestimate', 'getnextrewardwhenstr',
-    'getnextrewardwhensec', 'getsupply', 'gettxoutsetinfo']);
+    'getnextrewardwhensec', 'getsupply', 'gettxoutsetinfo', 'getmasternodecount', 'getmasternodecountonline']);
 }
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -95,6 +95,18 @@ app.use('/ext/getbalance/:hash', function(req,res){
     if (address) {
       res.send((address.balance / 100000000).toString().replace(/(^-+)/mg, ''));
     } else {
+      res.send({ error: 'address not found.', hash: req.param('hash')})
+    }
+  });
+});
+
+app.use('/ext/getmasternoderewards/:hash', function(req,res){
+  db.get_masternode_rewards_by_address(req.param('hash'), function(rewards){
+    if (rewards) {
+      res.send(' ' + rewards);
+    }
+    else
+    {
       res.send({ error: 'address not found.', hash: req.param('hash')})
     }
   });
