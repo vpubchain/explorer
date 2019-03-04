@@ -113,7 +113,17 @@ app.use('/ext/getmasternoderewards/:hash', function(req,res){
 });
 
 app.use('/ext/getmasternoderewardsdetail/:hash', function(req,res){
-  db.get_masternode_rewards_detail_by_address(req.param('hash'), function(rewards){
+  console.log('test2' + req.param('hash') + ' time=' + req.query.transactionTime);
+  if(req.query.transactionTime == 'undefined')
+  {
+    transactionTime = Number(0);
+  }
+  else
+  {
+    transactionTime = Number(req.query.transactionTime);
+  }
+  
+  db.get_masternode_rewards_detail_by_address(req.param('hash'), transactionTime, function(rewards){
     if (rewards) {
       db.get_masternode_rewards_by_address(req.param('hash'), function(total){
         if(total)
@@ -132,6 +142,28 @@ app.use('/ext/getmasternoderewardsdetail/:hash', function(req,res){
     }
   });
 });
+/*
+app.use('/ext/getmasternoderewardsdetail/:hash/:transactiontime', function(req,res){
+  console.log('test1');
+  db.get_masternode_rewards_detail_by_address_and_time(req.param('hash'), req.param('transactiontime'), function(rewards){
+    if (rewards) {
+      db.get_masternode_rewards_by_address(req.param('hash'), function(total){
+        if(total)
+        {
+          res.send({ sum: total, detail: rewards});
+        }
+        else
+        {
+          res.send({ error: 'address not found.', hash: req.param('hash')});
+        }
+      });
+    }
+    else
+    {
+      res.send({ error: 'address not found.', hash: req.param('hash')});
+    }
+  });
+});*/
 
 app.use('/ext/getdistribution', function(req,res){
   db.get_richlist(settings.coin, function(richlist){
