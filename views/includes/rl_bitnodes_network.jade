@@ -1,0 +1,26 @@
+.panel.panel-default
+  //.panel-heading
+    //h3.panel-title networks
+  table.table.table-hover.table-bordered(cellspacing="0")
+    thead
+      tr
+        th(style='text-align:center;') 
+          span.fa.fa-flag-checkered
+        th.hidden-xs #{settings.locale.network}
+        th %
+    tbody
+      - var count = 0
+      each item in network_list
+        - count = count + 1
+        - var itemRank = count
+        - var itemNetwork = item.network
+        - var itemNodes = item.nodes
+        - var percentage = (itemNodes / bitnodeslist.total_nodes) * 100
+        - var strItemNodes = itemNodes + '(' + percentage + '%)'
+        tr
+          td(style='text-align:center;') 
+            =itemRank
+          td.hidden-xs.text-left
+            =itemNetwork
+          td.hidden-xs.text-left
+            =strItemNodes

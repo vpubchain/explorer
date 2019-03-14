@@ -181,6 +181,12 @@ app.use('/ext/getlasttxs/:min', function(req,res){
   });
 });
 
+app.use('/ext/getlasttxsbytime/:second', function(req,res){
+  db.get_last_txs_by_time((req.params.second), function(txs){
+    res.send({data: txs});
+  });
+});
+
 app.use('/ext/connections', function(req,res){
   db.get_peers(function(peers){
     res.send({data: peers});

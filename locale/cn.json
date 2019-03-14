@@ -266,6 +266,11 @@
      "paymentaddress": "支付地址",
      "loading": "加载中",
 
+     //bitnodes
+     "networkslapshot": "网络节点快照",
+     "snapshotreachable": "可到达网络节点快照",
+     "useragent": "用户代理",
+
      "datefound": "发现时间",
      "foundby": "发现地址",
      "mnpayment": "主节点费用",

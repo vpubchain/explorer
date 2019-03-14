@@ -311,8 +311,63 @@ router.get('/movement', function(req, res) {
   res.render('movement', {active: 'movement', flaga: settings.movement.low_flag, flagb: settings.movement.high_flag, min_amount:settings.movement.min_amount});
 });
 
+
 router.get('/network', function(req, res) {
-  res.render('network', {active: 'network'});
+  lib.get_bitnodes_url('nodes', function(ret){
+    var user_agent_list_data = [];
+    var country_list_data = [];
+    var network_list_data = [];
+    console.log('length=' + ret.agents.length);
+    for(var i = 0; i < ret.agents.length; i++)
+    {
+      for(var key in ret.agents[i])
+      {
+        var data = {'user_agent':'','nodes':''};
+        data.user_agent = key;
+        data.nodes = ret.agents[i][key];
+        user_agent_list_data.push(data);
+      }
+    }
+
+    for(var j = 0; j < ret.countrys.length; j++)
+    {
+      for(var key in ret.countrys[j])
+      {
+        var data = {'county':'','nodes':''};
+        data.country = key;
+        data.nodes = ret.countrys[j][key];
+        country_list_data.push(data);
+      }
+    }
+    
+    for(var k = 0; k < ret.networks.length; k++)
+    {
+      for(var key in ret.networks[k])
+      {
+        var data = {'network':'','nodes':''};
+        data.network = key;
+        data.nodes = ret.networks[k][key];
+        network_list_data.push(data);
+      }
+    }
+
+    var snapshot_localtime = new Date((ret.timestamp) * 1000).toLocaleString();
+    
+    console.log('u length=' + user_agent_list_data.length);
+    
+    res.render('network', {
+                        active: 'network',
+                        bitnodeslist: ret,
+                        useragentlist: user_agent_list_data,
+                        country_list: country_list_data,
+                        network_list: network_list_data,
+                        snapshotlocaltime: snapshot_localtime
+                        });
+  });
+});
+
+router.get('/nodes', function(req, res) {
+  res.render('nodes', {active: 'nodes'});
 });
 
 router.get('/reward', function(req, res){
@@ -334,6 +389,13 @@ router.get('/reward', function(req, res){
       res.render('reward', { active: 'reward', stats: stats, heavy: heavy, votes: heavy.votes });
     });
   //});
+});
+
+router.get('/bitcoin/api/nodes', function(req, res) {
+  console.log('/bitcoin/api/nodes');
+  lib.get_bitnodes_url('nodes', function(ret){
+    res.send(ret);
+  });
 });
 
 router.get('/tx/:txid', function(req, res) {

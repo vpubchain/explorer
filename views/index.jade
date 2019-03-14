@@ -364,7 +364,7 @@ block content
         },
         scrollX:true,
         autoWidth:false, 
-        lengthMenu: [ [20, 70, 136, 272, -1], ["20 (~1h)", "70 (~3h)", "136 (~6h)", "272 (~12h)", "All (24h)"] ],
+        lengthMenu: [ [20, 70, 136, 1024, -1], ["20 (~1h)", "70 (~3h)", "136 (~6h)", "1024 (~12h)", "All (24h)"] ],
         pageLength: 20,
         order: [[ 0, "desc" ]],
         ajax: {
@@ -373,12 +373,14 @@ block content
           type: 'GET',
           dataType: "json",
           dataSrc: function ( json ) {
+            
             $('#globalsupplyamount').text( addCommas(json.data.stats.global.SupplyAmount)+' ');
             $('#globalmnamount').text( addCommas( json.data.stats.global.MNPaymentsAmount)+' ');
+             
             $('#globalpayed').text( (Math.round( json.data.stats.global.RatioBlocksPayed * 10000 ) / 100) +'%' );
             $('#globalcorrectlypayed').text( (Math.round( json.data.stats.global.RatioBlocksPayedCorrectly * 10000 ) / 100) +'%' );
             $('#globalcurrentmnratio').text( (Math.round( json.data.blocks[0].BlockMNValueRatioExpected * 1000 ) / 10) );
-
+            
             var dataProtocolDesc = [];
             // Fill per version stats table
             for (var protocol in json.data.stats.protocoldesc){
@@ -387,7 +389,7 @@ block content
               }
               dataProtocolDesc[protocol] = json.data.stats.protocoldesc[protocol];
             }
-
+            //alert('test2');
             tablePerVersion.api().clear();
             maxblockversion = -1;
             for (var blockversion in json.data.stats.perversion){
@@ -396,13 +398,13 @@ block content
               }
             }
             maxblockversiondesc = json.data.stats.perversion[maxblockversion].BlockVersionDesc;
-
+            
             for (var blockversion in json.data.stats.perversion){
               if(!json.data.stats.perversion.hasOwnProperty(blockversion)) {continue;}
                 tablePerVersion.api().row.add( json.data.stats.perversion[blockversion] );
             }
             tablePerVersion.api().draw();
-
+            
             // Fill per miner stats table
             
             tablePerMiner.api().clear();
@@ -421,8 +423,9 @@ block content
             var n = date.toDateString();
             var time = date.toLocaleTimeString();
             $('#blockstableLR').text( n + ' ' + time );
-
+            
             json.data = json.data.blocks;
+            //alert(json.data.length);
             for ( var i=0;i<json.data.length; i++ ) {
               json.data[i]['datefound'] = new Date((json.data[i]['BlockTime']) * 1000).toLocaleString();
               json.data[i]['BlockId'] = "<a href='/block/" + json.data[i]['BlockHash'] + "'>" + json.data[i]['BlockId'] + "</a>";
@@ -442,6 +445,7 @@ block content
                 json.data[i]['mnversion'] = dataProtocolDesc[json.data[i].BlockMNProtocol];
               }
             }
+            
             return json.data;
           },
           cache: true
@@ -451,6 +455,7 @@ block content
           { data: 'BlockId', width: '10%' },
           { data: null, render: function ( data, type, row ) {
                var outtxt = data.BlockPoolPubKey;
+               //alert('test3');
                if (data.PoolDescription) {
                  outtxt = data.PoolDescription;
                }
@@ -461,7 +466,7 @@ block content
           { data: 'BlockMNValue', width: '10%' },
           { data: 'mnpaymentratio', width: '10%' },
           { data: 'BlockMNPayee', width: '10%' },
-          { data: 'mnversion', width: '10%' },
+          /*{ data: 'mnversion', width: '10%' },*/
         ]
       });
 
@@ -561,7 +566,7 @@ block content
             th.hidden-xs.text-center #{settings.locale.mnpayment}
             th.hidden-xs.text-center #{settings.locale.mnpaymentratio}
             th.hidden-xs.text-center #{settings.locale.mnpayee}
-            th.hidden-xs.text-center #{settings.locale.mnversion}
+            //th.hidden-xs.text-center #{settings.locale.mnversion}
         tbody.text-center
     .footer-padding
       

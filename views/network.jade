@@ -21,6 +21,7 @@ block content
               json.data[i]['total'] = amount.toFixed(8);
               json.data[i]['recipients'] = json.data[i]['vout'].length;
             }*/
+            //alert('test2');
             return json.data;
           }
         },
@@ -31,18 +32,112 @@ block content
           { data: 'country', width: '25%'}
         ]
       });
+      //alert('test5');
+      //global.useragentlist = {};
+      var ntable = $('#nodes-table').dataTable( {  
+        autoWidth: true,      
+        searching: false,
+        ordering: false,
+        responsive: true,
+        lengthChange: true,
+        processing: true,
+        ajax: {
+          //url: 'http://127.0.0.1:5000/vpbitnodes/api/v1.0/snapshots/1552444356/',
+          //url: '/ext/connections',
+          url: '/bitcoin/api/nodes',
+          dataSrc: function ( json ) {
+            //alert(json.nodes);
+            var res = {data:[]};
+            //$('#useragentlist') = {};
+            //var i = 0;
+            for(var key in json.nodes) {
+              //alert(key);
+              var item = {'address':'','useragent':'',hight:0, 'location': '','network':'','time':''};
+              item.address = key;
+              var arr = json.nodes[key].toString().split(',');
+              //alert(json.nodes[key]);
+              //alert(arr[1]);
+              item.useragent = arr[1] + '<br>' + arr[0];
+              item.hight = arr[4];
+              item.location = arr[7];
+              item.network = arr[12] + '<br>' + arr[11];
+              item.time = new Date((arr[2]) * 1000).toLocaleString();
+              //item.user-agent = json.nodes[key].1;
+              res.data.push(item);
+              /*json.data[i]['user-agent'] = json.nodes[key][2];
+              json.data[i]['hight'] = json.nodes[key][4];
+              json.data[i]['location'] = json.nodes[key][7];
+              json.data[i]['network'] = json.nodes[key][12];*/
+              /*
+              json.data[i]['timestamp'] = new Date((json.data[i]['timestamp']) * 1000).toUTCString();
+              json.data[i]['txid'] = "<a href='/tx/" + json.data[i]['txid'] + "'>" + json.data[i]['txid'] + "</a>";
+              json.data[i]['blockindex'] = "<a href='/block/" + json.data[i]['blockhash'] + "'>" + json.data[i]['blockindex'] + "</a>";
+              var amount = json.data[i]['total'] / 100000000;
+              json.data[i]['total'] = amount.toFixed(8);
+              json.data[i]['recipients'] = json.data[i]['vout'].length;*/
+              //i++;
+            }
+            return res.data;
+          }
+        },
+        columns: [
+          { data: 'time', width: '10%' },
+          { data: 'address', width: '20%' },
+          { data: 'useragent', width: '20%' },
+          { data: 'hight', width:'10%' },
+          { data: 'location', width:'20%' },
+          { data: 'network', width: '20%'},
+        ]
+      });
     });
+  
+  .col-md-12
+      .hidden-xs.pull-right.btn-group
+        a.btn.btn-primary.btn-sm(href='network-map/') NETWORK MAP
+      h3
+        a(href='#network-snapshot') #{settings.locale.networkslapshot}
+      p
+        | #{settings.locale.snapshotreachable}
+        span.timestamp #{snapshotlocaltime}
+        | .
+  .big.col-md-2.text-center
+      br
+      p.text-muted #{settings.locale.net_connections}
+      h3 #{bitnodeslist.total_nodes}
+      p.text-muted #{settings.locale.height}
+      h3 #{bitnodeslist.latest_height}
+      br
+
+  .col-xs-12.col-md-8
+    //.row.text-center(style='margin-bottom:15px;')
+      //i #{settings.locale.net_warning}
+    .tabpanel
+      ul.nav.nav-tabs(role='tablist')
+        li.active(role='presentation')
+          a(href='#useragent', aria-controls='useragent', role='tab', data-toggle='tab') #{settings.locale.useragent}
+        li(role='presentation')
+          a(href='#country', aria-controls='country', role='tab', data-toggle='tab') #{settings.locale.net_country}
+        li(role='presentation')
+          a(href='#networks', aria-controls='networks', role='tab', data-toggle='tab') #{settings.locale.network}
+    .tab-content
+      #useragent.tabpanel.tab-pane.active 
+        include ./includes/rl_bitnodes_useragent.jade
+      #country.tabpanel.tab-pane 
+        include ./includes/rl_bitnodes_country.jade
+      #networks.tabpanel.tabpanel.tab-pane 
+        include ./includes/rl_bitnodes_network.jade
+
   .col-md-12(style="margin-bottom: 4%")
-    .row.text-center(style='margin-bottom:15px;')
-      i #{settings.locale.net_warning}
     .panel.panel-default
       .panel-heading
-        strong #{settings.locale.net_connections}
-      table#connections-table.table.table-bordered.table-striped
+        strong bitnodes
+      table#nodes-table.table.table-bordered.table-striped
         thead
           tr
-            th.text-center #{settings.locale.net_address}
-            th.text-center #{settings.locale.net_protocol}
+            th.text-center #{settings.locale.timestamp}
+            th.text-center #{settings.locale.tx_address}
             th.text-center #{settings.locale.net_subversion}
+            th.text-center #{settings.locale.height}
             th.text-center #{settings.locale.net_country}
+            th.text-center #{settings.locale.network}
         tbody.text-center
