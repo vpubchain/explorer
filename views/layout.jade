@@ -32,6 +32,11 @@ html
     script(src='/javascripts/amcharts/amcharts.js')
     script(src='/javascripts/amcharts/serial.js')
     script(src='/javascripts/amcharts/themes/light.js')
+    script(src='/js/utils/http.js')
+    script(src='/js/utils/api.js')
+    script(src='javascripts/echarts/dist/echarts.min.js')
+    script(src='javascripts/echarts/map/js/world.js')
+    script(src='javascripts/echarts/map/js/china.js')
     script.
       $(document).ready(function(){
         $('##{active}').addClass('active');
@@ -141,9 +146,9 @@ html
                   span.fa.fa-share-alt
                   span.menu-text #{settings.locale.menu_network}
               li#nodes
-                a.navbar-link(href='/nodes')
+                a.navbar-link(href='/charts')
                   span.fa.fa-share-alt
-                  span.menu-text #{settings.locale.menu_network}
+                  span.menu-text charts
             if settings.display.masternodes == true
               li#masternodes
                 a.navbar-link.loading(href='/masternodes')

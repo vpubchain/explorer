@@ -1,0 +1,394 @@
+extends layout
+block content
+  script.
+    //alert('test');
+    $(document).ready(function() {
+      //alert('test2');
+      var reqajax = $.ajax ({
+        url: '/bitcoin/api/dashboard',
+        success: function( result ) {
+          //alert('test3');
+          var startTime = result.times;
+          //alert(startTime);
+          function riqigeshi(now){
+            var date = new Date(now*1000);
+            //return date.toLocaleDateString();
+            return date.toLocaleDateString() + ' ' + date.getHours() + date.toLocaleTimeString().substr(-6,6);
+          }
+          var strTime = [];
+          for(var i = 0; i <= 12; i++)
+          {
+            var tmpTime = startTime - 12*3600 + i * 3600;
+            var strTmpTime = riqigeshi(tmpTime);
+            //alert(strTmpTime);
+            strTime.push(strTmpTime);
+          }
+
+          var agents = [];
+          var agentskey = {};
+          var seriesdata = [];
+          var agentnodes = [];
+          for(var i = 0; i < result.agents.length; i++)
+          {
+            for(key in result.agents[i][0])
+            {
+              var strnodes = result.agents[i][0][key];/*'(' + result.agents[i][0][key]/result.nodes[i]*100 + '%)';*/
+              if(!agentnodes.hasOwnProperty(key))
+              {
+                var nodesitem = [];
+                nodesitem.push(strnodes);
+                agentnodes[key] = nodesitem;
+              }
+              else
+              {
+                agentnodes[key].push(strnodes);
+              }
+            }
+          }
+
+          for(key in agentnodes)
+          {
+            var item = {
+              name: key,
+              type:'line',
+              smooth: true,
+              itemStyle: {normal: {areaStyle: {type: 'default'},label: {formatter: null}}},
+              data: agentnodes[key]
+            };
+                //alert(agentnodes[key]);
+            item.name = key;
+            //item.data = agentnodes[key];
+            item.itemStyle.normal.label.formatter = function (params) {
+              alert(params);
+              return (params.value*100).toFixed(2)+'%';
+            };
+            seriesdata.push(item);
+          }
+
+          var agentChart = echarts.init(document.getElementById('agentCharts'));
+          //alert('test4');
+          // 指定图表的配置项和数据
+          var option = {
+            backgroundColor: '#5F9EA0',//背景色
+            title: {
+              text: 'agent',
+              subtext: 'charts'
+            },
+            tooltip: {
+              trigger: 'axis',
+              formatter:null
+              //formatter:'{c}%'　　　　//这是关键，在需要的地方加上就行了
+            },
+            legend: {
+                //data: agents
+            },
+            toolbox: {
+              show : true,
+              feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                restore : {show: true},
+                saveAsImage : {show: true}
+              }
+            },
+            calculable : true,
+            xAxis: {
+              type : 'category',
+              boundaryGap : false,
+              data: strTime
+            },
+            yAxis: {
+              name : "nodes",
+              type : 'value',
+              axisLabel:{
+                formatter: null
+              },
+              data : result.nodes
+            },
+            series: seriesdata
+          };
+          
+          //option.series[0].itemStyle.normal.label.formatter = function (params) {
+            //  alert(params);
+              //return (params.value*100).toFixed(2)+'%';
+            //};
+          //option.yAxis.axisLabel.formatter = function(value,index){
+            //alert(value)
+            //alert(index)
+            //return (value*100).toFixed(2)+'%';
+          //};
+          //option.tooltip.formatter = function (params) {
+            //alert(params);
+            //return (params.value*100).toFixed(2)+'%';
+          //};
+          // 使用刚指定的配置项和数据显示图表。
+          agentChart.setOption(option);
+
+          {//network
+            var seriesdata = [];
+            var asnsnodes = [];
+            for(var i = 0; i < result.asns.length; i++)
+            {
+              for(key in result.asns[i][0])
+              {
+                var strnodes = result.asns[i][0][key];/*'(' + result.agents[i][0][key]/result.nodes[i]*100 + '%)';*/
+                if(!asnsnodes.hasOwnProperty(key))
+                {
+                  var nodesitem = [];
+                  nodesitem.push(strnodes);
+                  asnsnodes[key] = nodesitem;
+                }
+                else
+                {
+                  asnsnodes[key].push(strnodes);
+                }
+              }
+            }
+
+            for(key in asnsnodes)
+            {
+              var item = {
+                name: key,
+                type:'line',
+                smooth: true,
+                itemStyle: {normal: {areaStyle: {type: 'default'},label: {formatter: null}}},
+                data: asnsnodes[key]
+              };
+                //alert(agentnodes[key]);
+              item.name = key;
+              //item.data = agentnodes[key];
+              item.itemStyle.normal.label.formatter = function (params) {
+                alert(params);
+                return (params.value*100).toFixed(2)+'%';
+              };
+              seriesdata.push(item);
+            }
+
+            var asnsChart = echarts.init(document.getElementById('asnsCharts'));
+            //alert('test4');
+            // 指定图表的配置项和数据
+            var option = {
+              backgroundColor: '#5F9EA0',//背景色
+              title: {
+                text: 'asns',
+                subtext: 'charts'
+              },
+              tooltip: {
+                trigger: 'axis',
+                formatter:null
+                //formatter:'{c}%'　　　　//这是关键，在需要的地方加上就行了
+              },
+              legend: {
+                //data: agents
+              },
+              toolbox: {
+                show : true,
+                feature : {
+                  mark : {show: true},
+                  dataView : {show: true, readOnly: false},
+                  magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                  restore : {show: true},
+                  saveAsImage : {show: true}
+                }
+              },
+              calculable : true,
+              xAxis: {
+                type : 'category',
+                boundaryGap : false,
+                data: strTime
+              },
+              yAxis: {
+                name : "nodes",
+                type : 'value',
+                axisLabel:{
+                  formatter: null
+                },
+                data : result.nodes
+              },
+              series: seriesdata
+            };
+          
+          //option.series[0].itemStyle.normal.label.formatter = function (params) {
+            //  alert(params);
+              //return (params.value*100).toFixed(2)+'%';
+            //};
+          //option.yAxis.axisLabel.formatter = function(value,index){
+            //alert(value)
+            //alert(index)
+            //return (value*100).toFixed(2)+'%';
+          //};
+          //option.tooltip.formatter = function (params) {
+            //alert(params);
+            //return (params.value*100).toFixed(2)+'%';
+          //};
+          // 使用刚指定的配置项和数据显示图表。
+            asnsChart.setOption(option);
+          }
+
+          {//country
+            var seriesdata = [];
+            var countrysnodes = [];
+            for(var i = 0; i < result.countrys.length; i++)
+            {
+              for(key in result.countrys[i][0])
+              {
+                var strnodes = result.countrys[i][0][key];/*'(' + result.agents[i][0][key]/result.nodes[i]*100 + '%)';*/
+                if(!countrysnodes.hasOwnProperty(key))
+                {
+                  var nodesitem = [];
+                  nodesitem.push(strnodes);
+                  countrysnodes[key] = nodesitem;
+                }
+                else
+                {
+                  countrysnodes[key].push(strnodes);
+                }
+              }
+            }
+
+            for(key in countrysnodes)
+            {
+              var item = {
+                name: key,
+                type:'line',
+                smooth: true,
+                itemStyle: {normal: {areaStyle: {type: 'default'},label: {formatter: null}}},
+                data: countrysnodes[key]
+              };
+                //alert(agentnodes[key]);
+              item.name = key;
+              //item.data = agentnodes[key];
+              item.itemStyle.normal.label.formatter = function (params) {
+                alert(params);
+                return (params.value*100).toFixed(2)+'%';
+              };
+              seriesdata.push(item);
+            }
+
+            var countrysChart = echarts.init(document.getElementById('countrysCharts'));
+            //alert('test4');
+            // 指定图表的配置项和数据
+            var option = {
+              backgroundColor: '#5F9EA0',//背景色
+              title: {
+                text: 'countrys',
+                subtext: 'charts'
+              },
+              tooltip: {
+                trigger: 'axis',
+                formatter:null
+                //formatter:'{c}%'　　　　//这是关键，在需要的地方加上就行了
+              },
+              legend: {
+                //data: agents
+              },
+              toolbox: {
+                show : true,
+                feature : {
+                  mark : {show: true},
+                  dataView : {show: true, readOnly: false},
+                  magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                  restore : {show: true},
+                  saveAsImage : {show: true}
+                }
+              },
+              calculable : true,
+              xAxis: {
+                type : 'category',
+                boundaryGap : false,
+                data: strTime
+              },
+              yAxis: {
+                name : "nodes",
+                type : 'value',
+                axisLabel:{
+                  formatter: null
+                },
+                data : result.nodes
+              },
+              series: seriesdata
+            };
+            countrysChart.setOption(option);
+          }
+
+          {//network
+            var networkChart = echarts.init(document.getElementById('networkCharts'));
+            //alert('test4');
+            // 指定图表的配置项和数据
+            var option = {
+              backgroundColor: '#5F9EA0',//背景色
+              title: {
+                text: 'network',
+                subtext: 'charts'
+              },
+              tooltip: {
+                trigger: 'axis',
+                formatter:null
+                //formatter:'{c}%'　　　　//这是关键，在需要的地方加上就行了
+              },
+              legend: {
+                //data: agents
+              },
+              toolbox: {
+                show : true,
+                feature : {
+                  mark : {show: true},
+                  dataView : {show: true, readOnly: false},
+                  magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                  restore : {show: true},
+                  saveAsImage : {show: true}
+                }
+              },
+              calculable : true,
+              xAxis: {
+                type : 'category',
+                boundaryGap : false,
+                data: strTime
+              },
+              yAxis: {
+                name : "nodes",
+                type : 'value',
+                axisLabel:{
+                  formatter: null
+                },
+                data : result.nodes
+              },
+              series: {
+                name: key,
+                type:'line',
+                smooth: true,
+                itemStyle: {normal: {areaStyle: {type: 'default'},label: {formatter: null}}},
+                data: result.nodes
+              }
+            };
+            networkChart.setOption(option);
+          }
+        }
+      });
+    });
+
+  .row
+      .col-md-offset-5.col-md-2
+        label network
+      .col-md-offset-5
+      .col-md-offset-1.col-md-10
+        #networkCharts(style='width: 100%; height: 300px;')
+  .row
+      .col-md-offset-5.col-md-2
+        label agent
+      .col-md-offset-5
+      .col-md-offset-1.col-md-10
+        #agentCharts(style='width: 100%; height: 300px;')
+  .row
+      .col-md-offset-5.col-md-2
+        label asns
+      .col-md-offset-5
+      .col-md-offset-1.col-md-10
+        #asnsCharts(style='width: 100%; height: 300px;')
+  .row
+      .col-md-offset-5.col-md-2
+        label countrys
+      .col-md-offset-5
+      .col-md-offset-1.col-md-10
+        #countrysCharts(style='width: 100%; height: 300px;')

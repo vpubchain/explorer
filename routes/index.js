@@ -370,6 +370,20 @@ router.get('/nodes', function(req, res) {
   res.render('nodes', {active: 'nodes'});
 });
 
+router.get('/charts', function(req, res) {
+  res.render('charts', {active: 'charts'});
+});
+
+router.get('/live-map', function(req, res) {
+  res.render('live-map', {active: 'live-map'});
+});
+
+router.get('/map', function(req, res) {
+  var symbolCount = 0;
+  res.render('map', {active: 'map',
+                    symbolcount: symbolCount});
+});
+
 router.get('/reward', function(req, res){
   //db.get_stats(settings.coin, function (stats) {
     console.log(stats);
@@ -394,6 +408,20 @@ router.get('/reward', function(req, res){
 router.get('/bitcoin/api/nodes', function(req, res) {
   console.log('/bitcoin/api/nodes');
   lib.get_bitnodes_url('nodes', function(ret){
+    res.send(ret);
+  });
+});
+
+router.get('/bitcoin/api/dashboard', function(req, res) {
+  console.log('/bitcoin/api/dashboard');
+  lib.get_bitnodes_url('dashboard', function(ret){
+    res.send(ret);
+  });
+});
+
+router.get('/bitcoin/api/snapshots', function(req, res) {
+  console.log('/bitcoin/api/snapshots');
+  lib.get_bitnodes_url('snapshots', function(ret){
     res.send(ret);
   });
 });
