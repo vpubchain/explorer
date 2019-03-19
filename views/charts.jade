@@ -1,18 +1,13 @@
 extends layout
 block content
   script.
-    //alert('test');
     $(document).ready(function() {
-      //alert('test2');
       var reqajax = $.ajax ({
         url: '/bitcoin/api/dashboard',
         success: function( result ) {
-          //alert('test3');
           var startTime = result.times;
-          //alert(startTime);
           function riqigeshi(now){
             var date = new Date(now*1000);
-            //return date.toLocaleDateString();
             return date.toLocaleDateString() + ' ' + date.getHours() + date.toLocaleTimeString().substr(-6,6);
           }
           var strTime = [];
@@ -20,7 +15,6 @@ block content
           {
             var tmpTime = startTime - 12*3600 + i * 3600;
             var strTmpTime = riqigeshi(tmpTime);
-            //alert(strTmpTime);
             strTime.push(strTmpTime);
           }
 
@@ -369,6 +363,11 @@ block content
     });
 
   .row
+      .pull-right.btn-group
+        a.btn.btn-primary.btn-sm(href='/charts/', disabled='disabled') 24h
+        a.btn.btn-primary.btn-sm(href='/charts/?days=90') 90d
+        a.btn.btn-primary.btn-sm(href='/charts/?days=365') 1y
+        a.btn.btn-primary.btn-sm(href='/charts/?days=730') 2y
       .col-md-offset-5.col-md-2
         label network
       .col-md-offset-5

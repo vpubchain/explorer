@@ -268,8 +268,10 @@
 
      //bitnodes
      "networkslapshot": "网络节点快照",
-     "snapshotreachable": "可到达网络节点快照",
-     "useragent": "用户代理",
+     "snapshotreachable": "可达网络节点刷新时间:",
+     "useragent": "版本",
+     "livemap": "实时地图",
+     "livemapcrawler": "可达网络节点实时抓取地图",
 
      "datefound": "发现时间",
      "foundby": "发现地址",

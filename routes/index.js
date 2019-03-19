@@ -373,6 +373,10 @@ router.get('/nodes', function(req, res) {
 router.get('/charts', function(req, res) {
   res.render('charts', {active: 'charts'});
 });
+/*
+router.get('/charts:day', function(req, res) {
+  res.render('charts/day', {active: 'charts'});
+});*/
 
 router.get('/live-map', function(req, res) {
   res.render('live-map', {active: 'live-map'});
@@ -422,6 +426,13 @@ router.get('/bitcoin/api/dashboard', function(req, res) {
 router.get('/bitcoin/api/snapshots', function(req, res) {
   console.log('/bitcoin/api/snapshots');
   lib.get_bitnodes_url('snapshots', function(ret){
+    res.send(ret);
+  });
+});
+
+router.get('/bitcoin/api/leaderboard', function(req, res) {
+  console.log('/bitcoin/api/leaderboard');
+  lib.get_bitnodes_url('leaderboard', function(ret){
     res.send(ret);
   });
 });

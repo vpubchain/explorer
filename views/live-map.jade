@@ -1,15 +1,51 @@
-extends layout
+doctype html
+html
+  head
+    title= settings.title
+    link(rel='stylesheet', href='/themes/#{settings.theme}/bootstrap.min.css')
+    link(rel='stylesheet', href='/vendor/jqplot/jquery.jqplot.css')
+    link(rel='stylesheet', href='//cdn.datatables.net/plug-ins/725b2a2115b/integration/bootstrap/3/dataTables.bootstrap.css')
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Overpass+Mono')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='https://ajax.lug.ustc.edu.cn/ajax/libs/jquery/1.11.0/jquery.min.js')
+    script(src='//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
+    script(src='/vendor/jqplot/jquery.jqplot.min.js')
+    script(src='/vendor/jqplot/plugins/jqplot.dateAxisRenderer.min.js')
+    script(src='/vendor/jqplot/plugins/jqplot.ohlcRenderer.min.js')
+    script(src='/vendor/jqplot/plugins/jqplot.highlighter.min.js')
+    script(src='/vendor/jqplot/plugins/jqplot.pieRenderer.min.js')
+    script(src='/vendor/jqplot/plugins/jqplot.barRenderer.min.js')
+    script(src='/vendor/jqplot/plugins/jqplot.categoryAxisRenderer.min.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js')
+    script(src='/js/jquery.dataTables.min.js')  
+    script(src='/js/dataTables.responsive.js')
+    script(src='/js/dashninja-common.js')
+    script(src="/static/highcharts.js")
+    script(src="/static/highcharts-more.js")
+    script(src='/js/dashninja-masternodes.js')
+    script(src='/js/dashninja-governance.js')
+    script(src='/js/bitnodes-node.js')
+    script(src='//cdn.datatables.net/plug-ins/725b2a2115b/integration/bootstrap/3/dataTables.bootstrap.js')
+    script(src='/javascripts/chart.js')
+    script(src='/javascripts/analytics.js')
+    script(src='/javascripts/amcharts/amcharts.js')
+    script(src='/javascripts/amcharts/serial.js')
+    script(src='/javascripts/amcharts/themes/light.js')
+    script(src='/js/utils/http.js')
+    script(src='/js/utils/api.js')
+    script(src='javascripts/echarts/dist/echarts.min.js')
+    script(src='javascripts/echarts/map/js/world.js')
+    script(src='javascripts/echarts/map/js/china.js')
+    script.
 block content
   script.
-    //alert('test');
     $(document).ready(function() {
-      //alert('test2');
       function ajax_function()
       {
-          var reqajax = $.ajax ({
+        var reqajax = $.ajax ({
         url: '/bitcoin/api/nodes',
         success: function( res ) {
-          //alert('test1');
           var myMapCharts = echarts.init(document.getElementById('mapChart'));
           var agents = res.agents;
           var countrys = res.countrys;
@@ -264,12 +300,12 @@ block content
         }
         //alert('test5');
         option = {
-            backgroundColor: '#FFFFFF',
+            backgroundColor: '#424242',
             title: {
-                text: 'Prices and Earnings 2012',
-                subtext: 'data from macrofocus',
-                sublink: 'https://www.macrofocus.com/public/products/infoscope/datasets/pricesandearnings/',
-                left: 'center',
+                text: '#{settings.locale.livemapcrawler}',
+                subtext: '',
+                sublink: '',
+                left: 'left',
                 top: 5,
                 itemGap: 0,
                 textStyle: {
@@ -343,7 +379,7 @@ block content
                 top: '100%',
                 bottom: 0,
                 borderColor: 'transparent',
-                backgroundColor: '#404a59',
+                backgroundColor: '#424242',
                 z: 99
             }],
             parallel: {
@@ -456,9 +492,11 @@ block content
       setInterval( ajax_function, 60000 );
     });
 
-  .row
-      .col-md-offset-5.col-md-2
-        label network
-      .col-md-offset-5
-      .col-md-offset-1.col-md-10
-        #mapChart(style='width: 100%; height: 600px;')
+#mapChart(style='width: 100%; height: 700px;')
+  //.row
+    #mapChart(style='width: 100%; height: 700px;')
+      //.col-md-offset-5.col-md-2
+        //label #{settings.locale.livemap}
+      //.col-md-offset-5
+      //.col-md-offset-1.col-md-10
+       // #mapChart(style='width: 100%; height: 600px;')

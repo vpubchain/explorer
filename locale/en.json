@@ -270,6 +270,8 @@
     "networkslapshot": "Network Slapshot",
     "snapshotreachable": "Snapshot of reachable nodes as of",
     "useragent": "user_agent",
+    "livemap": "live map",
+    "livemapcrawler": "Live map of reachable nodes in the Bitcoin network being crawled by the Bitnodes crawler.",
 
     "datefound": "Date Found",
     "foundby": "Found by",
