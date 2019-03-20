@@ -108,10 +108,19 @@ block content
                *Returns current rewards of given masternode address*  
                [#{address}/ext/getmasternoderewards/#{hashes.address}](/ext/getmasternoderewards/#{hashes.address})
 
+          *  **getmasternoderewardsdetail (/ext/getmasternoderewardsdetail/hash)**  
+               *Returns current rewards of given masternode address*  
+               [#{address}/ext/getmasternoderewardsdetail/#{hashes.address}](/ext/getmasternoderewardsdetail/#{hashes.address})
+
           *  **getlasttxs (/ext/getlasttxs/count/min)**  
                *Returns last [count] transactions greater than [min]*  
                *Note: returned values are in satoshis*  
                [#{address}/ext/getlasttxs/10/100](/ext/getlasttxs/10/100)
+
+          *  **getblockhashbytime (/ext/getblockhashbytime/begintime/endtime)**  
+               *Returns blockhash greater than or equal to [begintime] and less than or equal to [endtime]*  
+               *Note: returned values are in satoshis*  
+               [#{address}/ext/getblockhashbytime/1553045395/1553048495](/ext/getblockhashbytime/1553045395/1553048495)
 
           ------
 
