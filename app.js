@@ -187,6 +187,27 @@ app.use('/ext/getlasttxsbytime/:second', function(req,res){
   });
 });
 
+app.use('/ext/getblockhashbytime/:lte/:gte', function(req,res){
+  db.get_blockhash_by_time(req.params.lte, req.params.gte, function(txs){
+    var ret = [];
+    var retkey = [];
+    for(var i = 0; i < txs.length; i++)
+    {
+      if(txs[i].blockhash in retkey)
+      {
+        console.log(txs[i].blockhash);
+      }
+      else
+      {
+        retkey[txs[i].blockhash] = '1';
+        ret.push(txs[i].blockhash);
+        //console.log(txs[i].blockhash);
+      }
+    }
+    res.send(ret);
+  });
+});
+
 app.use('/ext/connections', function(req,res){
   db.get_peers(function(peers){
     res.send({data: peers});
