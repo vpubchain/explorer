@@ -371,13 +371,20 @@ router.get('/nodes', function(req, res) {
 });
 
 router.get('/charts', function(req, res) {
-  res.render('charts', {active: 'charts'});
+  var params_days = req.query.days;
+  params_days = isNaN(params_days) || params_days == 0 ? 1 : params_days;
+  console.log('params_days' + params_days);
+  res.render('charts', {active: 'charts',
+                        days: params_days});
 });
 /*
-router.get('/charts:day', function(req, res) {
-  res.render('charts/day', {active: 'charts'});
-});*/
-
+router.get('/charts:days', function(req, res) {
+  var params_days = req.params['days'];
+  console.log('params_days' + params_days);
+  res.render('charts', {active: 'charts',
+                        days: params_days });
+});
+*/
 router.get('/live-map', function(req, res) {
   res.render('live-map', {active: 'live-map'});
 });
@@ -417,8 +424,19 @@ router.get('/bitcoin/api/nodes', function(req, res) {
 });
 
 router.get('/bitcoin/api/dashboard', function(req, res) {
-  console.log('/bitcoin/api/dashboard');
-  lib.get_bitnodes_url('dashboard', function(ret){
+  //console.log('/bitcoin/api/dashboard');
+  var params_days = req.query.days;
+  params_days = isNaN(params_days) || params_days == 0 ? 1 : params_days;
+  lib.get_bitnodes_dashborad_url('dashboard', params_days, function(ret){
+    res.send(ret);
+  });
+});
+
+router.get('/bitcoin/api/vpubboard', function(req, res) {
+  //console.log('/bitcoin/api/vpubboard');
+  var params_days = req.query.days;
+  params_days = isNaN(params_days) || params_days == 0 ? 1 : params_days;
+  lib.get_bitnodes_vpubborad_url('vpubboard', params_days, function(ret){
     res.send(ret);
   });
 });

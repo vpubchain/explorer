@@ -29,6 +29,9 @@
     "morgan": "~1.0.0",
     "qr-image": "~2.0.0",
     "request": "2.74.0",
+    //"echarts": "^3.7.2",
+    "canvas-prebuilt": "^1.6.5-prerelease.1",
+    "echarts": "^3.6.2",
     "static-favicon": "~1.0.0"
   },
   "devDependencies": {

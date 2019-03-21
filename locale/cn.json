@@ -272,6 +272,10 @@
      "useragent": "版本",
      "livemap": "实时地图",
      "livemapcrawler": "可达网络节点实时抓取地图",
+     "charts": "节点图表",
+     "currectnodes": "当前可达节点",
+     "averagenodes": "平均可达节点",
+     "dayagonodes": "天以前节点",
 
      "datefound": "发现时间",
      "foundby": "发现地址",

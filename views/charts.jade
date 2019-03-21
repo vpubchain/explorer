@@ -1,63 +1,168 @@
 extends layout
 block content
   script.
+    //$('#reachablenodes').text( 1 );
     $(document).ready(function() {
+      alert('test');
+      var charturl = '/bitcoin/api/vpubboard';
+      if(#{days} != 1)
+      {
+        charturl = charturl + '?&days=' + #{days};
+        //alert(#{days});
+      }
+      
+      alert(charturl);
       var reqajax = $.ajax ({
-        url: '/bitcoin/api/dashboard',
+        url: charturl,
         success: function( result ) {
-          var startTime = result.times;
-          function riqigeshi(now){
+          var startTime = new Date().getTime()/1000;//result.times;
+          //alert('test2');
+          function riqigeshi(now, daysnum){
+            //alert(daysnum);
             var date = new Date(now*1000);
-            return date.toLocaleDateString() + ' ' + date.getHours() + date.toLocaleTimeString().substr(-6,6);
-          }
-          var strTime = [];
-          for(var i = 0; i <= 12; i++)
-          {
-            var tmpTime = startTime - 12*3600 + i * 3600;
-            var strTmpTime = riqigeshi(tmpTime);
-            strTime.push(strTmpTime);
-          }
-
-          var agents = [];
-          var agentskey = {};
-          var seriesdata = [];
-          var agentnodes = [];
-          for(var i = 0; i < result.agents.length; i++)
-          {
-            for(key in result.agents[i][0])
+            if(daysnum != 1)
             {
-              var strnodes = result.agents[i][0][key];/*'(' + result.agents[i][0][key]/result.nodes[i]*100 + '%)';*/
-              if(!agentnodes.hasOwnProperty(key))
-              {
-                var nodesitem = [];
-                nodesitem.push(strnodes);
-                agentnodes[key] = nodesitem;
-              }
-              else
-              {
-                agentnodes[key].push(strnodes);
-              }
+              return date.toLocaleDateString();  
+            }
+            else
+            {
+              return date.toLocaleDateString() + ' ' + date.getHours() + date.toLocaleTimeString().substr(-6,6);
             }
           }
+          //alert('test3');
+          var timeArray = [];
+          var timeNum = #{days}*48;
+          var tmpTime = 0;
+          var tmpDays = #{days};
+          var strTimeArray = [];
+          var strTmpTime = '';
+          for(var i = 0; i < timeNum; i++)
+          {
+            tmpTime = startTime - timeNum * 1800 + i * 1800;
+            timeArray.push(tmpTime);
+            strTmpTime = riqigeshi(tmpTime, tmpDays);
+            strTimeArray.push(strTmpTime);
+          }
+          
+          var seriesData = [];
+          var agentNodes = [];
+          var agentNodesArray = [];
 
-          for(key in agentnodes)
+          var totalNodes = 0;
+          var lastNodes = 0;
+          var lastCheckTimeIndex = 0;
+          for(timeKey in result.agents)
+          {
+            //alert(timeKey);
+            var agentsPerTimeArray = result.agents[timeKey];
+            //alert('length=' + agentsPerTimeArray.length);
+            for(var j = 0; j < agentsPerTimeArray.length; j++)
+            {
+              //alert('test9');
+              for(versionKey in agentsPerTimeArray[j])
+              {
+                //alert('test10');
+                var nodesNum = agentsPerTimeArray[j][versionKey];
+                totalNodes = totalNodes + nodesNum;
+                if(!agentNodes.hasOwnProperty(versionKey))
+                {
+                  lastCheckTimeIndex = 0;
+                  //alert('test11');
+                  var nodesItem = [];
+                  for(var k = 0; k < timeArray.length; k++)
+                  {
+                    nodesItem[k] = 0;
+                  }
+
+                  agentNodes[versionKey] = nodesItem;
+
+                  var l = 0;
+                  for(l = 0; l < timeArray.length; l++)
+                  {
+                    if(timeKey < timeArray[l])
+                    {
+                      agentNodes[versionKey][l] = nodesNum;
+                      //alert('1');
+                      //alert('time=' + timeKey + 'nodenum=' + nodesNum);
+                      lastCheckTimeIndex = l;
+                      if(l == 0)
+                      {
+                        lastNodes += nodesNum;
+                      }
+                      break;   
+                    }
+                  }
+                }
+                else
+                {
+                  var nodesItem = agentNodes[versionKey];
+                  var k = 0;
+                  //alert('lastcheckindex=' + lastCheckTimeIndex); 
+                  for(k = lastCheckTimeIndex+1; k < timeArray.length; k++)
+                  {
+                    //alert(timeKey);
+                    //alert(timeArray[k-1]);
+                    //alert(timeKey[k]);
+                    if(timeKey >= timeArray[k-1] && timeKey <= timeArray[k])
+                    {
+                      agentNodes[versionKey][k] = nodesNum;
+                      //alert('time=' + timeKey + 'nodenum=' + nodesNum);
+                      lastCheckTimeIndex = k;
+                      //alert('22');
+                      //alert(nodesNum);
+                      break;
+                    }
+                  }
+                  
+                }
+              }              
+            }
+          }
+          //alert('test12');
+          $('#reachable-nodes').text( result.nodes[0] );
+          $('#average-nodes').text((totalNodes/timeNum + 0.5).toFixed(0));
+          $('#last-nodes').text(lastNodes);
+
+
+          for(key in agentNodes)
+          {
+            var nodeItem = agentNodes[key];
+            var item = [];
+            //alert(key);
+            //alert(nodeItem);
+            //alert(nodeItem.length);
+            for(var i = 0; i < nodeItem.length; i++)
+            {
+              item.push(nodeItem[i]);
+              //alert(nodeItem[i]);
+            }
+            agentNodesArray[key] = item;
+          }
+          alert('test13');
+          var colorArray = ['#FF3030','#7FFF00','#912CEE','#87CEEB','#EEEE00'];
+          var colorIndex = 0;
+          for(key in agentNodesArray)
           {
             var item = {
               name: key,
               type:'line',
               smooth: true,
               itemStyle: {normal: {areaStyle: {type: 'default'},label: {formatter: null}}},
-              data: agentnodes[key]
+              lineStyle: {normal: {color: ''}},
+              data: agentNodesArray[key]
             };
                 //alert(agentnodes[key]);
             item.name = key;
+            item.lineStyle.normal.color = colorArray[colorIndex];
+            colorIndex++;
             //item.data = agentnodes[key];
             item.itemStyle.normal.label.formatter = function (params) {
-              alert(params);
+              //alert(params);
               return (params.value*100).toFixed(2)+'%';
             };
-            seriesdata.push(item);
+            seriesData.push(item);
           }
+          alert('test14');
 
           var agentChart = echarts.init(document.getElementById('agentCharts'));
           //alert('test4');
@@ -90,7 +195,7 @@ block content
             xAxis: {
               type : 'category',
               boundaryGap : false,
-              data: strTime
+              data: strTimeArray
             },
             yAxis: {
               name : "nodes",
@@ -100,7 +205,7 @@ block content
               },
               data : result.nodes
             },
-            series: seriesdata
+            series: seriesData
           };
           
           //option.series[0].itemStyle.normal.label.formatter = function (params) {
@@ -120,44 +225,118 @@ block content
           agentChart.setOption(option);
 
           {//network
-            var seriesdata = [];
-            var asnsnodes = [];
-            for(var i = 0; i < result.asns.length; i++)
+            alert('test1');
+            var seriesData = [];
+            var asnsNodes = [];
+            var asnsNodesArray = [];
+
+            var lastCheckTimeIndex = 0;
+            for(timeKey in result.asns)
             {
-              for(key in result.asns[i][0])
+              //alert(timeKey);
+              var asnsPerTimeArray = result.asns[timeKey];
+              //alert('length=' + agentsPerTimeArray.length);
+              for(var j = 0; j < asnsPerTimeArray.length; j++)
               {
-                var strnodes = result.asns[i][0][key];/*'(' + result.agents[i][0][key]/result.nodes[i]*100 + '%)';*/
-                if(!asnsnodes.hasOwnProperty(key))
+                //alert('test9');
+                for(versionKey in asnsPerTimeArray[j])
                 {
-                  var nodesitem = [];
-                  nodesitem.push(strnodes);
-                  asnsnodes[key] = nodesitem;
-                }
-                else
-                {
-                  asnsnodes[key].push(strnodes);
-                }
+                  //alert('test10');
+                  var nodesNum = asnsPerTimeArray[j][versionKey];
+                  if(!asnsNodes.hasOwnProperty(versionKey))
+                  {
+                    lastCheckTimeIndex = 0;
+                    //alert('test11');
+                    var nodesItem = [];
+                    for(var k = 0; k < timeArray.length; k++)
+                    {
+                      nodesItem[k] = 0;
+                    }
+
+                    asnsNodes[versionKey] = nodesItem;
+
+                    var l = 0;
+                    for(l = 0; l < timeArray.length; l++)
+                    {
+                      if(timeKey < timeArray[l])
+                      {
+                        asnsNodes[versionKey][l] = nodesNum;
+                        //alert('1');
+                        //alert('time=' + timeKey + 'nodenum=' + nodesNum);
+                        lastCheckTimeIndex = l;
+                        if(l == 0)
+                        {
+                          lastNodes += nodesNum;
+                        }
+                        break;   
+                      }
+                    }
+                  }
+                  else
+                  {
+                    var nodesItem = asnsNodes[versionKey];
+                    var k = 0;
+                    //alert('lastcheckindex=' + lastCheckTimeIndex); 
+                    for(k = lastCheckTimeIndex+1; k < timeArray.length; k++)
+                    {
+                      //alert(timeKey);
+                      //alert(timeArray[k-1]);
+                      //alert(timeKey[k]);
+                      if(timeKey >= timeArray[k-1] && timeKey <= timeArray[k])
+                      {
+                        asnsNodes[versionKey][k] = nodesNum;
+                        //alert('time=' + timeKey + 'nodenum=' + nodesNum);
+                        lastCheckTimeIndex = k;
+                        //alert('22');
+                        //alert(nodesNum);
+                        break;
+                      }
+                    }
+                  
+                  }
+                }              
               }
             }
 
-            for(key in asnsnodes)
+            for(key in asnsNodes)
+            {
+              var nodeItem = asnsNodes[key];
+              var item = [];
+              //alert(key);
+              //alert(nodeItem);
+              //alert(nodeItem.length);
+              for(var i = 0; i < nodeItem.length; i++)
+              {
+                item.push(nodeItem[i]);
+                //alert(nodeItem[i]);
+              }
+              asnsNodesArray[key] = item;
+            }
+            //alert('test13');
+            var colorArray = ['#FF3030','#7FFF00','#912CEE','#87CEEB','#EEEE00'];
+            var colorIndex = 0;
+            for(key in asnsNodesArray)
             {
               var item = {
                 name: key,
                 type:'line',
                 smooth: true,
                 itemStyle: {normal: {areaStyle: {type: 'default'},label: {formatter: null}}},
-                data: asnsnodes[key]
+                lineStyle: {normal: {color: ''}},
+                data: asnsNodesArray[key]
               };
                 //alert(agentnodes[key]);
               item.name = key;
-              //item.data = agentnodes[key];
+              item.lineStyle.normal.color = colorArray[colorIndex];
+              colorIndex++;
+              
               item.itemStyle.normal.label.formatter = function (params) {
-                alert(params);
+                //alert(params);
                 return (params.value*100).toFixed(2)+'%';
               };
-              seriesdata.push(item);
+              seriesData.push(item);
             }
+            alert('test14');
 
             var asnsChart = echarts.init(document.getElementById('asnsCharts'));
             //alert('test4');
@@ -190,7 +369,7 @@ block content
               xAxis: {
                 type : 'category',
                 boundaryGap : false,
-                data: strTime
+                data: strTimeArray
               },
               yAxis: {
                 name : "nodes",
@@ -200,35 +379,22 @@ block content
                 },
                 data : result.nodes
               },
-              series: seriesdata
+              series: seriesData
             };
           
-          //option.series[0].itemStyle.normal.label.formatter = function (params) {
-            //  alert(params);
-              //return (params.value*100).toFixed(2)+'%';
-            //};
-          //option.yAxis.axisLabel.formatter = function(value,index){
-            //alert(value)
-            //alert(index)
-            //return (value*100).toFixed(2)+'%';
-          //};
-          //option.tooltip.formatter = function (params) {
-            //alert(params);
-            //return (params.value*100).toFixed(2)+'%';
-          //};
           // 使用刚指定的配置项和数据显示图表。
             asnsChart.setOption(option);
           }
 
-          {//country
+          /*{//country
             var seriesdata = [];
             var countrysnodes = [];
             for(var i = 0; i < result.countrys.length; i++)
             {
               for(key in result.countrys[i][0])
               {
-                var strnodes = result.countrys[i][0][key];/*'(' + result.agents[i][0][key]/result.nodes[i]*100 + '%)';*/
-                if(!countrysnodes.hasOwnProperty(key))
+                var strnodes = result.countrys[i][0][key];*//*'(' + result.agents[i][0][key]/result.nodes[i]*100 + '%)';*/
+               /* if(!countrysnodes.hasOwnProperty(key))
                 {
                   var nodesitem = [];
                   nodesitem.push(strnodes);
@@ -260,10 +426,10 @@ block content
               seriesdata.push(item);
             }
 
-            var countrysChart = echarts.init(document.getElementById('countrysCharts'));
+            var countrysChart = echarts.init(document.getElementById('countrysCharts'));*/
             //alert('test4');
             // 指定图表的配置项和数据
-            var option = {
+            /*var option = {
               backgroundColor: '#5F9EA0',//背景色
               title: {
                 text: 'countrys',
@@ -357,10 +523,29 @@ block content
               }
             };
             networkChart.setOption(option);
-          }
+          }*/
         }
       });
     });
+
+  .row
+    .col-md-12
+      .pull-left
+        span.text-muted #{settings.locale.currectnodes}  
+        h1#reachable-nodes
+
+      .pull-left.hidden-xs
+        .divider
+      .pull-left.hidden-xs
+        span.text-muted #{settings.locale.averagenodes}  
+        h1#average-nodes
+        
+      .pull-left
+        .divider
+      .pull-left
+        span.text-muted #{days} #{settings.locale.dayagonodes}
+        h1#last-nodes
+        
 
   .row
       .pull-right.btn-group
@@ -368,26 +553,17 @@ block content
         a.btn.btn-primary.btn-sm(href='/charts/?days=90') 90d
         a.btn.btn-primary.btn-sm(href='/charts/?days=365') 1y
         a.btn.btn-primary.btn-sm(href='/charts/?days=730') 2y
-      .col-md-offset-5.col-md-2
-        label network
-      .col-md-offset-5
-      .col-md-offset-1.col-md-10
-        #networkCharts(style='width: 100%; height: 300px;')
+      
   .row
       .col-md-offset-5.col-md-2
         label agent
       .col-md-offset-5
       .col-md-offset-1.col-md-10
         #agentCharts(style='width: 100%; height: 300px;')
+
   .row
       .col-md-offset-5.col-md-2
         label asns
       .col-md-offset-5
       .col-md-offset-1.col-md-10
         #asnsCharts(style='width: 100%; height: 300px;')
-  .row
-      .col-md-offset-5.col-md-2
-        label countrys
-      .col-md-offset-5
-      .col-md-offset-1.col-md-10
-        #countrysCharts(style='width: 100%; height: 300px;')

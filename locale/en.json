@@ -272,6 +272,10 @@
     "useragent": "user_agent",
     "livemap": "live map",
     "livemapcrawler": "Live map of reachable nodes in the Bitcoin network being crawled by the Bitnodes crawler.",
+    "charts": "Charts",
+    "currectnodes": "Reachable nodes",
+    "averagenodes": "Average",
+    "dayagonodes": "days ago",
 
     "datefound": "Date Found",
     "foundby": "Found by",
