@@ -3,22 +3,17 @@ block content
   script.
     //$('#reachablenodes').text( 1 );
     $(document).ready(function() {
-      alert('test');
       var charturl = '/bitcoin/api/vpubboard';
       if(#{days} != 1)
       {
         charturl = charturl + '?&days=' + #{days};
-        //alert(#{days});
       }
       
-      alert(charturl);
       var reqajax = $.ajax ({
         url: charturl,
         success: function( result ) {
           var startTime = new Date().getTime()/1000;//result.times;
-          //alert('test2');
           function riqigeshi(now, daysnum){
-            //alert(daysnum);
             var date = new Date(now*1000);
             if(daysnum != 1)
             {
@@ -29,7 +24,6 @@ block content
               return date.toLocaleDateString() + ' ' + date.getHours() + date.toLocaleTimeString().substr(-6,6);
             }
           }
-          //alert('test3');
           var timeArray = [];
           var timeNum = #{days}*48;
           var tmpTime = 0;
@@ -53,21 +47,16 @@ block content
           var lastCheckTimeIndex = 0;
           for(timeKey in result.agents)
           {
-            //alert(timeKey);
             var agentsPerTimeArray = result.agents[timeKey];
-            //alert('length=' + agentsPerTimeArray.length);
             for(var j = 0; j < agentsPerTimeArray.length; j++)
             {
-              //alert('test9');
               for(versionKey in agentsPerTimeArray[j])
               {
-                //alert('test10');
                 var nodesNum = agentsPerTimeArray[j][versionKey];
                 totalNodes = totalNodes + nodesNum;
                 if(!agentNodes.hasOwnProperty(versionKey))
                 {
                   lastCheckTimeIndex = 0;
-                  //alert('test11');
                   var nodesItem = [];
                   for(var k = 0; k < timeArray.length; k++)
                   {
@@ -82,8 +71,6 @@ block content
                     if(timeKey < timeArray[l])
                     {
                       agentNodes[versionKey][l] = nodesNum;
-                      //alert('1');
-                      //alert('time=' + timeKey + 'nodenum=' + nodesNum);
                       lastCheckTimeIndex = l;
                       if(l == 0)
                       {
@@ -97,19 +84,12 @@ block content
                 {
                   var nodesItem = agentNodes[versionKey];
                   var k = 0;
-                  //alert('lastcheckindex=' + lastCheckTimeIndex); 
                   for(k = lastCheckTimeIndex+1; k < timeArray.length; k++)
                   {
-                    //alert(timeKey);
-                    //alert(timeArray[k-1]);
-                    //alert(timeKey[k]);
                     if(timeKey >= timeArray[k-1] && timeKey <= timeArray[k])
                     {
                       agentNodes[versionKey][k] = nodesNum;
-                      //alert('time=' + timeKey + 'nodenum=' + nodesNum);
                       lastCheckTimeIndex = k;
-                      //alert('22');
-                      //alert(nodesNum);
                       break;
                     }
                   }
@@ -118,7 +98,6 @@ block content
               }              
             }
           }
-          //alert('test12');
           $('#reachable-nodes').text( result.nodes[0] );
           $('#average-nodes').text((totalNodes/timeNum + 0.5).toFixed(0));
           $('#last-nodes').text(lastNodes);
@@ -128,17 +107,12 @@ block content
           {
             var nodeItem = agentNodes[key];
             var item = [];
-            //alert(key);
-            //alert(nodeItem);
-            //alert(nodeItem.length);
             for(var i = 0; i < nodeItem.length; i++)
             {
               item.push(nodeItem[i]);
-              //alert(nodeItem[i]);
             }
             agentNodesArray[key] = item;
           }
-          alert('test13');
           var colorArray = ['#FF3030','#7FFF00','#912CEE','#87CEEB','#EEEE00'];
           var colorIndex = 0;
           for(key in agentNodesArray)
@@ -151,21 +125,16 @@ block content
               lineStyle: {normal: {color: ''}},
               data: agentNodesArray[key]
             };
-                //alert(agentnodes[key]);
             item.name = key;
             item.lineStyle.normal.color = colorArray[colorIndex];
             colorIndex++;
-            //item.data = agentnodes[key];
             item.itemStyle.normal.label.formatter = function (params) {
-              //alert(params);
               return (params.value*100).toFixed(2)+'%';
             };
             seriesData.push(item);
           }
-          alert('test14');
 
           var agentChart = echarts.init(document.getElementById('agentCharts'));
-          //alert('test4');
           // 指定图表的配置项和数据
           var option = {
             backgroundColor: '#5F9EA0',//背景色
@@ -208,24 +177,10 @@ block content
             series: seriesData
           };
           
-          //option.series[0].itemStyle.normal.label.formatter = function (params) {
-            //  alert(params);
-              //return (params.value*100).toFixed(2)+'%';
-            //};
-          //option.yAxis.axisLabel.formatter = function(value,index){
-            //alert(value)
-            //alert(index)
-            //return (value*100).toFixed(2)+'%';
-          //};
-          //option.tooltip.formatter = function (params) {
-            //alert(params);
-            //return (params.value*100).toFixed(2)+'%';
-          //};
           // 使用刚指定的配置项和数据显示图表。
           agentChart.setOption(option);
 
-          {//network
-            alert('test1');
+          {//asns
             var seriesData = [];
             var asnsNodes = [];
             var asnsNodesArray = [];
@@ -233,20 +188,15 @@ block content
             var lastCheckTimeIndex = 0;
             for(timeKey in result.asns)
             {
-              //alert(timeKey);
               var asnsPerTimeArray = result.asns[timeKey];
-              //alert('length=' + agentsPerTimeArray.length);
               for(var j = 0; j < asnsPerTimeArray.length; j++)
               {
-                //alert('test9');
                 for(versionKey in asnsPerTimeArray[j])
                 {
-                  //alert('test10');
                   var nodesNum = asnsPerTimeArray[j][versionKey];
                   if(!asnsNodes.hasOwnProperty(versionKey))
                   {
                     lastCheckTimeIndex = 0;
-                    //alert('test11');
                     var nodesItem = [];
                     for(var k = 0; k < timeArray.length; k++)
                     {
@@ -261,8 +211,6 @@ block content
                       if(timeKey < timeArray[l])
                       {
                         asnsNodes[versionKey][l] = nodesNum;
-                        //alert('1');
-                        //alert('time=' + timeKey + 'nodenum=' + nodesNum);
                         lastCheckTimeIndex = l;
                         if(l == 0)
                         {
@@ -275,24 +223,16 @@ block content
                   else
                   {
                     var nodesItem = asnsNodes[versionKey];
-                    var k = 0;
-                    //alert('lastcheckindex=' + lastCheckTimeIndex); 
+                    var k = 0; 
                     for(k = lastCheckTimeIndex+1; k < timeArray.length; k++)
                     {
-                      //alert(timeKey);
-                      //alert(timeArray[k-1]);
-                      //alert(timeKey[k]);
                       if(timeKey >= timeArray[k-1] && timeKey <= timeArray[k])
                       {
                         asnsNodes[versionKey][k] = nodesNum;
-                        //alert('time=' + timeKey + 'nodenum=' + nodesNum);
                         lastCheckTimeIndex = k;
-                        //alert('22');
-                        //alert(nodesNum);
                         break;
                       }
                     }
-                  
                   }
                 }              
               }
@@ -302,17 +242,12 @@ block content
             {
               var nodeItem = asnsNodes[key];
               var item = [];
-              //alert(key);
-              //alert(nodeItem);
-              //alert(nodeItem.length);
               for(var i = 0; i < nodeItem.length; i++)
               {
                 item.push(nodeItem[i]);
-                //alert(nodeItem[i]);
               }
               asnsNodesArray[key] = item;
             }
-            //alert('test13');
             var colorArray = ['#FF3030','#7FFF00','#912CEE','#87CEEB','#EEEE00'];
             var colorIndex = 0;
             for(key in asnsNodesArray)
@@ -325,21 +260,17 @@ block content
                 lineStyle: {normal: {color: ''}},
                 data: asnsNodesArray[key]
               };
-                //alert(agentnodes[key]);
               item.name = key;
               item.lineStyle.normal.color = colorArray[colorIndex];
               colorIndex++;
               
               item.itemStyle.normal.label.formatter = function (params) {
-                //alert(params);
                 return (params.value*100).toFixed(2)+'%';
               };
               seriesData.push(item);
             }
-            alert('test14');
 
             var asnsChart = echarts.init(document.getElementById('asnsCharts'));
-            //alert('test4');
             // 指定图表的配置项和数据
             var option = {
               backgroundColor: '#5F9EA0',//背景色
@@ -382,54 +313,101 @@ block content
               series: seriesData
             };
           
-          // 使用刚指定的配置项和数据显示图表。
+            // 使用刚指定的配置项和数据显示图表。
             asnsChart.setOption(option);
           }
 
-          /*{//country
-            var seriesdata = [];
-            var countrysnodes = [];
-            for(var i = 0; i < result.countrys.length; i++)
+          {//country
+            var seriesData = [];
+            var countryNodes = [];
+            var countryNodesArray = [];
+
+            var lastCheckTimeIndex = 0;
+            for(timeKey in result.countrys)
             {
-              for(key in result.countrys[i][0])
+              var countryPerTimeArray = result.countrys[timeKey];
+              for(var j = 0; j < countryPerTimeArray.length; j++)
               {
-                var strnodes = result.countrys[i][0][key];*//*'(' + result.agents[i][0][key]/result.nodes[i]*100 + '%)';*/
-               /* if(!countrysnodes.hasOwnProperty(key))
+                for(versionKey in countryPerTimeArray[j])
                 {
-                  var nodesitem = [];
-                  nodesitem.push(strnodes);
-                  countrysnodes[key] = nodesitem;
-                }
-                else
-                {
-                  countrysnodes[key].push(strnodes);
-                }
+                  var nodesNum = countryPerTimeArray[j][versionKey];
+                  if(!countryNodes.hasOwnProperty(versionKey))
+                  {
+                    lastCheckTimeIndex = 0;
+                    var nodesItem = [];
+                    for(var k = 0; k < timeArray.length; k++)
+                    {
+                      nodesItem[k] = 0;
+                    }
+
+                    countryNodes[versionKey] = nodesItem;
+
+                    var l = 0;
+                    for(l = 0; l < timeArray.length; l++)
+                    {
+                      if(timeKey < timeArray[l])
+                      {
+                        countryNodes[versionKey][l] = nodesNum;
+                        lastCheckTimeIndex = l;
+                        if(l == 0)
+                        {
+                          lastNodes += nodesNum;
+                        }
+                        break;   
+                      }
+                    }
+                  }
+                  else
+                  {
+                    var nodesItem = countryNodes[versionKey];
+                    var k = 0;
+                    for(k = lastCheckTimeIndex+1; k < timeArray.length; k++)
+                    {
+                      if(timeKey >= timeArray[k-1] && timeKey <= timeArray[k])
+                      {
+                        countryNodes[versionKey][k] = nodesNum;
+                        lastCheckTimeIndex = k;
+                        break;
+                      }
+                    }
+                  }
+                }              
               }
             }
-
-            for(key in countrysnodes)
+            for(key in countryNodes)
+            {
+              var nodeItem = countryNodes[key];
+              var item = [];
+              for(var i = 0; i < nodeItem.length; i++)
+              {
+                item.push(nodeItem[i]);
+              }
+              countryNodesArray[key] = item;
+            }
+            var colorArray = ['#FF3030','#7FFF00','#912CEE','#87CEEB','#EEEE00'];
+            var colorIndex = 0;
+            for(key in countryNodesArray)
             {
               var item = {
                 name: key,
                 type:'line',
                 smooth: true,
                 itemStyle: {normal: {areaStyle: {type: 'default'},label: {formatter: null}}},
-                data: countrysnodes[key]
+                lineStyle: {normal: {color: ''}},
+                data: countryNodesArray[key]
               };
-                //alert(agentnodes[key]);
               item.name = key;
-              //item.data = agentnodes[key];
+              item.lineStyle.normal.color = colorArray[colorIndex];
+              colorIndex++;
+              
               item.itemStyle.normal.label.formatter = function (params) {
-                alert(params);
                 return (params.value*100).toFixed(2)+'%';
               };
-              seriesdata.push(item);
+              seriesData.push(item);
             }
-
-            var countrysChart = echarts.init(document.getElementById('countrysCharts'));*/
-            //alert('test4');
+            var countryChart = echarts.init(document.getElementById('countryCharts'));
             // 指定图表的配置项和数据
-            /*var option = {
+            var option = {
               backgroundColor: '#5F9EA0',//背景色
               title: {
                 text: 'countrys',
@@ -457,7 +435,7 @@ block content
               xAxis: {
                 type : 'category',
                 boundaryGap : false,
-                data: strTime
+                data: strTimeArray
               },
               yAxis: {
                 name : "nodes",
@@ -467,19 +445,64 @@ block content
                 },
                 data : result.nodes
               },
-              series: seriesdata
+              series: seriesData
             };
-            countrysChart.setOption(option);
+            countryChart.setOption(option);
           }
 
-          {//network
-            var networkChart = echarts.init(document.getElementById('networkCharts'));
-            //alert('test4');
+          {//total
+            var seriesData = [];
+            var totalNodes = [];
+            
+            for(var i = 0; i < timeArray.length; i++)
+            {
+              totalNodes[i] = 0;
+            }
+            var lastCheckTimeIndex = 0;
+            for(timeKey in result.total)
+            {
+              var nodesNum = result.total[timeKey];
+              var k = 0;
+              if(timeKey < timeArray[0])
+              {
+                totalNodes[0] = nodesNum;
+                lastCheckTimeIndex = k;
+                continue;
+              }
+              for(k = lastCheckTimeIndex+1; k < timeArray.length; k++)
+              {
+                if(timeKey >= timeArray[k-1] && timeKey <= timeArray[k])
+                {
+                  totalNodes[k] = nodesNum;
+                  lastCheckTimeIndex = k;
+                  break;
+                }
+              } 
+            }
+            
+            var item = {
+              name: 'total',
+              type:'line',
+              smooth: true,
+              itemStyle: {normal: {areaStyle: {type: 'default'},label: {formatter: null}}},
+              lineStyle: {normal: {color: ''}},
+              data: totalNodes
+            };
+            item.name = 'total';
+            item.lineStyle.normal.color = '#FF3030';
+              
+            item.itemStyle.normal.label.formatter = function (params) {
+              return (params.value*100).toFixed(2)+'%';
+            };
+            seriesData.push(item);
+            
+
+            var totalChart = echarts.init(document.getElementById('totalCharts'));
             // 指定图表的配置项和数据
             var option = {
               backgroundColor: '#5F9EA0',//背景色
               title: {
-                text: 'network',
+                text: 'total',
                 subtext: 'charts'
               },
               tooltip: {
@@ -504,7 +527,7 @@ block content
               xAxis: {
                 type : 'category',
                 boundaryGap : false,
-                data: strTime
+                data: strTimeArray
               },
               yAxis: {
                 name : "nodes",
@@ -514,16 +537,10 @@ block content
                 },
                 data : result.nodes
               },
-              series: {
-                name: key,
-                type:'line',
-                smooth: true,
-                itemStyle: {normal: {areaStyle: {type: 'default'},label: {formatter: null}}},
-                data: result.nodes
-              }
+              series: seriesData
             };
-            networkChart.setOption(option);
-          }*/
+            totalChart.setOption(option);
+          }
         }
       });
     });
@@ -567,3 +584,17 @@ block content
       .col-md-offset-5
       .col-md-offset-1.col-md-10
         #asnsCharts(style='width: 100%; height: 300px;')
+
+  .row
+      .col-md-offset-5.col-md-2
+        label country
+      .col-md-offset-5
+      .col-md-offset-1.col-md-10
+        #countryCharts(style='width: 100%; height: 300px;')
+
+  .row
+      .col-md-offset-5.col-md-2
+        label total
+      .col-md-offset-5
+      .col-md-offset-1.col-md-10
+        #totalCharts(style='width: 100%; height: 300px;')
