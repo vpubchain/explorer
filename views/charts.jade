@@ -517,7 +517,7 @@ block content
               return (params.value*100).toFixed(2)+'%';
             };
             seriesData.push(item);
-            $('#total-text').text( '最低 ' + low + ' 最高 ' + high + ' 平均 ' + averageNodes + ' 最新 ' + lastNodes);
+            $('#total-text').text( '最低 ' + low + ' 最高 ' + high + ' 平均 ' + averageNodes + ' 最新 ' + result.nodes[0]);
 
             var totalChart = echarts.init(document.getElementById('totalCharts'));
             // 指定图表的配置项和数据
