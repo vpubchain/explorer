@@ -41,6 +41,7 @@ block content
           var seriesData = [];
           var agentNodes = [];
           var agentNodesArray = [];
+          var agentKeys = [];
 
           var totalNodes = 0;
           var lastNodes = 0;
@@ -64,6 +65,7 @@ block content
                   }
 
                   agentNodes[versionKey] = nodesItem;
+                  agentKeys.push(versionKey);
 
                   var l = 0;
                   for(l = 0; l < timeArray.length; l++)
@@ -99,7 +101,8 @@ block content
             }
           }
           $('#reachable-nodes').text( result.nodes[0] );
-          $('#average-nodes').text((totalNodes/timeNum + 0.5).toFixed(0));
+          var averageNodes = (totalNodes/timeNum + 0.5).toFixed(0);
+          $('#average-nodes').text(averageNodes);
           $('#last-nodes').text(lastNodes);
 
 
@@ -139,8 +142,8 @@ block content
           var option = {
             backgroundColor: '#5F9EA0',//背景色
             title: {
-              text: 'agent',
-              subtext: 'charts'
+              text: '',
+              subtext: ''
             },
             tooltip: {
               trigger: 'axis',
@@ -148,7 +151,7 @@ block content
               //formatter:'{c}%'　　　　//这是关键，在需要的地方加上就行了
             },
             legend: {
-                //data: agents
+              data: agentKeys
             },
             toolbox: {
               show : true,
@@ -167,7 +170,7 @@ block content
               data: strTimeArray
             },
             yAxis: {
-              name : "nodes",
+              name : "",
               type : 'value',
               axisLabel:{
                 formatter: null
@@ -183,6 +186,7 @@ block content
           {//asns
             var seriesData = [];
             var asnsNodes = [];
+            var asnsKeys = [];
             var asnsNodesArray = [];
 
             var lastCheckTimeIndex = 0;
@@ -204,6 +208,7 @@ block content
                     }
 
                     asnsNodes[versionKey] = nodesItem;
+                    asnsKeys.push(versionKey);
 
                     var l = 0;
                     for(l = 0; l < timeArray.length; l++)
@@ -275,8 +280,8 @@ block content
             var option = {
               backgroundColor: '#5F9EA0',//背景色
               title: {
-                text: 'asns',
-                subtext: 'charts'
+                text: '',
+                subtext: ''
               },
               tooltip: {
                 trigger: 'axis',
@@ -284,7 +289,7 @@ block content
                 //formatter:'{c}%'　　　　//这是关键，在需要的地方加上就行了
               },
               legend: {
-                //data: agents
+                data: asnsKeys
               },
               toolbox: {
                 show : true,
@@ -303,7 +308,7 @@ block content
                 data: strTimeArray
               },
               yAxis: {
-                name : "nodes",
+                name : "",
                 type : 'value',
                 axisLabel:{
                   formatter: null
@@ -320,6 +325,7 @@ block content
           {//country
             var seriesData = [];
             var countryNodes = [];
+            var countryKeys = [];
             var countryNodesArray = [];
 
             var lastCheckTimeIndex = 0;
@@ -341,6 +347,7 @@ block content
                     }
 
                     countryNodes[versionKey] = nodesItem;
+                    countryKeys.push(versionKey);
 
                     var l = 0;
                     for(l = 0; l < timeArray.length; l++)
@@ -410,8 +417,8 @@ block content
             var option = {
               backgroundColor: '#5F9EA0',//背景色
               title: {
-                text: 'countrys',
-                subtext: 'charts'
+                text: '',
+                subtext: ''
               },
               tooltip: {
                 trigger: 'axis',
@@ -419,7 +426,7 @@ block content
                 //formatter:'{c}%'　　　　//这是关键，在需要的地方加上就行了
               },
               legend: {
-                //data: agents
+                data: countryKeys
               },
               toolbox: {
                 show : true,
@@ -438,7 +445,7 @@ block content
                 data: strTimeArray
               },
               yAxis: {
-                name : "nodes",
+                name : "",
                 type : 'value',
                 axisLabel:{
                   formatter: null
@@ -453,6 +460,8 @@ block content
           {//total
             var seriesData = [];
             var totalNodes = [];
+            var low = 65535;
+            var high = 0;
             
             for(var i = 0; i < timeArray.length; i++)
             {
@@ -463,6 +472,14 @@ block content
             {
               var nodesNum = result.total[timeKey];
               var k = 0;
+              if(nodesNum < low)
+              {
+                low = nodesNum;
+              }
+              if(nodesNum > high)
+              {
+                high = nodesNum;
+              }
               if(timeKey < timeArray[0])
               {
                 totalNodes[0] = nodesNum;
@@ -479,31 +496,36 @@ block content
                 }
               } 
             }
+
+            $('#low-nodes').text( low );
+            $('#high-nodes').text( high );
             
             var item = {
-              name: 'total',
+              name: '',
               type:'line',
               smooth: true,
               itemStyle: {normal: {areaStyle: {type: 'default'},label: {formatter: null}}},
               lineStyle: {normal: {color: ''}},
               data: totalNodes
             };
-            item.name = 'total';
+            item.name = '可用节点';
+            var legendData = [];
+            legendData.push(item.name);
             item.lineStyle.normal.color = '#FF3030';
               
             item.itemStyle.normal.label.formatter = function (params) {
               return (params.value*100).toFixed(2)+'%';
             };
             seriesData.push(item);
-            
+            $('#total-text').text( '最低 ' + low + ' 最高 ' + high + ' 平均 ' + averageNodes + ' 最新 ' + lastNodes);
 
             var totalChart = echarts.init(document.getElementById('totalCharts'));
             // 指定图表的配置项和数据
             var option = {
               backgroundColor: '#5F9EA0',//背景色
               title: {
-                text: 'total',
-                subtext: 'charts'
+                text: '',
+                subtext: ''
               },
               tooltip: {
                 trigger: 'axis',
@@ -511,7 +533,7 @@ block content
                 //formatter:'{c}%'　　　　//这是关键，在需要的地方加上就行了
               },
               legend: {
-                //data: agents
+                data: legendData
               },
               toolbox: {
                 show : true,
@@ -530,7 +552,7 @@ block content
                 data: strTimeArray
               },
               yAxis: {
-                name : "nodes",
+                name : "",
                 type : 'value',
                 axisLabel:{
                   formatter: null
@@ -545,56 +567,86 @@ block content
       });
     });
 
-  .row
-    .col-md-12
-      .pull-left
-        span.text-muted #{settings.locale.currectnodes}  
-        h1#reachable-nodes
-
-      .pull-left.hidden-xs
-        .divider
-      .pull-left.hidden-xs
-        span.text-muted #{settings.locale.averagenodes}  
-        h1#average-nodes
+  .container
+      .row
+        .col-md-12
+          hr.simple(color='#6f5499')
+          .pull-left
+            span.text-muted #{settings.locale.currectnodes}
+            h1#reachable-nodes  
+          .pull-left.hidden-xs
+            .divider
+          .pull-left.hidden-xs
+            span.text-muted #{settings.locale.averagenodes}
+            h1#average-nodes
+          .pull-left
+            .divider
+          .pull-left
+            span.text-muted #{days} #{settings.locale.dayagonodes}
+            h1#last-nodes
         
-      .pull-left
-        .divider
-      .pull-left
-        span.text-muted #{days} #{settings.locale.dayagonodes}
-        h1#last-nodes
+      .col-md-12
+        hr.simple(color='#EBEBEB')
+        .pull-right.btn-group
+          a.btn.btn-primary.btn-sm(href='/charts/', disabled='disabled') 24#{settings.locale.hours}
+          a.btn.btn-primary.btn-sm(href='/charts/?days=90') 90#{settings.locale.days}
+          a.btn.btn-primary.btn-sm(href='/charts/?days=365') 1#{settings.locale.years}
+          a.btn.btn-primary.btn-sm(href='/charts/?days=730') 2#{settings.locale.years}
+        h3
+          a #{settings.locale.networkavailability}
+        p
+          | #{settings.locale.networkavailabilitynotes}
         
-
-  .row
-      .pull-right.btn-group
-        a.btn.btn-primary.btn-sm(href='/charts/', disabled='disabled') 24h
-        a.btn.btn-primary.btn-sm(href='/charts/?days=90') 90d
-        a.btn.btn-primary.btn-sm(href='/charts/?days=365') 1y
-        a.btn.btn-primary.btn-sm(href='/charts/?days=730') 2y
       
-  .row
+
+      .col-md-12
+        .pull-right
+          span#total-text
+          
+    .row
       .col-md-offset-5.col-md-2
-        label agent
+      .col-md-offset-5
+      .col-md-offset-1.col-md-10
+        #totalCharts(style='width: 100%; height: 300px;')
+
+    .container
+      .col-md-12
+        hr.simple(color='#7A7A7A')
+        h3
+          a #{settings.locale.useragent}
+        p
+          | #{settings.locale.agentsnotes}
+
+    .row  
+      .col-md-offset-5.col-md-2
       .col-md-offset-5
       .col-md-offset-1.col-md-10
         #agentCharts(style='width: 100%; height: 300px;')
 
-  .row
+    .container
+      .col-md-12
+        hr.simple(color='#7A7A7A')
+        h3
+          a ASNS
+        p
+          | #{settings.locale.asnsnotes}
+
+    .row
       .col-md-offset-5.col-md-2
-        label asns
       .col-md-offset-5
       .col-md-offset-1.col-md-10
         #asnsCharts(style='width: 100%; height: 300px;')
 
-  .row
-      .col-md-offset-5.col-md-2
-        label country
-      .col-md-offset-5
-      .col-md-offset-1.col-md-10
-        #countryCharts(style='width: 100%; height: 300px;')
+    .container
+      .col-md-12
+        hr.simple(color='#7A7A7A')
+        h3
+          a #{settings.locale.net_country}
+        p
+          | #{settings.locale.countrynotes}
 
   .row
       .col-md-offset-5.col-md-2
-        label total
       .col-md-offset-5
       .col-md-offset-1.col-md-10
-        #totalCharts(style='width: 100%; height: 300px;')
+        #countryCharts(style='width: 100%; height: 300px;')
