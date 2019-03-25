@@ -1,4 +1,5 @@
 extends layout
+
 block content
   script.
     //$('#reachablenodes').text( 1 );
@@ -347,7 +348,7 @@ block content
                     }
 
                     countryNodes[versionKey] = nodesItem;
-                    countryKeys.push(versionKey);
+                    countryKeys.push(geolocation[versionKey]);
 
                     var l = 0;
                     for(l = 0; l < timeArray.length; l++)
@@ -403,7 +404,7 @@ block content
                 lineStyle: {normal: {color: ''}},
                 data: countryNodesArray[key]
               };
-              item.name = key;
+              item.name = geolocation[key];
               item.lineStyle.normal.color = colorArray[colorIndex];
               colorIndex++;
               

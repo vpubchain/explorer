@@ -32,8 +32,7 @@ block content
           { data: 'country', width: '25%'}
         ]
       });
-      //alert('test5');
-      //global.useragentlist = {};
+
       var ntable = $('#nodes-table').dataTable( {  
         autoWidth: true,      
         //searching: false,
@@ -61,22 +60,13 @@ block content
               //alert(arr[1]);
               item.useragent = arr[1] + '<br>' + arr[0];
               item.hight = arr[4];
-              item.location = arr[7];
+              item.location = geolocation[arr[7]];
+              //alert(item.location);
+              //alert(geolocation[arr[7]]);
               item.network = arr[12] + '<br>' + arr[11];
               item.time = new Date((arr[2]) * 1000).toLocaleString();
               //item.user-agent = json.nodes[key].1;
               res.data.push(item);
-              /*json.data[i]['user-agent'] = json.nodes[key][2];
-              json.data[i]['hight'] = json.nodes[key][4];
-              json.data[i]['location'] = json.nodes[key][7];
-              json.data[i]['network'] = json.nodes[key][12];*/
-              /*
-              json.data[i]['timestamp'] = new Date((json.data[i]['timestamp']) * 1000).toUTCString();
-              json.data[i]['txid'] = "<a href='/tx/" + json.data[i]['txid'] + "'>" + json.data[i]['txid'] + "</a>";
-              json.data[i]['blockindex'] = "<a href='/block/" + json.data[i]['blockhash'] + "'>" + json.data[i]['blockindex'] + "</a>";
-              var amount = json.data[i]['total'] / 100000000;
-              json.data[i]['total'] = amount.toFixed(8);
-              json.data[i]['recipients'] = json.data[i]['vout'].length;*/
               //i++;
             }
             return res.data;

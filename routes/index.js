@@ -4,6 +4,7 @@ var express = require('express')
   , locale = require('../lib/locale')
   , db = require('../lib/database')
   , lib = require('../lib/explorer')
+  , locations = require('../public/js/country.js')
   , qr = require('qr-image')
   , formatCurrency = require('format-currency')
   , formatNum = require('format-num')
@@ -334,7 +335,8 @@ router.get('/network', function(req, res) {
       for(var key in ret.countrys[j])
       {
         var data = {'county':'','nodes':''};
-        data.country = key;
+        //data.country = country_data[key];
+        data.country = locations.geolocation[key];
         data.nodes = ret.countrys[j][key];
         country_list_data.push(data);
       }
@@ -374,8 +376,10 @@ router.get('/charts', function(req, res) {
   var params_days = req.query.days;
   params_days = isNaN(params_days) || params_days == 0 ? 1 : params_days;
   console.log('params_days' + params_days);
-  res.render('charts', {active: 'charts',
-                        days: params_days});
+  res.render('charts', {
+                        active: 'charts',
+                        days: params_days
+                      });
 });
 /*
 router.get('/charts:days', function(req, res) {
@@ -451,6 +455,14 @@ router.get('/bitcoin/api/snapshots', function(req, res) {
 router.get('/bitcoin/api/leaderboard', function(req, res) {
   console.log('/bitcoin/api/leaderboard');
   lib.get_bitnodes_url('leaderboard', function(ret){
+    res.send(ret);
+  });
+});
+
+router.get('/addnode/:address', function(req, res) {
+  var address = req.params['address'];
+  console.log(address);
+  lib.addnode(address, function(ret){
     res.send(ret);
   });
 });
