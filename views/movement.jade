@@ -39,7 +39,7 @@ block content
         lengthChange: false,
         //processing: true,
         ajax: {
-          url: '/ext/getlasttxs/#{min_amount}',
+          url: '/ext/getlastrealtxs/#{min_amount}',
           dataSrc: function ( json ) {
             for ( var i=0;i<json.data.length; i++ ) {
               json.data[i]['timestamp'] = new Date((json.data[i]['timestamp']) * 1000).toLocaleString();//format_unixtime(json.data[i]['timestamp']);
@@ -111,20 +111,14 @@ block content
           alert(json.data.length);
           var j = 0;
           for ( var i=json.data.length-1;i>=0; i-- ) {
-            //alert(json.data[i].timestamp);
-            //alert(timestampData[j]);
-            //alert(timestampData[j+1]);
             if(json.data[i].timestamp >= timestampData[j] && json.data[i].timestamp <= timestampData[j+1])
             {
-              //alert('11111');
               timeNumData[j]++;
-              //alert(timeNumData[j]);
               timeAmountData[j] += json.data[i].total/100000000;
               //alert(timeAmountData[j]);
             }
             else
             {
-              //alert('22222');
               j++;
               //alert(j);
               for(; j < 60; j++)

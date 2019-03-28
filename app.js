@@ -181,8 +181,20 @@ app.use('/ext/getlasttxs/:min', function(req,res){
   });
 });
 
+app.use('/ext/getlastrealtxs/:min', function(req,res){
+  db.get_last_real_txs(settings.index.last_txs, (req.params.min * 100000000), function(txs){
+    res.send({data: txs});
+  });
+});
+
 app.use('/ext/getlasttxsbytime/:second', function(req,res){
   db.get_last_txs_by_time((req.params.second), function(txs){
+    res.send({data: txs});
+  });
+});
+
+app.use('/ext/getlastpoolbytime/:second', function(req,res){
+  db.get_last_pool_by_time((req.params.second), function(txs){
     res.send({data: txs});
   });
 });
@@ -192,19 +204,11 @@ app.use('/ext/gettxs/', function(req,res){
   var amount = req.query.amount * 100000000;
   var address = req.query.address;
   address = isNaN(address) || address == '' ? '' : address;
-  db.get_txs(second, amount, address, function(txs){
+  db.get_vpub_txs(second, amount, address, function(txs){
     res.send({data: txs});
   });
 });
-/*
-app.use('/ext/gettxs/', function(req,res){
-  var second = req.query.second;
-  var amount = req.query.amount * 100000000;
-  
-  db.get_txs(second, amount, function(txs){
-    res.send({data: txs});
-  });
-});*/
+
 
 app.use('/ext/getblockhashbytime/:lte/:gte', function(req,res){
   db.get_blockhash_by_time(req.params.lte, req.params.gte, function(txs){

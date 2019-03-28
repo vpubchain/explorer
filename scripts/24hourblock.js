@@ -68,7 +68,7 @@ mongoose.connect(dbString, function(err) {
   } else {
     var tsNow = Math.round(new Date().getTime() / 1000);
     var ts24h = tsNow - (13 * 3600);
-    db.get_last_txs_by_time(ts24h, function(blocks24hdata){
+    db.get_last_pool_by_time(ts24h, function(blocks24hdata){
         blocks24h = blocks24hdata;
         //console.log(blocks24h);
         
