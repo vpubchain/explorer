@@ -97,9 +97,9 @@ block content
         timeNumData.push(0);
         timeAmountData.push(0);
       }
-      alert('changeChartAmount3');
+      //alert('changeChartAmount3');
       var url = '';
-      alert('changeChartAmount4');
+      //alert('changeChartAmount4');
       //alert(baseTime);
       //alert(amount);
       url='/ext/gettxs?second=' + baseTime + '&amount=' + amount.value;
@@ -108,7 +108,7 @@ block content
       var ajaxReq = $.ajax ({
         url: url,
         success: function( json ){
-          alert(json.data.length);
+          //alert(json.data.length);
           var j = 0;
           for ( var i=json.data.length-1;i>=0; i-- ) {
             if(json.data[i].timestamp >= timestampData[j] && json.data[i].timestamp <= timestampData[j+1])
