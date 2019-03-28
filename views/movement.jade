@@ -31,135 +31,6 @@ block content
         return time;
       }
 
-      /*function changeChartAmount() {
-        alert('changeChartAmount');
-        var baseTime = parseInt(new Date().getTime()/1000) - 60 * 86400;
-        var chartAmount = document.getElementById("chartAmount");
-        var timeData = [];
-        var timestampData = [];
-        var timeNumData = [];
-        for(var i = 0; i < 60; i++)
-        {
-          var time = baseTime + i * 86400;
-          var strTime = format_unixtime_to_day(time);
-          timeData.push(strTime);
-          timestampData.push(time);
-          timeNumData.push(0);
-        }
-        var url = '';
-        url='/ext/gettxs?&second=' + baseTime + '&amount=' + chartAmount.value;
-        alert(url);
-        
-        var ajaxReq = $.ajax ({
-          url: url,
-          success: function( json ){
-            alert('test99');
-            var j = 0;
-            for ( var i=json.data.length-1;i>=0; i-- ) {
-              if(json.data[i].timestamp >= timestampData[j] && json.data[i].timestamp <= timestampData[j+1])
-              {
-                timeNumData[j]++;
-              }
-              else
-              {
-                j++;
-                for(; j < 60; j++)
-                {
-                  if(json.data[i].timestamp >= timestampData[j] && json.data[i].timestamp <= timestampData[j+1])
-                  {
-                    timeNumData[j]++;
-                    break;
-                  }
-                  else
-                  {
-                    j++;
-                  }
-                }
-              }
-            }
-            alert('test123');
-            var myMapCharts = echarts.init(document.getElementById('bigChangeChart'));
-            alert('test2');
-            option = {
-                backgroundColor: '#F0FFF0',
-                title: {
-                  text: 'bigchange',
-                  left: 'center'
-                },
-                tooltip: {
-                  trigger: 'axis',
-                  position: function (pt) {
-                    return [pt[0], '10%'];
-                  }
-                },
-                toolbox: {
-                  feature: {
-                    dataZoom: {
-                      yAxisIndex: 'none'
-                    },
-                    restore: {},
-                    saveAsImage: {}
-                  }
-                },
-                xAxis: {
-                  type: 'category',
-                  boundaryGap: false,
-                  data: timeData
-                },
-                yAxis: {
-                  type: 'value',
-                  data: timeNumData,
-                  boundaryGap: [0, '100%']
-                },
-                dataZoom: [{
-                  type: 'inside',
-                  start: 0,
-                  end: 100
-                }, {
-                  start: 0,
-                  end: 100,
-                  handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-                  handleSize: '80%',
-                  handleStyle: {
-                    color: '#fff',
-                    shadowBlur: 3,
-                    shadowColor: 'rgba(0, 0, 0, 0.6)',
-                    shadowOffsetX: 2,
-                    shadowOffsetY: 2
-                  }
-                }],
-                series: [
-                {
-                  name:'模拟数据',
-                  type:'line',
-                  smooth:true,
-                  symbol: 'none',
-                  sampling: 'average',
-                  itemStyle: {
-                    color: 'rgb(255, 70, 131)'
-                  },
-                  areaStyle: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                      offset: 0,
-                      color: 'rgb(255, 158, 68)'
-                    }, {
-                      offset: 1,
-                      color: 'rgb(255, 70, 131)'
-                    }])
-                  },
-                  data: timeNumData
-                }
-                ]
-              };
-            alert('test3');
-            myMapCharts.setOption(option);
-            alert('test4');
-          }
-        });
-      }
-
-      changeChartAmount();*/
-
       var rtable = $('#alerts-table').dataTable( {  
         autoWidth: false,      
         searching: false,
@@ -193,23 +64,20 @@ block content
       });
       setInterval( function () {
         rtable.api().ajax.reload(null, false);
-        //bigChangeChartTable.api().ajax.reload(null, false);
       }, 45000 );
     });
-    //updateValue();
 
     function format_unixtime_to_day(unixtime) {
       var a = new Date(unixtime*1000);  
       var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
       var year = a.getFullYear();
-      var month = months[a.getMonth()];
+      var month = a.getMonth()+1;//months[a.getMonth()];
       var date = a.getDate();
-      var time = year + ' ' + month + ' ' + date;   
+      var time = year + '-' + month + '-' + date;   
       return time;
     }
 
     function changeChartAmount() {
-      //alert('changeChartAmount');
       var baseTime = parseInt(new Date().getTime()/1000) - 60 * 86400;
       var amount = document.getElementById("chartAmount");
       if(amount == null)
@@ -219,7 +87,7 @@ block content
       var timeData = [];
       var timestampData = [];
       var timeNumData = [];
-      //alert('changeChartAmount2');
+      var timeAmountData = [];
       for(var i = 0; i < 60; i++)
       {
         var time = baseTime + i * 86400;
@@ -227,49 +95,138 @@ block content
         timeData.push(strTime);
         timestampData.push(time);
         timeNumData.push(0);
+        timeAmountData.push(0);
       }
-      //alert('changeChartAmount3');
+      alert('changeChartAmount3');
       var url = '';
-      //alert('changeChartAmount4');
+      alert('changeChartAmount4');
       //alert(baseTime);
       //alert(amount);
-      url='/ext/gettxs?&second=' + baseTime + '&amount=' + amount.value;
+      url='/ext/gettxs?second=' + baseTime + '&amount=' + amount.value;
       //alert('changeChartAmount5');
-      alert(url);
+      //alert(url);
       var ajaxReq = $.ajax ({
         url: url,
         success: function( json ){
-          //alert(json.data.length);
+          alert(json.data.length);
           var j = 0;
           for ( var i=json.data.length-1;i>=0; i-- ) {
+            //alert(json.data[i].timestamp);
+            //alert(timestampData[j]);
+            //alert(timestampData[j+1]);
             if(json.data[i].timestamp >= timestampData[j] && json.data[i].timestamp <= timestampData[j+1])
             {
+              //alert('11111');
               timeNumData[j]++;
+              //alert(timeNumData[j]);
+              timeAmountData[j] += json.data[i].total/100000000;
+              //alert(timeAmountData[j]);
             }
             else
             {
+              //alert('22222');
               j++;
+              //alert(j);
               for(; j < 60; j++)
               {
                 if(json.data[i].timestamp >= timestampData[j] && json.data[i].timestamp <= timestampData[j+1])
                 {
+                  //alert('33333');
                   timeNumData[j]++;
+                  timeAmountData[j] += json.data[i].total/100000000;
+                  //alert(timeAmountData[j]);
                   break;
                 }
-                else
-                {
-                  j++;
-                }
+              }
+              if(j >= 60)
+              {
+                j = 0;
+                break;
               }
             }
           }
-          //alert('test123');
+          
+          {
+            var myTXCharts = echarts.init(document.getElementById('txChart'));
+            option = {
+              backgroundColor: '#F0FFF0',
+              title: {
+                text: '',
+                left: 'center'
+              },
+              tooltip: {
+                trigger: 'axis',
+                position: function (pt) {
+                  return [pt[0], '10%'];
+                }
+              },
+              toolbox: {
+                feature: {
+                  dataZoom: {
+                    yAxisIndex: 'none'
+                  },
+                  restore: {},
+                  saveAsImage: {}
+                }
+              },
+              xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: timeData
+              },
+              yAxis: {
+                type: 'value',
+                data: timeAmountData,
+                boundaryGap: [0, '50%']
+              },
+              dataZoom: [{
+                type: 'inside',
+                start: 0,
+                end: 100
+              }, {
+                start: 0,
+                end: 100,
+                handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+                handleSize: '60%',
+                handleStyle: {
+                  color: '#fff',
+                  shadowBlur: 3,
+                  shadowColor: 'rgba(0, 0, 0, 0.6)',
+                  shadowOffsetX: 2,
+                  shadowOffsetY: 2
+                }
+              }],
+              series: [
+              {
+                name:'',
+                type:'line',
+                smooth:true,
+                symbol: 'none',
+                sampling: 'average',
+                itemStyle: {
+                  color: 'rgb(255, 70, 131)'
+                },
+                areaStyle: {
+                  color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                    offset: 0,
+                    color: 'rgb(255, 158, 68)'
+                  }, {
+                    offset: 1,
+                    color: 'rgb(255, 70, 131)'
+                  }])
+                },
+                data: timeAmountData
+              }
+              ]
+            };
+            myTXCharts.setOption(option);      
+          }
+
           var myMapCharts = echarts.init(document.getElementById('bigChangeChart'));
-          //alert('test2');
           option = {
             backgroundColor: '#F0FFF0',
             title: {
-              text: 'bigchange',
+              text: '',
               left: 'center'
             },
             tooltip: {
@@ -305,7 +262,7 @@ block content
               start: 0,
               end: 100,
               handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-              handleSize: '80%',
+              handleSize: '60%',
               handleStyle: {
                 color: '#fff',
                 shadowBlur: 3,
@@ -316,7 +273,7 @@ block content
             }],
             series: [
             {
-              name:'模拟数据',
+              name:'',
               type:'line',
               smooth:true,
               symbol: 'none',
@@ -337,9 +294,7 @@ block content
             }
             ]
           };
-          //alert('test3');
           myMapCharts.setOption(option);
-          //alert('test4');
         }
       });
     }
@@ -351,30 +306,41 @@ block content
     {
       //alert('updateValue');
       var date = document.getElementById("selectDate");
-      alert(date.value);
+      //alert('test1');
+      //alert(date.value);
       var chooseAmount = document.getElementById("amount");
-      alert(chooseAmount.value);
+      //alert(chooseAmount.value);
       var address = document.getElementById("address");
-      alert(address.value);
-      var time = parseInt(new Date().getTime()/1000 - date.value * 86400);
-      var url = '';
-      if(address.value == '')
+      if(date == null)
       {
-        url='/ext/gettxs?&second=' + time + '&amount=' + chooseAmount.value;
+        date = {"value":60};
+      }
+      if(chooseAmount == null)
+      {
+        chooseAmount = {"value":100};
+      }
+      //alert(address.value);
+      var time = parseInt(new Date().getTime()/1000 - date.value * 86400);
+      //alert(date.value);
+      //alert(address);
+      var url = '';
+      if(address == null || address.value == '')
+      {
+        url='/ext/gettxs?second=' + time + '&amount=' + chooseAmount.value;
       }
       else
       {
-        url='/ext/gettxs?&second=' + time + '&amount=' + chooseAmount.value + '&address=' + address.value;
+        url='/ext/gettxs?second=' + time + '&amount=' + chooseAmount.value + '&address=' + address.value;
       }
-
+      //alert(url);
       if(bigChangeTable)
       {
         bigChangeTable.fnClearTable();
         $('#big-change-table').dataTable().fnDestroy();
       }
       
-      //alert(url);
-      bigChangeTable = $('#big-change-table').dataTable( {  
+      //alert("test3");
+      var bigChangeTable = $('#big-change-table').dataTable( {  
         autoWidth: false,      
         searching: false,
         ordering: false,
@@ -383,7 +349,7 @@ block content
         ajax: {
           url: url,
           dataSrc: function ( json ) {
-            alert(json.data.length);
+            //alert(json.data.length);
             for ( var i=0;i<json.data.length; i++ ) {
               var amount = json.data[i]['total'] / 100000000;
               json.data[i]['timestamp'] = new Date((json.data[i]['timestamp']) * 1000).toLocaleString();//format_unixtime(json.data[i]['timestamp']);
@@ -403,7 +369,7 @@ block content
               {
                 json.data[i]['address'] = json.data[i].vin[0]['addresses'];
               }
-              json.data[i]['height'] = 'Todo';
+              //json.data[i]['height'] = 'Todo';
             }
             return json.data;
           }
@@ -411,55 +377,14 @@ block content
         columns: [
           { data: 'timestamp', width: '25%' },
           { data: 'address', width: '25%' },
-          { data: 'height', width: '25%' },
+          //{ data: 'height', width: '25%' },
           { data: 'total', width: '25%' },
           { data: 'txid', width: '25%' },
         ]
       });
-      //var oSettings = bigChangeTable.fnSettings();
-      //oSettings.sAjaxSource = url;
-      //bigChangeTable.Draw();
-      //bigChangeTable.fnClearTable(false);
     }
-
     updateValue();
-
-    function addChartAmount()
-    {
-      alert('addChartAmount');
-      var amount = document.getElementById("chartAmount");
-      var tmp = amount.value;
-      tmp++;
-      amount.value = tmp;
-      alert('addChartAmount2');
-      changeChartAmount();
-    }
-    function subChartAmount()
-    {
-      alert('subChartAmount');
-      var amount = document.getElementById("chartAmount");
-      var tmp = amount.value;
-      tmp--;
-      amount.value = tmp;
-      changeChartAmount();
-    }
-    function addAmount()
-    {
-      var amount = document.getElementById("amount");
-      var tmp = amount.value;
-      tmp++;
-      amount.value = tmp;
-      updateValue();
-    }
-    function subAmount()
-    {
-      var amount = document.getElementById("amount");
-      var tmp = amount.value;
-      tmp--;
-      amount.value = tmp;
-      updateValue();
-    }
-    
+    setInterval( updateValue, 2000 );
 
   .col-xs-12.col-md-10.col-md-offset-1(style="margin-bottom: 5%")
     table#alerts-table.table.table-striped.table-bordered
@@ -469,6 +394,15 @@ block content
         th 金额
   
   .row
+      .col-md-offset-5.col-md-2
+        label #{settings.locale.txperday}
+        br
+      .col-md-offset-1.col-md-10
+        br
+        #txChart(style='width: 100%; height: 400px;')
+        br
+        br
+
       .col-md-offset-5.col-md-2
         label #{settings.locale.bigchange}
         br
@@ -480,29 +414,32 @@ block content
         br
       .col-md-offset-1.col-md-10
         br
-        #bigChangeChart(style='width: 100%; height: 600px;')
-
-  .col-xs-12.col-md-10.col-md-offset-1(style="margin-bottom: 5%")
-      | date:
-      select#selectDate(color="#FF4040" onchange='updateValue()')
-        option(value='1', selected='selected') 24hours
-        option(value='7') weeks
-        option(value='21') three weeks
-        option(value='180') half yeahs
-        option(value='365') yeah
-        option(value='0') all
-        label(for='test') test
+        #bigChangeChart(style='width: 100%; height: 400px;')
+      .col-md-offset-1.col-md-10
+        br
+        br
+        | #{settings.locale.date} : 
+        select#selectDate(name='choosedate' onchange='updateValue()' style='color:#030303')
+          option(value='1' style='color:#030303') 24hours
+          option(value='7' style='color:#030303') weeks
+          option(value='21' style='color:#030303' selected) three weeks
+          option(value='180' style='color:#030303') half yeahs
+          option(value='365' style='color:#030303') yeah
+          option(value='0' style='color:#030303') all
+        | &nbsp;&nbsp;&nbsp;&nbsp;金额: >=
         input#amount(type='number', value='100', onchange='updateValue()')
-        .br
-        | address：
+        | VP &nbsp;&nbsp;&nbsp;&nbsp;
+        | #{settings.locale.mn_address}：
         input#address(type='text', value='', onchange='updateValue()')
 
   .col-xs-12.col-md-10.col-md-offset-1(style="margin-bottom: 5%")
     table#big-change-table.table.table-striped.table-bordered
+      br
+      br
       thead
         th 时间 
-        th.hidden-xs address
-        th height
-        th total
-        th txid
+        th.hidden-xs #{settings.locale.mn_address}
+        //th #{settings.locale.height}
+        th 金额
+        th #{settings.locale.tx_hash}
  

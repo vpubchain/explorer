@@ -287,6 +287,8 @@
 
      //bigchange
      "bigchange": "大额交易监控",
+     "date": "日期",
+     "txperday": "每日交易金额",
 
      "datefound": "发现时间",
      "foundby": "发现地址",

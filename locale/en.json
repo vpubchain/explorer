@@ -287,6 +287,8 @@
 
     //bigchange
     "bigchange": "bigchange",
+    "date": "date",
+    "txperday": "每日交易金额",
 
     "datefound": "Date Found",
     "foundby": "Found by",
