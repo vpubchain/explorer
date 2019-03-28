@@ -285,6 +285,9 @@
      "days": "天",
      "years": "年",
 
+     //bigchange
+     "bigchange": "大额交易监控",
+
      "datefound": "发现时间",
      "foundby": "发现地址",
      "mnpayment": "主节点费用",

@@ -187,6 +187,25 @@ app.use('/ext/getlasttxsbytime/:second', function(req,res){
   });
 });
 
+app.use('/ext/gettxs/', function(req,res){
+  var second = req.query.second;
+  var amount = req.query.amount * 100000000;
+  var address = req.query.address;
+  address = isNaN(address) || address == '' ? '' : address;
+  db.get_txs(second, amount, address, function(txs){
+    res.send({data: txs});
+  });
+});
+/*
+app.use('/ext/gettxs/', function(req,res){
+  var second = req.query.second;
+  var amount = req.query.amount * 100000000;
+  
+  db.get_txs(second, amount, function(txs){
+    res.send({data: txs});
+  });
+});*/
+
 app.use('/ext/getblockhashbytime/:lte/:gte', function(req,res){
   db.get_blockhash_by_time(req.params.lte, req.params.gte, function(txs){
     var ret = [];
