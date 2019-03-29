@@ -78,7 +78,7 @@ block content
     }
 
     function changeChartAmount() {
-      var baseTime = parseInt(new Date().getTime()/1000) - 60 * 86400;
+      var baseTime = parseInt(new Date().getTime()/1000) - 59 * 86400;
       var amount = document.getElementById("chartAmount");
       if(amount == null)
       {
@@ -318,7 +318,7 @@ block content
       //alert(date.value);
       //alert(address);
       var url = '';
-      if(address == null || address.value == '')
+      if(address == null || address.value == '请输入地址')
       {
         url='/ext/gettxs?second=' + time + '&amount=' + chooseAmount.value;
       }
@@ -403,7 +403,7 @@ block content
       .col-lg-3.pull-right
         br
         | 金额: >=
-        input#chartAmount(type='number', onchange='changeChartAmount()', value='100')
+        input#chartAmount(type='number', onchange='changeChartAmount()', value='100', style="width:50px; height:30px;")
         | VP
         br
       .col-md-offset-1.col-md-10
@@ -413,18 +413,18 @@ block content
         br
         br
         | #{settings.locale.date} : 
-        select#selectDate(name='choosedate' onchange='updateValue()' style='color:#030303')
-          option(value='1' style='color:#030303') 24hours
-          option(value='7' style='color:#030303') weeks
-          option(value='21' style='color:#030303' selected) three weeks
-          option(value='180' style='color:#030303') half yeahs
-          option(value='365' style='color:#030303') yeah
-          option(value='0' style='color:#030303') all
+        select#selectDate(name='choosedate' onchange='updateValue()' style='color:#030303;height:30px;')
+          option(value='1' style='color:#030303;height:30px;') #{settings.locale.twentyfourhours}
+          option(value='7' style='color:#030303;height:30px;') #{settings.locale.weeks}
+          option(value='21' style='color:#030303;height:30px;' selected) #{settings.locale.threeweeks}
+          option(value='180' style='color:#030303;height:30px;') #{settings.locale.halfyears}
+          option(value='365' style='color:#030303;height:30px;') #{settings.locale.year}
+          option(value='0' style='color:#030303;height:30px;') #{settings.locale.all}
         | &nbsp;&nbsp;&nbsp;&nbsp;金额: >=
-        input#amount(type='number', value='100', onchange='updateValue()')
+        input#amount(type='number', value='100', onchange='updateValue()', style="width:50px; height:30px;")
         | VP &nbsp;&nbsp;&nbsp;&nbsp;
         | #{settings.locale.mn_address}：
-        input#address(type='text', value='', onchange='updateValue()')
+        input#address(type='text', value='#{settings.locale.inputaddress}', onchange='updateValue()', style="width:600px; height:30px;")
 
   .col-xs-12.col-md-10.col-md-offset-1(style="margin-bottom: 5%")
     table#big-change-table.table.table-striped.table-bordered

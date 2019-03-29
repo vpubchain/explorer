@@ -2,7 +2,6 @@ extends layout
 
 block content
   script.
-    //$('#reachablenodes').text( 1 );
     $(document).ready(function() {
       var charturl = '/bitcoin/api/vpubboard';
       if(#{days} != 1)
@@ -591,8 +590,8 @@ block content
         .pull-right.btn-group
           a.btn.btn-primary.btn-sm(href='/charts/', disabled='disabled') 24#{settings.locale.hours}
           a.btn.btn-primary.btn-sm(href='/charts/?days=90') 90#{settings.locale.days}
-          a.btn.btn-primary.btn-sm(href='/charts/?days=365') 1#{settings.locale.years}
-          a.btn.btn-primary.btn-sm(href='/charts/?days=730') 2#{settings.locale.years}
+          a.btn.btn-primary.btn-sm(href='/charts/?days=365') 1#{settings.locale.year}
+          a.btn.btn-primary.btn-sm(href='/charts/?days=730') 2#{settings.locale.year}
         h3
           a #{settings.locale.networkavailability}
         p

@@ -283,12 +283,18 @@
      "networkavailabilitynotes": "图表显示了爬虫程序在过去看到的可访问节点的数量，而没有考虑已经连接到爬虫程序的节点,可达节点数已达最大值,允许的连接将不会反映在图表中。",
      "hours": "小时",
      "days": "天",
-     "years": "年",
+     "year": "年",
+     "all": "总",
 
      //bigchange
      "bigchange": "大额交易监控",
      "date": "日期",
      "txperday": "每日交易金额",
+     "twentyfourhours": "24小时",
+     "weeks": "一周",
+     "threeweeks": "三周",
+     "halfyears": "半年",
+     "inputaddress": "请输入地址",
 
      "datefound": "发现时间",
      "foundby": "发现地址",

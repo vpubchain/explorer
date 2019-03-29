@@ -283,12 +283,18 @@
     "networkavailabilitynotes": "Chart shows the number of reachable nodes as seen by the crawler during the last 24 hours without taking into account the nodes that are already connected to the crawler. Reachable nodes that have reached their max. allowed connections will not be reflected in the chart.",
     "hours": "hours",
     "days": "days",
-    "years": "years",
+    "year": "year",
+    "all": "all",
 
     //bigchange
     "bigchange": "bigchange",
     "date": "date",
     "txperday": "每日交易金额",
+    "twentyfourhours": "twenty four hours",
+    "weeks": "weeks",
+    "threeweeks": "three weeks",
+    "halfyears": "half years",
+    "inputaddress": "Please input address",
 
     "datefound": "Date Found",
     "foundby": "Found by",
