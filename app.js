@@ -113,17 +113,34 @@ app.use('/ext/getmasternoderewards/:hash', function(req,res){
 });
 
 app.use('/ext/getmasternoderewardsdetail/:hash', function(req,res){
-  console.log('test2' + req.param('hash') + ' time=' + req.query.transactionTime);
-  if(req.query.transactionTime == 'undefined')
+  var now = parseInt(new Date().getTime()/1000+0.5);
+  //console.log('test2' + req.param('hash') + ' time=' + req.query.transactionTime + 'time1=' + req.query.transactionEndTime + "time2=" + now);
+  //var transactionTime = Number(0);
+  //var transactionEndTime = Number(0);
+  if(req.query.begintime == undefined)
   {
     transactionTime = Number(0);
+    //console.log("test999");
   }
   else
   {
-    transactionTime = Number(req.query.transactionTime);
+    transactionTime = Number(req.query.begintime);
+    //console.log("test888" + req.query.transactionTime);
   }
+
+  if(req.query.endtime == undefined)
+  {
+    transactionEndTime = now;
+    //console.log("test777");
+  }
+  else
+  {
+    transactionEndTime = Number(req.query.endtime);
+    //console.log("test666");
+  }
+  //console.log("time=" + transactionTime + "  endtime=" + transactionEndTime);
   
-  db.get_masternode_rewards_detail_by_address(req.param('hash'), transactionTime, function(rewards){
+  db.get_masternode_rewards_detail_by_address(req.param('hash'), transactionTime, transactionEndTime, function(rewards){
     if (rewards) {
       db.get_masternode_rewards_by_address(req.param('hash'), function(total){
         if(total)
