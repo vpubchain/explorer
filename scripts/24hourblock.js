@@ -60,6 +60,7 @@ var blocksdata = {
 var blocks24h;
 var mnratio = 0;
 var mnaddress = "";
+var founded = 0;
 mongoose.connect(dbString, function(err) {
   if (err) {
     console.log('Unable to connect to database: %s', dbString);
@@ -93,6 +94,8 @@ mongoose.connect(dbString, function(err) {
                     blocksdata.data.stats.perminer[key].RatioBlocksPayedToCurrentProtocol = blocksdata.data.stats.perminer[key].BlocksPayedToCurrentProtocol/blocksdata.data.stats.perminer[key].Blocks;
                     blocksdata.data.stats.perminer[key].RatioBlocksPayedCorrectly = blocksdata.data.stats.perminer[key].BlocksPayedCorrectly/blocksdata.data.stats.perminer[key].Blocks;
                 }
+
+                console.log("found block count = " + founded);
                 
                 //把data对象转换为json格式字符串
                 var content = JSON.stringify(blocksdata);
@@ -136,6 +139,7 @@ mongoose.connect(dbString, function(err) {
                 
                 var vout = blocks24h[i].vout;
                 var isMasterNode = 0;
+                var hadCountPool = false;
                 
 
                 function doVout(j) {
@@ -148,7 +152,8 @@ mongoose.connect(dbString, function(err) {
                         doBlocks(i);
                         return;
                     }
-                    console.log("vout1=" + JSON.stringify(vout[j]));
+                    console.log("hadCountPool" + hadCountPool);
+                    //console.log("vout1=" + JSON.stringify(vout[j]));
                     
                     var promise = new Promise(function(resolve){
                         get_masternode_data(vout[j].addresses, function(ret){
@@ -200,7 +205,7 @@ mongoose.connect(dbString, function(err) {
                                         //master is now
                                         blockdata.BlockPoolPubKey = mnaddress;
                                         var tmpMNAmount = vout[j].amount/100000000;
-                                        if(blocksdata.data.stats.perminer.hasOwnProperty(blockdata.BlockPoolPubKey))
+                                        /*if(blocksdata.data.stats.perminer.hasOwnProperty(blockdata.BlockPoolPubKey))
                                         {
                                             blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].Blocks++;
                                             blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayed++;
@@ -237,7 +242,7 @@ mongoose.connect(dbString, function(err) {
                                             perminerData.MasternodeAmount = tmpMNAmount;
                                             perminerData.PoolPubKeys.push(blockdata.BlockPoolPubKey);
                                             blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey] = perminerData; 
-                                        }
+                                        }*/
                                     }
                                     else
                                     {//pool node is now
@@ -245,10 +250,14 @@ mongoose.connect(dbString, function(err) {
                                         var tmpMNAmount = blocks24h[i].total/100000000 - vout[j].amount/100000000;
                                         if(blocksdata.data.stats.perminer.hasOwnProperty(blockdata.BlockPoolPubKey))
                                         {
-                                            blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].Blocks++;
-                                            blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayed++;
+                                            if(!hadCountPool)
+                                            {
+                                                blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].Blocks++;
+                                                blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayed++;
+                                                blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayedToCurrentProtocol++;
+                                            }
+                                            
                                             blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount = blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount + blocks24h[i].total/100000000;
-                                            blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayedToCurrentProtocol++;
                                             blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].MasternodeAmount = blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].MasternodeAmount + tmpMNAmount;
                                             if(blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].MasternodeAmount/blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount == 0.9)
                                             {
@@ -281,6 +290,8 @@ mongoose.connect(dbString, function(err) {
                                             perminerData.PoolPubKeys.push(blockdata.BlockPoolPubKey);
                                             blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey] = perminerData; 
                                         }
+                                        hadCountPool = true;
+                                        founded++;
                                     }
                                 }
                                 if(blocksdata.data.stats.perversion.hasOwnProperty(blockdata.BlockVersion))
@@ -344,10 +355,14 @@ mongoose.connect(dbString, function(err) {
                                 var tmpMNAmount = blocks24h[i].total/100000000 - vout[j].amount/100000000;
                                 if(blocksdata.data.stats.perminer.hasOwnProperty(blockdata.BlockPoolPubKey))
                                 {
-                                    blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].Blocks++;
-                                    blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayed++;
+                                    if(!hadCountPool)
+                                    {
+                                        blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].Blocks++;
+                                        blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayed++;
+                                        blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayedToCurrentProtocol++;
+                                    }
+                                    
                                     blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount = blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount + blocks24h[i].total/100000000;
-                                    blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayedToCurrentProtocol++;
                                     blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].MasternodeAmount = blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].MasternodeAmount + tmpMNAmount;
                                     if(blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].MasternodeAmount/blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount == 0.9)
                                     {
@@ -380,6 +395,8 @@ mongoose.connect(dbString, function(err) {
                                     perminerData.PoolPubKeys.push(blockdata.BlockPoolPubKey);
                                     blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey] = perminerData; 
                                 }
+                                hadCountPool = true;
+                                founded++;
                             }
                             console.log("j=" + j + " length=" + vout.length);
                             console.log("1i=" + i + " length=" + blocks24h.length);
