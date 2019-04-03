@@ -183,6 +183,151 @@ block content
           // 使用刚指定的配置项和数据显示图表。
           agentChart.setOption(option);
 
+          {//network
+            var seriesData = [];
+            var networkNodes = [];
+            var networkKeys = [];
+            var networkNodesArray = [];
+            //alert('test1');
+            var lastCheckTimeIndex = 0;
+            for(timeKey in result.network)
+            {
+              var networkPerTimeArray = result.network[timeKey];
+              for(var j = 0; j < networkPerTimeArray.length; j++)
+              {
+                for(key in networkPerTimeArray[j])
+                {
+                  var nodesNum = networkPerTimeArray[j][key];
+                  
+                  if(!networkNodes.hasOwnProperty(key))
+                  {
+                    
+                    lastCheckTimeIndex = 0;
+                    var nodesItem = [];
+                    for(var k = 0; k < timeArray.length; k++)
+                    {
+                      nodesItem[k] = 0;
+                    }
+                    
+                    networkNodes[key] = nodesItem;
+                    networkKeys.push(key);
+                    
+                    var l = 0;
+                    for(l = 0; l < timeArray.length; l++)
+                    {
+                      if(timeKey < timeArray[l])
+                      {
+                        networkNodes[key][l] = nodesNum;
+                        lastCheckTimeIndex = l;
+                        if(l == 0)
+                        {
+                          lastNodes += nodesNum;
+                        }
+                        break;   
+                      }
+                    }
+                    //alert('test33');
+                  }
+                  else
+                  {
+                    
+                    var nodesItem = networkNodes[key];
+                    var k = 0; 
+                    for(k = lastCheckTimeIndex+1; k < timeArray.length; k++)
+                    {
+                      if(timeKey >= timeArray[k-1] && timeKey <= timeArray[k])
+                      {
+                        networkNodes[key][k] = nodesNum;
+                        lastCheckTimeIndex = k;
+                        break;
+                      }
+                    }
+                    //alert('test2');
+                  }
+                }              
+              }
+            }
+            //alert('test3');
+            for(key in networkNodes)
+            {
+              var nodeItem = networkNodes[key];
+              var item = [];
+              for(var i = 0; i < nodeItem.length; i++)
+              {
+                item.push(nodeItem[i]);
+              }
+              networkNodesArray[key] = item;
+            }
+            //alert('test3');
+            var colorArray = ['#FF3030','#7FFF00','#912CEE','#87CEEB','#EEEE00'];
+            var colorIndex = 0;
+            for(key in networkNodesArray)
+            {
+              var item = {
+                name: key,
+                type:'line',
+                smooth: true,
+                itemStyle: {normal: {areaStyle: {type: 'default'},label: {formatter: null}}},
+                lineStyle: {normal: {color: ''}},
+                data: networkNodesArray[key]
+              };
+              item.name = key;
+              item.lineStyle.normal.color = colorArray[colorIndex];
+              colorIndex++;
+              
+              item.itemStyle.normal.label.formatter = function (params) {
+                return (params.value*100).toFixed(2)+'%';
+              };
+              seriesData.push(item);
+            }
+
+            var networkChart = echarts.init(document.getElementById('networkCharts'));
+            // 指定图表的配置项和数据
+            var option = {
+              backgroundColor: '#5F9EA0',//背景色
+              title: {
+                text: '',
+                subtext: ''
+              },
+              tooltip: {
+                trigger: 'axis',
+                formatter:null
+                //formatter:'{c}%'　　　　//这是关键，在需要的地方加上就行了
+              },
+              legend: {
+                data: networkKeys
+              },
+              toolbox: {
+                show : true,
+                feature : {
+                  mark : {show: true},
+                  dataView : {show: true, readOnly: false},
+                  magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                  restore : {show: true},
+                  saveAsImage : {show: true}
+                }
+              },
+              calculable : true,
+              xAxis: {
+                type : 'category',
+                boundaryGap : false,
+                data: strTimeArray
+              },
+              yAxis: {
+                name : "",
+                type : 'value',
+                axisLabel:{
+                  formatter: null
+                },
+                data : result.nodes
+              },
+              series: seriesData
+            };
+          
+            // 使用刚指定的配置项和数据显示图表。
+            networkChart.setOption(option);
+          }
+
           {//asns
             var seriesData = [];
             var asnsNodes = [];
@@ -347,7 +492,7 @@ block content
                     }
 
                     countryNodes[versionKey] = nodesItem;
-                    countryKeys.push(geolocation[versionKey]);
+                    countryKeys.push(versionKey);
 
                     var l = 0;
                     for(l = 0; l < timeArray.length; l++)
@@ -403,7 +548,7 @@ block content
                 lineStyle: {normal: {color: ''}},
                 data: countryNodesArray[key]
               };
-              item.name = geolocation[key];
+              item.name = key;
               item.lineStyle.normal.color = colorArray[colorIndex];
               colorIndex++;
               
@@ -588,7 +733,7 @@ block content
       .col-md-12
         hr.simple(color='#EBEBEB')
         .pull-right.btn-group
-          a.btn.btn-primary.btn-sm(href='/charts/', disabled='disabled') 24#{settings.locale.hours}
+          a.btn.btn-primary.btn-sm(href='/charts/') 24#{settings.locale.hours}
           a.btn.btn-primary.btn-sm(href='/charts/?days=90') 90#{settings.locale.days}
           a.btn.btn-primary.btn-sm(href='/charts/?days=365') 1#{settings.locale.year}
           a.btn.btn-primary.btn-sm(href='/charts/?days=730') 2#{settings.locale.year}
@@ -627,7 +772,7 @@ block content
       .col-md-12
         hr.simple(color='#7A7A7A')
         h3
-          a ASNS
+          a ASNs(自治系统号)
         p
           | #{settings.locale.asnsnotes}
 
@@ -636,6 +781,20 @@ block content
       .col-md-offset-5
       .col-md-offset-1.col-md-10
         #asnsCharts(style='width: 100%; height: 300px;')
+
+    .container
+      .col-md-12
+        hr.simple(color='#7A7A7A')
+        h3
+          a #{settings.locale.networkcompany}
+        p
+          | #{settings.locale.networkcompanynotes}
+
+    .row
+      .col-md-offset-5.col-md-2
+      .col-md-offset-5
+      .col-md-offset-1.col-md-10
+        #networkCharts(style='width: 100%; height: 300px;')
 
     .container
       .col-md-12

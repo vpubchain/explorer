@@ -285,7 +285,9 @@
     "days": "days",
     "year": "year",
     "all": "all",
-
+    "city": "city",
+    "networkcompany": "network",
+    "networkcompanynotes": "Chart shows the distribution of reachable nodes across leading ASNs. Series can be enabled or disabled from the legend to view the chart for specific ASNs.",
     //bigchange
     "bigchange": "bigchange",
     "date": "date",

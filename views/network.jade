@@ -53,14 +53,15 @@ block content
             //var i = 0;
             for(var key in json.nodes) {
               //alert(key);
-              var item = {'address':'','useragent':'',hight:0, 'location': '','network':'','time':''};
+              var item = {'address':'','useragent':'',hight:0, 'location': '','city':'','network':'','time':''};
               item.address = key;
               var arr = json.nodes[key].toString().split(',');
               //alert(json.nodes[key]);
               //alert(arr[1]);
               item.useragent = arr[1] + '<br>' + arr[0];
               item.hight = arr[4];
-              item.location = geolocation[arr[7]];
+              item.location = json.nodes[key][13].country;
+              item.city = json.nodes[key][13].city;
               //alert(item.location);
               //alert(geolocation[arr[7]]);
               item.network = arr[12] + '<br>' + arr[11];
@@ -77,24 +78,12 @@ block content
           { data: 'address', width: '20%' },
           { data: 'useragent', width: '20%' },
           { data: 'hight', width:'10%' },
-          { data: 'location', width:'20%' },
+          { data: 'location', width:'10%' },
+          { data: 'city', width:'10%' },
           { data: 'network', width: '20%'},
         ]
       });
 
-      function getCity(x, y)
-      {
-        url = '/getlocation/' + x + '/' + y;
-        alert(url);
-        var ajaxRequest = $.ajax({
-            url: url,
-            success: function( res ) {
-                alert(res);
-                alert(res.result.addressComponent.city);
-                return res.result.addressComponent.city;                
-            }
-        });      
-      }
       function ajax_function()
       {
         var reqajax = $.ajax ({
@@ -118,15 +107,17 @@ block content
               node_data = {};
               items = nodes[item];
               //alert(items);
+              //node_location.push(items[13]);
               node_location.push(items[9]);
               node_location.push(items[8]);
               //var location_key = items[8]+items[9];
               //alert(location[location_key]);
-              //var city = #bitnodeslist[location_key];
+              //var city = items[13];
               //alert(city);
               //node_location.push("America/New_York");
               node_location.push(10);
-              node_data.name = item;
+              //node_location.push(items[13]);
+              node_data.name = items[13].city;
               node_data.value = node_location;
               nodes_data.push(node_data);
             }
@@ -271,7 +262,7 @@ block content
                 showEffectOn:"render",      //配置何时显示特效。可选：'render' 绘制完成后显示特效。'emphasis' 高亮（hover）的时候显示特效。
                 rippleEffect:{              //涟漪特效相关配置。
                     period:4,               //动画的时间。
-                    scale:5,              //动画中波纹的最大缩放比例。
+                    scale:4,              //动画中波纹的最大缩放比例。
                     brushType:'fill',      //波纹的绘制方式，可选 'stroke' 和 'fill'。
                 },
                 coordinateSystem: 'geo',
@@ -282,7 +273,7 @@ block content
                     normal: {
                         formatter: '{b}',
                         position: 'right',
-                        show: false
+                        show: true
                     },
                     emphasis: {
                         show: true
@@ -295,31 +286,15 @@ block content
                 itemStyle: {
                     normal: {
                         borderColor: '#fff',
-                        color: '#577ceb',
+                        color: '#436EEE',
                     }
                 }
-            }/*,
-            {
-                name: 'parallel',
-                type: 'parallel',
-                smooth: true,
-                lineStyle: {
-                    normal: {
-                        color: '#577ceb',
-                        width: 0.5,
-                        opacity: 0.6
-                    }
-                },
-                z: 100,
-                blendMode: 'lighter',
-                data: rawData
-            }*/
+            }
             ]
         };
           myMapCharts.setOption(option);    
           }
         });
-        //alert('test');
       }
 
       ajax_function();
@@ -381,5 +356,6 @@ block content
             th.text-center #{settings.locale.net_subversion}
             th.text-center #{settings.locale.height}
             th.text-center #{settings.locale.net_country}
+            th.text-center #{settings.locale.city}
             th.text-center #{settings.locale.network}
         tbody.text-center

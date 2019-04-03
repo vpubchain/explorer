@@ -337,7 +337,7 @@ router.get('/network', function(req, res) {
       {
         var data = {'county':'','nodes':''};
         //data.country = country_data[key];
-        data.country = locations.geolocation[key];
+        data.country = key;
         data.nodes = ret.countrys[j][key];
         country_list_data.push(data);
       }

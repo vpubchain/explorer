@@ -277,7 +277,7 @@
      "averagenodes": "平均可达节点     ",
      "dayagonodes": "天以前节点",
      "agentsnotes": "图表显示了根据版本可访问节点的数量。某个版本统计可从图例中启用或禁用，以查看特定统计的情况",
-     "asnsnotes": "图表显示了根据ASNS统计可达节点的分布情况,某个ASNS统计可从图表中启用或禁用，以查看特定统计的情况",
+     "asnsnotes": "图表显示了根据ASNS统计可达节点的分布情况,某个ASNs统计可从图表中启用或禁用，以查看特定统计的情况",
      "countrynotes": "图表显示了根据国家统计可达节点的分布情况,某个国家统计可从图表中启用或禁用，以查看特定统计的情况",
      "networkavailability": "可用节点统计",
      "networkavailabilitynotes": "图表显示了爬虫程序在过去看到的可访问节点的数量，而没有考虑已经连接到爬虫程序的节点,可达节点数已达最大值,允许的连接将不会反映在图表中。",
@@ -285,6 +285,9 @@
      "days": "天",
      "year": "年",
      "all": "总",
+     "city": "城市",
+     "networkcompany": "网络运营商",
+     "networkcompanynotes": "图表显示了根据ASNS统计可达节点的分布情况,某个ASNS统计可从图表中启用或禁用，以查看特定统计的情况",
 
      //bigchange
      "bigchange": "大额交易监控",
