@@ -635,18 +635,28 @@ block content
               {
                 totalNodes[0] = nodesNum;
                 lastCheckTimeIndex = k;
+                //alert('111');
                 continue;
               }
               for(k = lastCheckTimeIndex+1; k < timeArray.length; k++)
               {
                 if(timeKey >= timeArray[k-1] && timeKey <= timeArray[k])
                 {
+                  //alert(timeKey);
                   totalNodes[k] = nodesNum;
-                  lastCheckTimeIndex = k;
+                  if(k == 0)
+                  {
+                    lastCheckTimeIndex = k;
+                  }
+                  else
+                  {
+                    lastCheckTimeIndex = k-1;
+                  }
                   break;
                 }
-              } 
+              }
             }
+            //alert(totalNodes);
 
             $('#low-nodes').text( low );
             $('#high-nodes').text( high );
