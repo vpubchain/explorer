@@ -53,24 +53,16 @@ block content
               "enabled": true,
             }
           });
-          //alert( 'test---' );
         },
         error: function(){
           alert('test');
         }
-        //success: function( result ) {
-          //var chart = AmCharts.makeChart("chartdiv",{});    
-        //};
       });
       }
       ajax_function();
       setInterval( ajax_function, 60000 );
     });
   script.
-    //var loggerTest = log4js.getLogger('logger');
-    //loggerTest.info('test');
-    //console.log("work hard start");
-    
 
     $(document).ready(function(){
        
@@ -98,12 +90,8 @@ block content
           }
         },
         columns: [
-          //{ data: 'height', width: '8%' },
           { data: 'difficulty', width: '10%' },
-          //{ data: 'size', width:'10%' },
-          //{ data: 'txs', width: '10%' },
-          { data: 'supply', width: '15%' },
-          //{ data: 'time', width: '20%' },
+          { data: 'supply', width: '15%' }
         ]
       });
       var rtable = $('#recent-table').dataTable( { 
@@ -379,7 +367,7 @@ block content
              
             $('#globalpayed').text( (Math.round( json.data.stats.global.RatioBlocksPayed * 10000 ) / 100) +'%' );
             $('#globalcorrectlypayed').text( (Math.round( json.data.stats.global.RatioBlocksPayedCorrectly * 10000 ) / 100) +'%' );
-            $('#globalcurrentmnratio').text( (Math.round( json.data.blocks[0].BlockMNValueRatioExpected * 1000 ) / 10) );
+            $('#globalcurrentmnratio').text( 99 );
             
             var dataProtocolDesc = [];
             // Fill per version stats table
@@ -455,7 +443,6 @@ block content
           { data: 'BlockId', width: '10%' },
           { data: null, render: function ( data, type, row ) {
                var outtxt = data.BlockPoolPubKey;
-               //alert('test3');
                if (data.PoolDescription) {
                  outtxt = data.PoolDescription;
                }
@@ -465,8 +452,7 @@ block content
           { data: 'BlockSupplyValue', width: '10%' },
           { data: 'BlockMNValue', width: '10%' },
           { data: 'mnpaymentratio', width: '10%' },
-          { data: 'BlockMNPayee', width: '10%' },
-          /*{ data: 'mnversion', width: '10%' },*/
+          { data: 'BlockMNPayee', width: '10%' }
         ]
       });
 
@@ -508,7 +494,7 @@ block content
         tbody.text-center
     .footer-padding
 
-  <div class="row"><h2> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最近24小时</h2><p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最近24小时总发行: <span id="globalsupplyamount" style="font-weight: bold;">????.?????? </span> (<span id="globalmnamount" style="font-weight: bold;">????.?????? DASH</span> 提供给主节点, 区块支付<span id="globalpayed" style="font-weight: bold;">???%</span> , 正确支付的块<span id="globalcorrectlypayed" style="font-weight: bold;">???%</span> [实际主节点费率: <span id="globalcurrentmnratio">??</span>% ]).</p></div>
+  <div class="row"><h2> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最近24小时</h2><p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最近24小时总发行: <span id="globalsupplyamount" style="font-weight: bold;">????.?????? </span> (<span id="globalmnamount" style="font-weight: bold;">????.?????? DASH</span> 提供给主节点, 区块支付<span id="globalpayed" style="font-weight: bold;">???%</span> , 正确支付的块<span id="globalcorrectlypayed" style="font-weight: bold;">???%</span> [预期主节点费率: <span id="globalcurrentmnratio">??</span>% ]).</p></div>
 
   
   
