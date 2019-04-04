@@ -30,7 +30,7 @@ block content
           var tmpDays = #{days};
           var strTimeArray = [];
           var strTmpTime = '';
-          for(var i = 0; i < timeNum; i++)
+          for(var i = 1; i <= timeNum; i++)
           {
             tmpTime = startTime - timeNum * 1800 + i * 1800;
             timeArray.push(tmpTime);
@@ -45,7 +45,7 @@ block content
 
           var totalNodes = 0;
           var lastNodes = 0;
-          var lastCheckTimeIndex = 0;
+          
           for(timeKey in result.agents)
           {
             var agentsPerTimeArray = result.agents[timeKey];
@@ -53,6 +53,7 @@ block content
             {
               for(versionKey in agentsPerTimeArray[j])
               {
+                var lastCheckTimeIndex = 0;
                 var nodesNum = agentsPerTimeArray[j][versionKey];
                 totalNodes = totalNodes + nodesNum;
                 if(!agentNodes.hasOwnProperty(versionKey))
@@ -90,7 +91,7 @@ block content
                   {
                     if(timeKey >= timeArray[k-1] && timeKey <= timeArray[k])
                     {
-                      agentNodes[versionKey][k] = nodesNum;
+                      agentNodes[versionKey][k] += nodesNum;
                       lastCheckTimeIndex = k;
                       break;
                     }
@@ -189,7 +190,8 @@ block content
             var networkKeys = [];
             var networkNodesArray = [];
             //alert('test1');
-            var lastCheckTimeIndex = 0;
+            //alert(timeArray);
+            
             for(timeKey in result.network)
             {
               var networkPerTimeArray = result.network[timeKey];
@@ -197,11 +199,12 @@ block content
               {
                 for(key in networkPerTimeArray[j])
                 {
+                  var lastCheckTimeIndex = 0;
+                  //alert('key=' + key);
                   var nodesNum = networkPerTimeArray[j][key];
                   
                   if(!networkNodes.hasOwnProperty(key))
                   {
-                    
                     lastCheckTimeIndex = 0;
                     var nodesItem = [];
                     for(var k = 0; k < timeArray.length; k++)
@@ -218,6 +221,7 @@ block content
                       if(timeKey < timeArray[l])
                       {
                         networkNodes[key][l] = nodesNum;
+                        //alert(key);
                         lastCheckTimeIndex = l;
                         if(l == 0)
                         {
@@ -230,14 +234,16 @@ block content
                   }
                   else
                   {
-                    
+                    //alert('0000');
                     var nodesItem = networkNodes[key];
                     var k = 0; 
                     for(k = lastCheckTimeIndex+1; k < timeArray.length; k++)
                     {
                       if(timeKey >= timeArray[k-1] && timeKey <= timeArray[k])
                       {
-                        networkNodes[key][k] = nodesNum;
+                        networkNodes[key][k] += nodesNum;
+                        //alert('111');
+                        //alert(key);
                         lastCheckTimeIndex = k;
                         break;
                       }
@@ -334,7 +340,6 @@ block content
             var asnsKeys = [];
             var asnsNodesArray = [];
 
-            var lastCheckTimeIndex = 0;
             for(timeKey in result.asns)
             {
               var asnsPerTimeArray = result.asns[timeKey];
@@ -342,6 +347,7 @@ block content
               {
                 for(versionKey in asnsPerTimeArray[j])
                 {
+                  var lastCheckTimeIndex = 0;
                   var nodesNum = asnsPerTimeArray[j][versionKey];
                   if(!asnsNodes.hasOwnProperty(versionKey))
                   {
@@ -378,7 +384,7 @@ block content
                     {
                       if(timeKey >= timeArray[k-1] && timeKey <= timeArray[k])
                       {
-                        asnsNodes[versionKey][k] = nodesNum;
+                        asnsNodes[versionKey][k] += nodesNum;
                         lastCheckTimeIndex = k;
                         break;
                       }
@@ -473,7 +479,6 @@ block content
             var countryKeys = [];
             var countryNodesArray = [];
 
-            var lastCheckTimeIndex = 0;
             for(timeKey in result.countrys)
             {
               var countryPerTimeArray = result.countrys[timeKey];
@@ -481,6 +486,7 @@ block content
               {
                 for(versionKey in countryPerTimeArray[j])
                 {
+                  var lastCheckTimeIndex = 0;
                   var nodesNum = countryPerTimeArray[j][versionKey];
                   if(!countryNodes.hasOwnProperty(versionKey))
                   {
@@ -517,7 +523,7 @@ block content
                     {
                       if(timeKey >= timeArray[k-1] && timeKey <= timeArray[k])
                       {
-                        countryNodes[versionKey][k] = nodesNum;
+                        countryNodes[versionKey][k] += nodesNum;
                         lastCheckTimeIndex = k;
                         break;
                       }
@@ -635,7 +641,7 @@ block content
               {
                 if(timeKey >= timeArray[k-1] && timeKey <= timeArray[k])
                 {
-                  totalNodes[k] = nodesNum;
+                  totalNodes[k] += nodesNum;
                   lastCheckTimeIndex = k;
                   break;
                 }
