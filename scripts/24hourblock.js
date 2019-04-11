@@ -152,7 +152,7 @@ mongoose.connect(dbString, function(err) {
                     blockdata.BlockMNPayeeExpected = vout[voutlen-1].addresses;
                     blockdata.BlockMNValue = vout[voutlen-1].amount/100000000;
                     blockdata.BlockMNValueRatio = vout[voutlen-1].amount/blocks24h[i].total;
-                    if(blockdata.BlockMNValueRatioExpected.toFixed(2) == blockdata.BlockMNValueRatio)
+                    if(blockdata.BlockMNValueRatio.toFixed(2) == mnCorrectRatio)
                     {
                         blocksdata.data.stats.global.BlocksPayedCorrectly = blocksdata.data.stats.global.BlocksPayedCorrectly + 1;
                     }
