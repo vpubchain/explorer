@@ -15,7 +15,7 @@ function exit() {
 }
 
 var fs = require('fs');
-var masternodelist_text = fs.readFileSync('/home/lixu/git/docker/v0.1.2/explorer/public/data/masternodeslistfull-0.json','utf-8');
+var masternodelist_text = fs.readFileSync('/var/www/dashninja/explorer/public/data/masternodeslistfull-0.json','utf-8');
 var masternodelist_data = JSON.parse(masternodelist_text);
 function get_masternode_data(address, cb) {
     for(var key in masternodelist_data.data.masternodes)
