@@ -43,32 +43,21 @@ block content
         filter: true,  // 搜索栏
         searching: true, 
         ajax: {
-          //url: 'http://127.0.0.1:5000/vpbitnodes/api/v1.0/snapshots/1552444356/',
-          //url: '/ext/connections',
           url: '/bitcoin/api/nodes',
           dataSrc: function ( json ) {
-            //alert(json.nodes);
             var res = {data:[]};
-            //$('#useragentlist') = {};
-            //var i = 0;
             for(var key in json.nodes) {
-              //alert(key);
-              var item = {'address':'','useragent':'',hight:0, 'location': '','city':'','network':'','time':''};
+              var item = {'address':'','useragent':'',hight:0, 'location': '','city':'','network':'','time':'','rtt':''};
               item.address = key;
-              var arr = json.nodes[key].toString().split(',');
-              //alert(json.nodes[key]);
-              //alert(arr[1]);
+              var arr = json.nodes[key];//json.nodes[key].toString().split(',');
               item.useragent = arr[1] + '<br>' + arr[0];
               item.hight = arr[4];
-              item.location = json.nodes[key][13].country;
-              item.city = json.nodes[key][13].city;
-              //alert(item.location);
-              //alert(geolocation[arr[7]]);
+              item.location = arr[15];//json.nodes[key][13].country;
+              item.city = arr[14];//json.nodes[key][13].city;
               item.network = arr[12] + '<br>' + arr[11];
               item.time = new Date((arr[2]) * 1000).toLocaleString();
-              //item.user-agent = json.nodes[key].1;
+              item.rtt = arr[13];
               res.data.push(item);
-              //i++;
             }
             return res.data;
           }
@@ -76,11 +65,12 @@ block content
         columns: [
           { data: 'time', width: '10%' },
           { data: 'address', width: '20%' },
-          { data: 'useragent', width: '20%' },
+          { data: 'useragent', width: '10%' },
           { data: 'hight', width:'10%' },
           { data: 'location', width:'10%' },
           { data: 'city', width:'10%' },
           { data: 'network', width: '20%'},
+          { data: 'rtt', width: '10%'},
         ]
       });
 
@@ -96,28 +86,16 @@ block content
             var nodes = res.nodes;
             var nodes_data = [];
             var items = [];
-            /*var location = '#{location_city_list}';
-            for(key in location)
-            {
-                alert(key);
-            }*/
             
             for(var item in nodes){
               node_location = [];
               node_data = {};
               items = nodes[item];
-              //alert(items);
-              //node_location.push(items[13]);
               node_location.push(items[9]);
               node_location.push(items[8]);
-              //var location_key = items[8]+items[9];
-              //alert(location[location_key]);
-              //var city = items[13];
-              //alert(city);
-              //node_location.push("America/New_York");
               node_location.push(10);
               //node_location.push(items[13]);
-              node_data.name = items[13].city;
+              node_data.name = items[14];
               node_data.value = node_location;
               nodes_data.push(node_data);
             }
@@ -139,9 +117,6 @@ block content
                 trigger: 'item',
                 formatter: function (params) {
                     var value = (params.value + '').split('.');
-                    //alert(value);
-                    //var city = value[2];
-                    //alert(params.value);
                     //value = value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,');
                     value = value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,') + '.' + value[1];
                     //return params.seriesName + '<br/>' + params.name + ' : ' + value;
@@ -358,4 +333,5 @@ block content
             th.text-center #{settings.locale.net_country}
             th.text-center #{settings.locale.city}
             th.text-center #{settings.locale.network}
+            th.text-center 往返时延rtt(毫秒)
         tbody.text-center
