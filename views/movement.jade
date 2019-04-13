@@ -44,7 +44,7 @@ block content
             for ( var i=0;i<json.data.length; i++ ) {
               json.data[i]['timestamp'] = new Date((json.data[i]['timestamp']) * 1000).toLocaleString();//format_unixtime(json.data[i]['timestamp']);
               json.data[i]['txid'] = "<a href='/tx/" + json.data[i]['txid'] + "' class='mono' target='_blank'>" + json.data[i]['txid'] + "</a>"
-              var amount = json.data[i]['total'] / 100000000;
+              var amount = (json.data[i]['total'] / 100000000).toFixed(2);
               if (amount > '#{flagb}') {
                 json .data[i]['total'] = "<label class='label label-danger'>" + amount + "</label>";
               } else if (amount > '#{flaga}') {
@@ -350,7 +350,7 @@ block content
             }
             //alert(json.data.length);
             for ( var i=0;i<json.data.length; i++ ) {
-              var amount = json.data[i]['total'] / 100000000;
+              var amount = (json.data[i]['total'] / 100000000).toFixed(2);
               json.data[i]['timestamp'] = new Date((json.data[i]['timestamp']) * 1000).toLocaleString();//format_unixtime(json.data[i]['timestamp']);
               json.data[i]['txid'] = "<a href='/tx/" + json.data[i]['txid'] + "' class='mono' target='_blank'>" + json.data[i]['txid'] + "</a>"
               if (amount > '#{flagb}') {

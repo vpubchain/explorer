@@ -61,51 +61,30 @@ block content
 
   <div class="col-lg-8 col-md-8"><div class="panel panel-primary"><div class="panel-heading">#{settings.locale.masterdistributionperreportedversion}</div><div class="panel-body"><div id="mnversions" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div></div></div></div>
 
-  .row
-    .col-lg-6.col-md-6
-      .panel.panel-info
-        .panel-heading.daemonmonitoring
-          strong #{settings.locale.localnodes}
-        table(width="100%")#localnodes.table.table-striped.table-condensed.table-responsive.nowrap
-          thead
-            tr
-              th.text-center ID
-              th.text-center #{settings.locale.mnstatus}
-              th.text-center #{settings.locale.net_subversion}
-              th.text-center #{settings.locale.net_protocol}
-              th.text-center #{settings.locale.blocknum}
-              th.text-center #{settings.locale.lastblockhash}
-              th.text-center #{settings.locale.connections}
-          tbody
-            tr
-              td(colspan="7") Please wait while loading... (JavaScript needed)
-        panel-footer
-          span.pull-left #{settings.locale.lastdatarefresh}:
-          span.pull-right
-            span#localnodesLR Never
-            <br>
-            span#localnodesLRHR
-          clearfix
-    //.col-lg-6.col-md-6
-      .panel.panel-default
-        .panel-heading
-          strong #{settings.locale.payeeblocktemplatehistory}
-        table(width="100%")#blockconsensus.table.table-condensed.table-striped.table-responsive.nowrap
-          thead
-            tr
-              th.text-center #{settings.locale.height}
-              th.text-center #{settings.locale.consensus}
-              th.text-center #{settings.locale.tx_address}
-          tbody
-            tr
-              td(colspan="4") Please wait while loading... (JavaScript needed)
-        panel-footer
-          span.pull-left #{settings.locale.lastdatarefresh}:
-          span.pull-right
-            span#blockconsensusLR Never
-            <br>
-            span#blockconsensusLRHR
-          clearfix
+  .col-md-12(style="margin-bottom: 4%")
+    .panel.panel-info
+      .panel-heading.daemonmonitoring
+        strong #{settings.locale.localnodes}
+      table(width="100%")#localnodes.table.table-striped.table-condensed.table-responsive.nowrap
+        thead
+          tr
+            th.text-center ID
+            th.text-center #{settings.locale.mnstatus}
+            th.text-center #{settings.locale.net_subversion}
+            th.text-center #{settings.locale.net_protocol}
+            th.text-center #{settings.locale.blocknum}
+            th.text-center #{settings.locale.lastblockhash}
+            th.text-center #{settings.locale.connections}
+        tbody
+          tr
+            td(colspan="7") Please wait while loading... (JavaScript needed)
+      panel-footer
+        span.pull-left #{settings.locale.lastdatarefresh}:
+        span.pull-right
+          span#localnodesLR Never
+          <br>
+          span#localnodesLRHR
+        clearfix
 
   .col-md-12(style="margin-bottom: 4%")
     .panel.panel-default

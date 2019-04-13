@@ -184,7 +184,7 @@ router.get('/richlist', function(req, res) {
                 balance: richlist.balance,
                 received: richlist.received,
                 stats: stats,
-                coin_supply: new BigNumber(stats.supply).toFixed(8),
+                coin_supply: new BigNumber(stats.supply).toFixed(2),
                 dista: distribution.t_1_25,
                 distb: distribution.t_26_50,
                 distc: distribution.t_51_75,
@@ -567,6 +567,7 @@ router.get('/ext/summary', function(req, res) {
         difficulty = difficulty['proof-of-stake'];
       }
     }
+    difficulty = difficulty.toFixed(2);
     lib.get_hashrate(function(hashrate) {
       lib.get_connectioncount(function(connections){
         lib.get_blockcount(function(blockcount) {
@@ -582,10 +583,10 @@ router.get('/ext/summary', function(req, res) {
                     difficultyHybrid: difficultyHybrid,
                     masternodeCount: masternodecount,
                     masternodeOnlineCount: masternodeonlinecount,
-                    supply: formatNum(stats.supply, { maxFraction: 4 }),
+                    supply: formatNum(stats.supply, { maxFraction: 2 }),
                     hashrate: hashrate,
-                    lastPriceBtc: formatNum(stats.last_price, { maxFraction: 8 }),
-                    lastPriceUsd: formatCurrency(cmc.price_usd, { maxFraction: 6 }),
+                    lastPriceBtc: formatNum(stats.last_price, { maxFraction: 2 }),
+                    lastPriceUsd: formatCurrency(cmc.price_usd, { maxFraction: 2 }),
                     marketCapUsd: formatCurrency(cmc.market_cap_usd, { maxFraction: 2 }),
                     marketVolumeUsd: formatCurrency(cmc.volume_24h_usd, { maxFraction: 2 }),
                     connections: connections,

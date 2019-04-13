@@ -259,11 +259,11 @@ $(document).ready(function() {
             dataSrc: 'data.nodes',
             cache: true },
         "paging": false,
-        fixedColumns:{
+        /*fixedColumns:{
             rightColumns:2,
             leftColumns:3,
         },
-        scrollX:true,
+        scrollX:true,*/
         columns: [
             {data: "NodeName"},
             {
@@ -682,7 +682,7 @@ $(document).ready(function() {
                 }
                 else {
                     var num = Math.round( balance * 1000 ) / 1000;
-                    return addCommas( num.toFixed(3) );
+                    return addCommas( num.toFixed(2) );
                 }
             } },
             { data: null, render: function ( data, type, row) {

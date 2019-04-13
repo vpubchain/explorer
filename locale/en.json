@@ -172,6 +172,7 @@
     "blocksmnpayed": "Blocks MN Payed",
     "blocksmnpayedratio": "Percent MN Payed",
     "totalsupply": "Total Supply",
+    "blockamount": "区块金额",    
     "minermnpayment": "MN Payment",
     "minermnpaymentratio": "MN Payment Ratio",
     "payedtolastversion": "Payed to last version",

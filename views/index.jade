@@ -84,7 +84,7 @@ block content
         ajax: {
           url: '/ext/summary',
           dataSrc: function ( json ) {
-            console.log('hello summary' + json.data);
+            //console.log('hello summary' + json.data);
             json.data[0]['height'] = "<a href='/block/" + json.data[0]['hash'] + "'>" + json.data[0]['height'] + "</a>";
             return json.data;
           }
@@ -118,7 +118,7 @@ block content
                 json.data[i]['blockindex'] = "<a href='/block/" + json.data[i]['blockhash'] + "'>" + json.data[i]['blockindex'] + "</a>";
                 json.data[i]['txid'] = "<a href='/tx/" + json.data[i]['txid'] + "' class='mono'>" + json.data[i]['blockhash'] + "</a>";
                 var amount = json.data[i]['total'] / 100000000;
-                json.data[i]['total'] = amount.toFixed(8);
+                json.data[i]['total'] = amount.toFixed(2);
                 json.data[i]['recipients'] = json.data[i]['vout'].length;
               }
             }
@@ -148,7 +148,7 @@ block content
               if ( type == 'sort' ) {
                 return data.Amount;
               } else {
-                return addCommas( data.Amount.toFixed(3) );
+                return addCommas( data.Amount.toFixed(2) );
               }
             }, class: "right" },
             { data: null, render: function ( data, type, row ) {
@@ -238,7 +238,7 @@ block content
               }
             } },
             { data: null, render: function ( data, type, row ) {
-              return data.BlocksPayed;
+              return data.BlocksPayed.toFixed(2);
             } },
             { data: null, render: function ( data, type, row ) {
               if ( type == 'sort' ) {
@@ -251,14 +251,14 @@ block content
               if ( type == 'sort' ) {
                 return data.TotalAmount;
               } else {
-                return data.TotalAmount.toFixed(3);
+                return data.TotalAmount.toFixed(2);
               }
             } },
             { data: null, render: function ( data, type, row ) {
               if ( type == 'sort' ) {
                 return data.MasternodeAmount;
               } else {
-                return data.MasternodeAmount.toFixed(3);
+                return data.MasternodeAmount.toFixed(2);
               }
             } },
             { data: null, render: function ( data, type, row ) {
@@ -362,8 +362,8 @@ block content
           dataType: "json",
           dataSrc: function ( json ) {
             
-            $('#globalsupplyamount').text( addCommas(json.data.stats.global.SupplyAmount)+' ');
-            $('#globalmnamount').text( addCommas( json.data.stats.global.MNPaymentsAmount)+' ');
+            $('#globalsupplyamount').text( addCommas(json.data.stats.global.SupplyAmount.toFixed(2))+' ');
+            $('#globalmnamount').text( addCommas( json.data.stats.global.MNPaymentsAmount.toFixed(2))+' ');
              
             $('#globalpayed').text( (Math.round( json.data.stats.global.RatioBlocksPayed * 10000 ) / 100) +'%' );
             $('#globalcorrectlypayed').text( (Math.round( json.data.stats.global.RatioBlocksPayedCorrectly * 10000 ) / 100) +'%' );
@@ -419,6 +419,8 @@ block content
               json.data[i]['BlockId'] = "<a href='/block/" + json.data[i]['BlockHash'] + "'>" + json.data[i]['BlockId'] + "</a>";
               json.data[i]['BlockPoolPubKey'] = "<a href='/address/" + json.data[i]['BlockPoolPubKey'] + "'>" + json.data[i]['BlockPoolPubKey'] + "</a>";
               json.data[i]['BlockMNPayee'] = "<a href='/address/" + json.data[i]['BlockMNPayee'] + "'>" + json.data[i]['BlockMNPayee'] + "</a>";
+              json.data[i]['BlockSupplyValue'] = json.data[i]['BlockSupplyValue'].toFixed(2);
+              json.data[i]['BlockDifficulty'] = json.data[i]['BlockDifficulty'].toFixed(2);
               if (json.data[i].IsSuperBlock) {
                     json.data[i]['mnpaymentratio'] = "Super-Block";
                     if (json.data[i].BlockMNProtocol == 0) {
@@ -548,7 +550,7 @@ block content
             th.hidden-xs.text-center #{settings.locale.ex_block}
             th.hidden-xs.text-center #{settings.locale.foundby}
             th.hidden-xs.text-center #{settings.locale.difficulty}
-            th.hidden-xs.text-center #{settings.locale.mkt_amount}
+            th.hidden-xs.text-center #{settings.locale.blockamount}
             th.hidden-xs.text-center #{settings.locale.mnpayment}
             th.hidden-xs.text-center #{settings.locale.mnpaymentratio}
             th.hidden-xs.text-center #{settings.locale.mnpayee}
