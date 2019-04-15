@@ -43,7 +43,6 @@ block content
           var agentNodesArray = [];
           var agentKeys = [];
 
-          var totalNodes = 0;
           var lastNodes = 0;
           
           for(timeKey in result.agents)
@@ -55,7 +54,6 @@ block content
               {
                 var lastCheckTimeIndex = 0;
                 var nodesNum = agentsPerTimeArray[j][versionKey];
-                totalNodes = totalNodes + nodesNum;
                 if(!agentNodes.hasOwnProperty(versionKey))
                 {
                   lastCheckTimeIndex = 0;
@@ -101,10 +99,6 @@ block content
               }              
             }
           }
-          $('#reachable-nodes').text( result.nodes[0] );
-          var averageNodes = (totalNodes/timeNum + 0.5).toFixed(0);
-          $('#average-nodes').text(averageNodes);
-          $('#last-nodes').text(lastNodes);
 
 
           for(key in agentNodes)
@@ -653,7 +647,21 @@ block content
                 }
               }
             }
+
+            sum = 0;
+            for(var i = 0; i < timeArray.length; i++)
+            {
+              sum = sum + totalNodes[i];
+              if(low > totalNodes[i])
+              {
+                low = totalNodes[i];
+              }
+            }
             //alert(totalNodes);
+            $('#reachable-nodes').text( totalNodes[timeArray.length-1] );
+            var averageNodes = (sum/timeArray.length + 0.5).toFixed(0);
+            $('#average-nodes').text(averageNodes);
+            $('#last-nodes').text(totalNodes[timeArray.length-1]);
 
             $('#low-nodes').text( low );
             $('#high-nodes').text( high );
