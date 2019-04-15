@@ -659,7 +659,7 @@ block content
             }
             //alert(totalNodes);
             $('#reachable-nodes').text( totalNodes[timeArray.length-1] );
-            var averageNodes = (sum+0.5/timeArray.length).toFixed(0);
+            var averageNodes = (sum/timeArray.length).toFixed(0);
             $('#average-nodes').text(averageNodes);
             $('#last-nodes').text(totalNodes[timeArray.length-1]);
 
