@@ -7,7 +7,6 @@ var AddressSchema = new Schema({
   received: { type: Number, default: 0 },
   sent: { type: Number, default: 0 },
   balance: {type: Number, default: 0},
-  masternode_ip: {type: String},
 }, {id: false});
 
 module.exports = mongoose.model('Address', AddressSchema);

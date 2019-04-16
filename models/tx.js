@@ -10,8 +10,6 @@ var TxSchema = new Schema({
   blockhash: { type: String },
   blockindex: {type: Number, default: 0},
   difficult: {type: Number, default: 0},
-  //input: {type: Number, default: 0},
-  //output: {type: Number, default: 0},
 }, {id: false});
 
 module.exports = mongoose.model('Tx', TxSchema);
