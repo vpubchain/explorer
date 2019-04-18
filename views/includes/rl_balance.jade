@@ -8,14 +8,12 @@
           span.fa.fa-flag-checkered
         th #{settings.locale.tx_address}
         th.hidden-xs #{settings.locale.rl_balance} (#{settings.symbol})
-        th.hidden-xs 主节点IP
         th.hidden-xs(style='text-align:center;') %
     tbody
       - var count = 0
       each item in balance
         - count = count + 1
         - var itemFixed = item.balance / 100000000
-        - var itemMasterNodeIP = item.masternode_ip
         - var percentage = (itemFixed / stats.supply) * 100
         tr
           td(style='text-align:center;') 
@@ -25,7 +23,5 @@
             include ./rl_labels.jade
           td.hidden-xs.text-right
             =itemFixed.toFixed(2)
-          td.hidden-xs.text-right
-            =itemMasterNodeIP
           td.hidden-xs(style='text-align:center;') 
             =percentage.toFixed(2)

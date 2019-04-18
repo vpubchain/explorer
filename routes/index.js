@@ -177,25 +177,24 @@ router.get('/richlist', function(req, res) {
         //console.log(richlist);
         if (richlist) {
           db.get_distribution(richlist, stats, function(distribution) {
-            db.get_masternode_addresses(function(addresses) {
-              console.log('addresses=' + addresses);
-              res.render('richlist', {
-                active: 'richlist',
-                balance: richlist.balance,
-                received: richlist.received,
-                stats: stats,
-                coin_supply: new BigNumber(stats.supply).toFixed(2),
-                dista: distribution.t_1_25,
-                distb: distribution.t_26_50,
-                distc: distribution.t_51_75,
-                distd: distribution.t_76_100,
-                diste: distribution.t_101plus,
-                show_dist: settings.richlist.distribution,
-                show_coin_supply: settings.richlist.coin_supply,
-                show_received: settings.richlist.received,
-                show_balance: settings.richlist.balance,
-                masternode_addresses: addresses
-              });
+            var addresses = '';
+            console.log('addresses=' + addresses);
+            res.render('richlist', {
+              active: 'richlist',
+              balance: richlist.balance,
+              received: richlist.received,
+              stats: stats,
+              coin_supply: new BigNumber(stats.supply).toFixed(2),
+              dista: distribution.t_1_25,
+              distb: distribution.t_26_50,
+              distc: distribution.t_51_75,
+              distd: distribution.t_76_100,
+              diste: distribution.t_101plus,
+              show_dist: settings.richlist.distribution,
+              show_coin_supply: settings.richlist.coin_supply,
+              show_received: settings.richlist.received,
+              show_balance: settings.richlist.balance,
+              masternode_addresses: addresses
             });
           });
         } else {

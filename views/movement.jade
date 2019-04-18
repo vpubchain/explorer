@@ -302,7 +302,7 @@ block content
       //alert('updateValue');
       var date = document.getElementById("selectDate");
       //alert('test1');
-      //alert(date.value);
+      alert(date.value);
       var chooseAmount = document.getElementById("amount");
       //alert(chooseAmount.value);
       var address = document.getElementById("address");
@@ -316,6 +316,10 @@ block content
       }
       //alert(address.value);
       var time = parseInt(new Date().getTime()/1000 - date.value * 86400);
+      if(date.value == 0)
+      {
+        time = 0;
+      }
       //alert(date.value);
       //alert(address);
       var url = '';
