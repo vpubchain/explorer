@@ -15,18 +15,6 @@ function exit() {
 }
 
 var fs = require('fs');
-var masternodelist_text = fs.readFileSync('/var/www/dashninja/explorer/public/data/masternodeslistfull-0.json','utf-8');
-var masternodelist_data = JSON.parse(masternodelist_text);
-function get_masternode_data(address, cb) {
-    for(var key in masternodelist_data.data.masternodes)
-    {
-        if(masternodelist_data.data.masternodes[key].MasternodePubkey == address)
-        {
-            return cb(masternodelist_data.data.masternodes[key]);
-        }
-    }
-    return cb(null);
-}
 
 
 var dbString = 'mongodb://' + settings.dbsettings.user;
@@ -39,7 +27,7 @@ var blocksdata = {
     status: "OK",
     data: {"blocks":[],
     "stats": {
-        "perversion":{"3":{"BlockVersionDesc":"3","Blocks":0,"BlocksPayed":0,"Amount":0,"BlocksPayedCorrectRatio":0,"BlocksPayedIncorrectRatio":0,"MasternodesPopulation":0,"MasternodesUniqueIPs":0,"EstimatedMNDailyEarnings":0,"RatioBlocksAll":0,"RatioBlocksPayed":0,"RatioBlocksPayedIncorrectRatio":0,"RatioBlocksPayedCorrectRatio":0}},
+        "perversion":{"160":{"BlockVersionDesc":"160","Blocks":0,"BlocksPayed":0,"Amount":0,"BlocksPayedCorrectRatio":0,"BlocksPayedIncorrectRatio":0,"MasternodesPopulation":0,"MasternodesUniqueIPs":0,"EstimatedMNDailyEarnings":0,"RatioBlocksAll":0,"RatioBlocksPayed":0,"RatioBlocksPayedIncorrectRatio":0,"RatioBlocksPayedCorrectRatio":0}},
         "perminer":{},
         "global":{
             "BlocksPayed":0,
@@ -47,10 +35,10 @@ var blocksdata = {
             "BlocksPayedCorrectly":0,
             "SupplyAmount":0,
             "MNPaymentsAmount":0,
-            "MaxProtocol":70006,
+            "MaxProtocol":90007,
             "RatioBlocksPayedToCurrentProtocol":0
         },
-        "protocoldesc":{"70006":"Phore (1.6.0)"}
+        "protocoldesc":{"90007":"Phore (1.6.0)"}
         }
     },
     "cache":{"time":1552033203,"fromcache":true},
@@ -134,104 +122,63 @@ mongoose.connect(dbString, function(err) {
                 blockdata.SuperBlockBudgetAmount = 0;
                 blockdata.BlockDarkSendTXCount = 0;
                 blockdata.MemPoolDarkSendTXCount = 0;
-                blockdata.BlockVersion = 3;
+                blockdata.BlockVersion = 160;
                 blockdata.BlockMNValue = 0;
                 
                 var vout = blocks24h[i].vout;
                 var voutlen = vout.length;
                 {
-                    //masternode
-                    get_masternode_data(vout[voutlen-1].addresses, function(ret){
-                        blockdata.BlockMNProtocol = ret.MasternodeProtocol;
-                    })
-                    blockdata.BlockMNPayed = blockdata.BlockMNPayed + 1;
                     blocksdata.data.stats.global.BlocksPayed = blocksdata.data.stats.global.BlocksPayed + 1;
                     blocksdata.data.stats.global.BlocksPayedToCurrentProtocol = blocksdata.data.stats.global.BlocksPayedToCurrentProtocol + 1;
                     blocksdata.data.stats.global.RatioBlocksPayedToCurrentProtocol = blocksdata.data.stats.global.RatioBlocksPayedToCurrentProtocol + 1;
-                    blockdata.BlockMNPayee = vout[voutlen-1].addresses;
-                    blockdata.BlockMNPayeeExpected = vout[voutlen-1].addresses;
-                    blockdata.BlockMNValue = vout[voutlen-1].amount/100000000;
-                    blockdata.BlockMNValueRatio = vout[voutlen-1].amount/blocks24h[i].total;
-                    if(blockdata.BlockMNValueRatio.toFixed(2) == mnCorrectRatio)
-                    {
-                        blocksdata.data.stats.global.BlocksPayedCorrectly = blocksdata.data.stats.global.BlocksPayedCorrectly + 1;
-                    }
-                    blockdata.BlockMNPayeeDonation = 0;
-                    blocksdata.data.stats.global.MNPaymentsAmount = blocksdata.data.stats.global.MNPaymentsAmount + blockdata.BlockMNValue;
-                    /*if(blocksdata.data.stats.perversion.hasOwnProperty(blockdata.BlockVersion))
-                    {
-                        blocksdata.data.stats.perversion[blockdata.BlockVersion].Blocks = blocksdata.data.stats.perversion[blockdata.BlockVersion].Blocks + 1;
-                        blocksdata.data.stats.perversion[blockdata.BlockVersion].BlocksPayed = blocksdata.data.stats.perversion[blockdata.BlockVersion].BlocksPayed + 1;
-                        blocksdata.data.stats.perversion[blockdata.BlockVersion].BlockVersionDesc = blockdata.BlockVersion;
-                        blocksdata.data.stats.perversion[blockdata.BlockVersion].Amount = blocksdata.data.stats.perversion[blockdata.BlockVersion].Amount + blockdata.BlockMNValue;       
-                    }*/
 
-                    //pool node is now
-                    blockdata.BlockPoolPubKey = vout[voutlen-2].addresses;
-                    if(blocksdata.data.stats.perminer.hasOwnProperty(blockdata.BlockPoolPubKey))
+                    for(var j = 0; j < voutlen; j++)
                     {
-                        blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].Blocks++;
-                        blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayed++;
-                        blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayedToCurrentProtocol++;
+                        //pool node is now
+                        blockdata.BlockPoolPubKey = vout[j].addresses;
+                        if(blocksdata.data.stats.perminer.hasOwnProperty(blockdata.BlockPoolPubKey))
+                        {
+                            blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].Blocks++;
+                            blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayed++;
+                            blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayedToCurrentProtocol++;
                         
-                        blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount = blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount + blocks24h[i].total/100000000;
-                        blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].MasternodeAmount = blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].MasternodeAmount + blockdata.BlockMNValue;
-                        if((blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].MasternodeAmount/blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount).toFixed(2) == mnCorrectRatio)
-                        {
-                            blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayedCorrectly++;
-                        }
-                    }
-                    else
-                    {
-                        var perminerData = {"PoolPubKeys":[],
-                        "PoolName":"",
-                        "Blocks":1,
-                        "BlocksPayed":1,
-                        "BlocksBudgetPayed":0,
-                        "TotalAmount":0,
-                        "MasternodeAmount":0,
-                        "SuperBlockPoolAmount":0,
-                        "BudgetAmount":0,
-                        "BlocksPayedToCurrentProtocol":1,
-                        "BlocksPayedToOldProtocol":0,
-                        "BlocksPayedCorrectly":0,
-                        "RatioMNPaymentsExpected":0.99,
-                        "RatioMNPayments":0,
-                        "RatioBlocksFound":0,
-                        "RatioBlocksPayed":0,
-                        "RatioBlocksPayedToCurrentProtocol":0,
-                        "RatioBlocksPayedToOldProtocol":0,
-                        "RatioBlocksPayedCorrectly":0};
-                        perminerData.TotalAmount = blocks24h[i].total/100000000;
-                        perminerData.MasternodeAmount = blockdata.BlockMNValue;
-                        perminerData.PoolPubKeys.push(blockdata.BlockPoolPubKey);
-                        if((perminerData.MasternodeAmount/perminerData.TotalAmount).toFixed(2) == mnCorrectRatio)
-                        {
-                            perminerData.BlocksPayedCorrectly++;
-                        }
-                        blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey] = perminerData; 
-                    }
-
-                    if(blocksdata.data.stats.perversion.hasOwnProperty(blockdata.BlockVersion))
-                    {
-                        if((blockdata.BlockMNValueRatio).toFixed(2) == mnCorrectRatio)
-                        {
-                            blocksdata.data.stats.perversion[blockdata.BlockVersion].BlocksPayedCorrectRatio = blocksdata.data.stats.perversion[blockdata.BlockVersion].BlocksPayedCorrectRatio + 1;
+                            blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount = blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount + vout[j].amount/100000000;
                         }
                         else
                         {
-                            blocksdata.data.stats.perversion[blockdata.BlockVersion].BlocksPayedIncorrectRatio = blocksdata.data.stats.perversion[blockdata.BlockVersion].BlocksPayedIncorrectRatio + 1;
-                            blocksdata.data.stats.perversion[blockdata.BlockVersion].MasternodesPopulation = blocksdata.data.stats.perversion[blockdata.BlockVersion].MasternodesPopulation + 1; //TODO
-                            blocksdata.data.stats.perversion[blockdata.BlockVersion].MasternodesUniqueIPs = blocksdata.data.stats.perversion[blockdata.BlockVersion].MasternodesUniqueIPs + 1;
-                            blocksdata.data.stats.perversion[blockdata.BlockVersion].EstimatedMNDailyEarnings = blocksdata.data.stats.perversion[blockdata.BlockVersion].EstimatedMNDailyEarnings + 1;
-                            blocksdata.data.stats.perversion[blockdata.BlockVersion].RatioBlocksPayed = 0; //TODO
-                            blocksdata.data.stats.perversion[blockdata.BlockVersion].RatioBlocksPayedIncorrectRatio = 0; //TODO
-                            blocksdata.data.stats.perversion[blockdata.BlockVersion].RatioBlocksPayedCorrectRatio = 0; //TODO
+                            var perminerData = {"PoolPubKeys":[],
+                            "PoolName":"",
+                            "Blocks":1,
+                            "BlocksPayed":1,
+                            "BlocksBudgetPayed":0,
+                            "TotalAmount":0,
+                            "MasternodeAmount":0,
+                            "SuperBlockPoolAmount":0,
+                            "BudgetAmount":0,
+                            "BlocksPayedToCurrentProtocol":1,
+                            "BlocksPayedToOldProtocol":0,
+                            "BlocksPayedCorrectly":0,
+                            "RatioMNPaymentsExpected":0.99,
+                            "RatioMNPayments":0,
+                            "RatioBlocksFound":0,
+                            "RatioBlocksPayed":0,
+                            "RatioBlocksPayedToCurrentProtocol":0,
+                            "RatioBlocksPayedToOldProtocol":0,
+                            "RatioBlocksPayedCorrectly":0};
+                            perminerData.TotalAmount = vout[j].amount/100000000;
+                            perminerData.PoolPubKeys.push(blockdata.BlockPoolPubKey);
+                            blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey] = perminerData; 
                         }
+                    }
+                    
+
+                    if(blocksdata.data.stats.perversion.hasOwnProperty(blockdata.BlockVersion))
+                    {
+                        blocksdata.data.stats.perversion[blockdata.BlockVersion].EstimatedMNDailyEarnings = blocksdata.data.stats.perversion[blockdata.BlockVersion].EstimatedMNDailyEarnings + 1;
                         blocksdata.data.stats.perversion[blockdata.BlockVersion].Blocks++;
                         blocksdata.data.stats.perversion[blockdata.BlockVersion].BlocksPayed++;
-                        blocksdata.data.stats.perversion[blockdata.BlockVersion].Amount += blockdata.BlockMNValue;
                         blocksdata.data.stats.perversion[blockdata.BlockVersion].BlockVersionDesc = blockdata.BlockVersion;
+                        blocksdata.data.stats.perversion[blockdata.BlockVersion].Amount += blockdata.BlockSupplyValue;
                     }
                     else
                     {
@@ -243,29 +190,18 @@ mongoose.connect(dbString, function(err) {
                             "BlocksPayedIncorrectRatio":0,
                             "MasternodesPopulation":0,
                             "MasternodesUniqueIPs":0,
-                            "EstimatedMNDailyEarnings":0,
+                            "EstimatedMNDailyEarnings":1,
                             "RatioBlocksAll":0,
                             "RatioBlocksPayed":0,
                             "RatioBlocksPayedIncorrectRatio":0,
                             "RatioBlocksPayedCorrectRatio":0};
-                            blockVersionData.Amount = blockdata.BlockMNValue;
-                            if(blockdata.BlockMNValueRatio.toFixed(2) == mnCorrectRatio)
-                            {
-                                blockVersionData.BlocksPayedCorrectRatio = blocksdata.data.stats.perversion[blockdata.BlockVersion].BlocksPayedCorrectRatio + 1;
-                            }
-                            else
-                            {
-                                blockVersionData.BlocksPayedIncorrectRatio = 1;
-                                blockVersionData.MasternodesPopulation = 1; //TODO
-                                blockVersionData.MasternodesUniqueIPs = 1;
-                                blockVersionData.EstimatedMNDailyEarnings = 1;
-                                blockVersionData.RatioBlocksPayed = 0; //TODO
-                                blockVersionData.RatioBlocksPayedIncorrectRatio = 0; //TODO
-                                blockVersionData.RatioBlocksPayedCorrectRatio = 0; //TODO
-                            }
-                            blocksdata.data.stats.perversion[blockdata.BlockVersion] = blockVersionData;    
-                        }
-                        blocksdata.data.blocks.push(blockdata);
+                        
+                        blockVersionData.Amount = blockdata.BlockSupplyValue;   
+                        
+                            
+                        blocksdata.data.stats.perversion[blockdata.BlockVersion] = blockVersionData;    
+                    }
+                    blocksdata.data.blocks.push(blockdata);
                 }
                 i++;
                 doBlocks(i);

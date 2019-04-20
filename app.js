@@ -29,10 +29,6 @@ if (settings.heavy != true) {
     'getrawtransaction',
     'getpeerinfo',
     'gettxoutsetinfo',
-    'getmasternodecount',
-    'getmasternodecountonline',
-    'masternode',
-    'masternodelist',
   ]);
 } else {
   // enable additional heavy api calls
@@ -50,7 +46,7 @@ if (settings.heavy != true) {
   bitcoinapi.setAccess('only', ['getinfo', 'getstakinginfo', 'getnetworkhashps', 'getdifficulty', 'getconnectioncount',
     'getblockcount', 'getblockhash', 'getblock', 'getrawtransaction','getmaxmoney', 'getvote',
     'getmaxvote', 'getphase', 'getreward', 'getnextrewardestimate', 'getnextrewardwhenstr',
-    'getnextrewardwhensec', 'getsupply', 'gettxoutsetinfo', 'getmasternodecount', 'getmasternodecountonline']);
+    'getnextrewardwhensec', 'getsupply', 'gettxoutsetinfo']);
 }
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -100,87 +96,6 @@ app.use('/ext/getbalance/:hash', function(req,res){
   });
 });
 
-app.use('/ext/getmasternoderewards/:hash', function(req,res){
-  db.get_masternode_rewards_by_address(req.param('hash'), function(rewards){
-    if (rewards) {
-      res.send(' ' + rewards);
-    }
-    else
-    {
-      res.send({ error: 'address not found.', hash: req.param('hash')})
-    }
-  });
-});
-
-app.use('/ext/getmasternoderewardsdetail/:hash', function(req,res){
-  var now = parseInt(new Date().getTime()/1000+0.5);
-  //console.log('test2' + req.param('hash') + ' time=' + req.query.transactionTime + 'time1=' + req.query.transactionEndTime + "time2=" + now);
-  //var transactionTime = Number(0);
-  //var transactionEndTime = Number(0);
-  if(req.query.begintime == undefined)
-  {
-    transactionTime = Number(0);
-    //console.log("test999");
-  }
-  else
-  {
-    transactionTime = Number(req.query.begintime);
-    //console.log("test888" + req.query.transactionTime);
-  }
-
-  if(req.query.endtime == undefined)
-  {
-    transactionEndTime = now;
-    //console.log("test777");
-  }
-  else
-  {
-    transactionEndTime = Number(req.query.endtime);
-    //console.log("test666");
-  }
-  //console.log("time=" + transactionTime + "  endtime=" + transactionEndTime);
-  
-  db.get_masternode_rewards_detail_by_address(req.param('hash'), transactionTime, transactionEndTime, function(rewards){
-    if (rewards) {
-      db.get_masternode_rewards_by_address(req.param('hash'), function(total){
-        if(total)
-        {
-          res.send({ sum: total, detail: rewards});
-        }
-        else
-        {
-          res.send({ error: 'address not found.', hash: req.param('hash')});
-        }
-      });
-    }
-    else
-    {
-      res.send({ error: 'address not found.', hash: req.param('hash')});
-    }
-  });
-});
-/*
-app.use('/ext/getmasternoderewardsdetail/:hash/:transactiontime', function(req,res){
-  console.log('test1');
-  db.get_masternode_rewards_detail_by_address_and_time(req.param('hash'), req.param('transactiontime'), function(rewards){
-    if (rewards) {
-      db.get_masternode_rewards_by_address(req.param('hash'), function(total){
-        if(total)
-        {
-          res.send({ sum: total, detail: rewards});
-        }
-        else
-        {
-          res.send({ error: 'address not found.', hash: req.param('hash')});
-        }
-      });
-    }
-    else
-    {
-      res.send({ error: 'address not found.', hash: req.param('hash')});
-    }
-  });
-});*/
 
 app.use('/ext/getdistribution', function(req,res){
   db.get_richlist(settings.coin, function(richlist){
