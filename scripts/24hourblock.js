@@ -132,45 +132,85 @@ mongoose.connect(dbString, function(err) {
                     blocksdata.data.stats.global.BlocksPayedToCurrentProtocol = blocksdata.data.stats.global.BlocksPayedToCurrentProtocol + 1;
                     blocksdata.data.stats.global.RatioBlocksPayedToCurrentProtocol = blocksdata.data.stats.global.RatioBlocksPayedToCurrentProtocol + 1;
 
-                    for(var j = 0; j < voutlen; j++)
+                    if(blocks24h[i].version == 672)
                     {
                         //pool node is now
-                        blockdata.BlockPoolPubKey = vout[j].addresses;
+                        blockdata.BlockPoolPubKey = vout[0].addresses;
                         if(blocksdata.data.stats.perminer.hasOwnProperty(blockdata.BlockPoolPubKey))
                         {
                             blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].Blocks++;
                             blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayed++;
                             blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayedToCurrentProtocol++;
                         
-                            blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount = blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount + vout[j].amount/100000000;
+                            blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount = blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount + blockdata.BlockSupplyValue;
                         }
                         else
                         {
                             var perminerData = {"PoolPubKeys":[],
-                            "PoolName":"",
-                            "Blocks":1,
-                            "BlocksPayed":1,
-                            "BlocksBudgetPayed":0,
-                            "TotalAmount":0,
-                            "MasternodeAmount":0,
-                            "SuperBlockPoolAmount":0,
-                            "BudgetAmount":0,
-                            "BlocksPayedToCurrentProtocol":1,
-                            "BlocksPayedToOldProtocol":0,
-                            "BlocksPayedCorrectly":0,
-                            "RatioMNPaymentsExpected":0.99,
-                            "RatioMNPayments":0,
-                            "RatioBlocksFound":0,
-                            "RatioBlocksPayed":0,
-                            "RatioBlocksPayedToCurrentProtocol":0,
-                            "RatioBlocksPayedToOldProtocol":0,
-                            "RatioBlocksPayedCorrectly":0};
-                            perminerData.TotalAmount = vout[j].amount/100000000;
+                                "PoolName":"",
+                                "Blocks":1,
+                                "BlocksPayed":1,
+                                "BlocksBudgetPayed":0,
+                                "TotalAmount":0,
+                                "MasternodeAmount":0,
+                                "SuperBlockPoolAmount":0,
+                                "BudgetAmount":0,
+                                "BlocksPayedToCurrentProtocol":1,
+                                "BlocksPayedToOldProtocol":0,
+                                "BlocksPayedCorrectly":0,
+                                "RatioMNPaymentsExpected":0.99,
+                                "RatioMNPayments":0,
+                                "RatioBlocksFound":0,
+                                "RatioBlocksPayed":0,
+                                "RatioBlocksPayedToCurrentProtocol":0,
+                                "RatioBlocksPayedToOldProtocol":0,
+                                "RatioBlocksPayedCorrectly":0};
+                            perminerData.TotalAmount = blockdata.BlockSupplyValue;
                             perminerData.PoolPubKeys.push(blockdata.BlockPoolPubKey);
                             blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey] = perminerData; 
                         }
                     }
-                    
+                    else
+                    {
+                        for(var j = 0; j < voutlen; j++)
+                        {
+                            //pool node is now
+                            blockdata.BlockPoolPubKey = vout[j].addresses;
+                            if(blocksdata.data.stats.perminer.hasOwnProperty(blockdata.BlockPoolPubKey))
+                            {
+                                blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].Blocks++;
+                                blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayed++;
+                                blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayedToCurrentProtocol++;
+                        
+                                blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount = blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount + vout[j].amount/100000000;
+                            }
+                            else
+                            {
+                                var perminerData = {"PoolPubKeys":[],
+                                "PoolName":"",
+                                "Blocks":1,
+                                "BlocksPayed":1,
+                                "BlocksBudgetPayed":0,
+                                "TotalAmount":0,
+                                "MasternodeAmount":0,
+                                "SuperBlockPoolAmount":0,
+                                "BudgetAmount":0,
+                                "BlocksPayedToCurrentProtocol":1,
+                                "BlocksPayedToOldProtocol":0,
+                                "BlocksPayedCorrectly":0,
+                                "RatioMNPaymentsExpected":0.99,
+                                "RatioMNPayments":0,
+                                "RatioBlocksFound":0,
+                                "RatioBlocksPayed":0,
+                                "RatioBlocksPayedToCurrentProtocol":0,
+                                "RatioBlocksPayedToOldProtocol":0,
+                                "RatioBlocksPayedCorrectly":0};
+                                perminerData.TotalAmount = vout[j].amount/100000000;
+                                perminerData.PoolPubKeys.push(blockdata.BlockPoolPubKey);
+                                blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey] = perminerData; 
+                            }
+                        }        
+                    }
 
                     if(blocksdata.data.stats.perversion.hasOwnProperty(blockdata.BlockVersion))
                     {
@@ -201,6 +241,7 @@ mongoose.connect(dbString, function(err) {
                             
                         blocksdata.data.stats.perversion[blockdata.BlockVersion] = blockVersionData;    
                     }
+                    
                     blocksdata.data.blocks.push(blockdata);
                 }
                 i++;

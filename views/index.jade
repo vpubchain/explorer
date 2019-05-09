@@ -10,7 +10,6 @@ block content
           extdata.sort(function(a,b){
             return a.blockindex - b.blockindex;//正序
           });
-          //alert( 'test+++' );
           AmCharts.makeChart("chartdiv", {
             "type": "serial",
             "theme": "black",
@@ -117,6 +116,7 @@ block content
               } else {
                 json.data[i]['blockindex'] = "<a href='/block/" + json.data[i]['blockhash'] + "'>" + json.data[i]['blockindex'] + "</a>";
                 json.data[i]['txid'] = "<a href='/tx/" + json.data[i]['txid'] + "' class='mono'>" + json.data[i]['blockhash'] + "</a>";
+            
                 var amount = json.data[i]['total'] / 100000000;
                 json.data[i]['total'] = amount.toFixed(2);
                 json.data[i]['recipients'] = json.data[i]['vout'].length;
@@ -386,7 +386,7 @@ block content
             for (var poolpubkey in json.data.stats.perminer){
               if(!json.data.stats.perminer.hasOwnProperty(poolpubkey)) {continue;}
               tempObj = json.data.stats.perminer[poolpubkey];
-              tempObj['PoolPubKey'] = poolpubkey;
+              tempObj['PoolPubKey'] = "<a href='/address/" + poolpubkey + "'>" + poolpubkey + "</a>";
               tablePerMiner.api().row.add( tempObj );
             }
             tablePerMiner.api().draw();
@@ -406,19 +406,6 @@ block content
               //json.data[i]['BlockMNPayee'] = "<a href='/address/" + json.data[i]['BlockMNPayee'] + "'>" + json.data[i]['BlockMNPayee'] + "</a>";
               json.data[i]['BlockSupplyValue'] = json.data[i]['BlockSupplyValue'].toFixed(2);
               json.data[i]['BlockDifficulty'] = json.data[i]['BlockDifficulty'].toFixed(2);
-              /*if (json.data[i].IsSuperBlock) {k
-                    json.data[i]['mnpaymentratio'] = "Super-Block";
-                    if (json.data[i].BlockMNProtocol == 0) {
-                      json.data[i]['mnversion'] = "Dash 0.12.0.44+";
-                    }
-                    else {
-                      json.data[i]['mnversion'] = dataProtocolDesc[json.data[i].BlockMNProtocol];
-                    }
-              }
-              else {
-                json.data[i]['mnpaymentratio'] = (Math.round(json.data[i].BlockMNValueRatioExpected * 1000) / 10).toFixed(1) + "%/" + (Math.round(json.data[i].BlockMNValueRatio * 1000) / 10).toFixed(1) + "%";
-                json.data[i]['mnversion'] = dataProtocolDesc[json.data[i].BlockMNProtocol];
-              }*/
             }
             
             return json.data;

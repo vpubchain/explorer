@@ -88,6 +88,11 @@
     "net_country": "Country",
     "net_warning": "This is sub sample of the network based on wallets that have connected to this node in the last 24hours.",
 
+    //coldstaking
+    "cold_staking_wallet_nodes": "cold wallet nodes",
+    "cold_staking_nodes": "cold staking node",
+    "staking_coin": "staking coin",
+
     // api view
     "api_title": "API Documentation",
     "api_message": "The block explorer provides an API allowing users and/or applications to retrieve information from the network without the need for a local wallet.",

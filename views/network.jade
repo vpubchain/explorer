@@ -52,8 +52,8 @@ block content
               var arr = json.nodes[key];//json.nodes[key].toString().split(',');
               item.useragent = arr[1] + '<br>' + arr[0];
               item.hight = arr[4];
-              item.location = arr[15];//json.nodes[key][13].country;
-              item.city = arr[14];//json.nodes[key][13].city;
+              item.location = arr[20];//json.nodes[key][13].country;
+              item.city = arr[19];//json.nodes[key][13].city;
               item.network = arr[12] + '<br>' + arr[11];
               item.time = new Date((arr[2]) * 1000).toLocaleString();
               item.rtt = arr[13];
@@ -70,6 +70,100 @@ block content
           { data: 'location', width:'10%' },
           { data: 'city', width:'10%' },
           { data: 'network', width: '20%'},
+        ]
+      });
+
+      var coldwallettable = $('#cold-wallet-nodes-table').dataTable( {  
+        autoWidth: true,      
+        //searching: false,
+        ordering: false,
+        responsive: true,
+        lengthChange: true,
+        processing: true,
+        filter: true,  // 搜索栏
+        searching: true, 
+        ajax: {
+          url: '/bitcoin/api/nodes',
+          dataSrc: function ( json ) {
+            var res = {data:[]};
+            for(var key in json.nodes) {  
+              var arr = json.nodes[key];//json.nodes[key].toString().split(',');
+              //alert(arr[14]);
+              if(arr[14] == false)
+              {
+                continue;
+              }
+              var item = {'address':'','useragent':'',hight:0, 'location': '','city':'','network':'','time':'','rtt':'','stakingcoin':''};
+              item.address = key;
+              item.useragent = arr[1] + '<br>' + arr[0];
+              item.hight = arr[4];
+              item.location = arr[20];//json.nodes[key][13].country;
+              item.city = arr[19];//json.nodes[key][13].city;
+              item.network = arr[12] + '<br>' + arr[11];
+              item.time = new Date((arr[2]) * 1000).toLocaleString();
+              item.rtt = arr[13];
+              item.stakingcoin = (arr[16]/100000000).toFixed(2);
+              res.data.push(item);
+            }
+            return res.data;
+          }
+        },
+        columns: [
+          { data: 'time', width: '10%' },
+          { data: 'address', width: '20%' },
+          { data: 'useragent', width: '10%' },
+          { data: 'hight', width:'10%' },
+          { data: 'location', width:'10%' },
+          { data: 'city', width:'10%' },
+          { data: 'network', width: '20%'},
+          { data: 'stakingcoin', width: '10%'},
+        ]
+      });
+
+      var coldstakingtable = $('#cold-staking-nodes-table').dataTable( {  
+        autoWidth: true,      
+        //searching: false,
+        ordering: false,
+        responsive: true,
+        lengthChange: true,
+        processing: true,
+        filter: true,  // 搜索栏
+        searching: true, 
+        ajax: {
+          url: '/bitcoin/api/nodes',
+          dataSrc: function ( json ) {
+            var res = {data:[]};
+            for(var key in json.nodes) {  
+              var arr = json.nodes[key];//json.nodes[key].toString().split(',');
+              //alert(arr[14]);
+              if(arr[14] == true || arr[16] <= 0)
+              {
+                continue;
+              }
+              var item = {'address':'','useragent':'',hight:0, 'location': '','city':'','network':'','time':'','rtt':'','stakingcoin':''};
+              item.address = key;
+              item.useragent = arr[1] + '<br>' + arr[0];
+              item.hight = arr[4];
+              item.location = arr[20];//json.nodes[key][13].country;
+              item.city = arr[19];//json.nodes[key][13].city;
+              item.network = arr[12] + '<br>' + arr[11];
+              item.time = new Date((arr[2]) * 1000).toLocaleString();
+              item.rtt = arr[13];
+              item.stakingcoin = (arr[16]/100000000).toFixed(2);
+              res.data.push(item);
+            }
+            return res.data;
+          }
+        },
+        columns: [
+          { data: 'time', width: '10%' },
+          { data: 'address', width: '20%' },
+          { data: 'useragent', width: '10%' },
+          { data: 'hight', width:'10%' },
+          { data: 'location', width:'10%' },
+          { data: 'city', width:'10%' },
+          { data: 'network', width: '20%'},
+          { data: 'stakingcoin', width: '10%'},
         ]
       });
 
@@ -94,7 +188,7 @@ block content
               node_location.push(items[8]);
               node_location.push(10);
               //node_location.push(items[13]);
-              node_data.name = items[14];
+              node_data.name = items[19];
               node_data.value = node_location;
               nodes_data.push(node_data);
             }
@@ -333,3 +427,38 @@ block content
             th.text-center #{settings.locale.city}
             th.text-center #{settings.locale.network}
         tbody.text-center
+
+  .col-md-12(style="margin-bottom: 4%")
+    .panel.panel-default
+      .panel-heading
+        strong #{settings.locale.cold_staking_wallet_nodes}
+      table#cold-wallet-nodes-table.table.table-bordered.table-striped
+        thead
+          tr
+            th.text-center #{settings.locale.timestamp}
+            th.text-center #{settings.locale.tx_address}
+            th.text-center #{settings.locale.net_subversion}
+            th.text-center #{settings.locale.height}
+            th.text-center #{settings.locale.net_country}
+            th.text-center #{settings.locale.city}
+            th.text-center #{settings.locale.network}
+            th.text-center #{settings.locale.staking_coin}
+        tbody.text-center
+
+  .col-md-12(style="margin-bottom: 4%")
+    .panel.panel-default
+      .panel-heading
+        strong #{settings.locale.cold_staking_nodes}
+      table#cold-staking-nodes-table.table.table-bordered.table-striped
+        thead
+          tr
+            th.text-center #{settings.locale.timestamp}
+            th.text-center #{settings.locale.tx_address}
+            th.text-center #{settings.locale.net_subversion}
+            th.text-center #{settings.locale.height}
+            th.text-center #{settings.locale.net_country}
+            th.text-center #{settings.locale.city}
+            th.text-center #{settings.locale.network}
+            th.text-center #{settings.locale.staking_coin}
+        tbody.text-center
+  

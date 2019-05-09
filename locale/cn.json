@@ -89,6 +89,11 @@
     "net_country": "国家",
     "net_warning": "这是基于过于24小时连接到钱包的网络节点。",
 
+    //coldstaking
+    "cold_staking_wallet_nodes": "冷钱包节点",
+    "cold_staking_nodes": "冷节点(质押cold staking node)",
+    "staking_coin": "质押数",
+
     // api view
     "api_title": "API 文档",
     "api_message": "The block explorer provides an API allowing users and/or applications to retrieve information from the network without the need for a local wallet.",
@@ -165,8 +170,8 @@
      "paidblocksincorrectratio": "区块支付(非正确率)",
      "paidblockscorrectratio": "区块支付(正确率)",
 
-     "miner": "矿机名(如未知则显示地址)",
-     "minerdetail": "矿机挖矿详情",
+     "miner": "收益地址",
+     "minerdetail": "区块发行详情",
 
      "blocksfound": "发现区块数",
      "foundratio": "区块发现占比",
