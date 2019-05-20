@@ -566,8 +566,8 @@ router.get('/ext/summary', function(req, res) {
             } else {
         difficulty = difficulty['proof-of-stake'];
       }
+      difficulty = difficulty.toFixed(2);
     }
-    difficulty = difficulty.toFixed(2);
     lib.get_hashrate(function(hashrate) {
       lib.get_connectioncount(function(connections){
         lib.get_blockcount(function(blockcount) {
