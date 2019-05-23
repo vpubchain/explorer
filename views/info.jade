@@ -104,6 +104,15 @@ block content
                *Returns current balance of given address*  
                [#{address}/ext/getbalance/#{hashes.address}](/ext/getbalance/#{hashes.address})
 
+          *  **getstakerewards (/ext/getstakerewards/hash)**  
+               *Returns current rewards of given cold staking wallet address*  
+               [#{address}/ext/getstakerewards/#{hashes.address}](/ext/getstakerewards/#{hashes.address})
+
+          *  **getstakerewardsdetail (/ext/getstakerewardsdetail/hash?begintime=1553928851&endtime=1553932722)**  
+               *Returns current rewards of given masternode address*
+               *param begintime or endtime optional*  
+               [#{address}/ext/getstakerewardsdetail/#{hashes.address}](/ext/getmasternoderewardsdetail/#{hashes.address}?begintime=1553928851&endtime=1553932722)
+
           *  **getlasttxs (/ext/getlasttxs/count/min)**  
                *Returns last [count] transactions greater than [min]*  
                *Note: returned values are in satoshis*  
