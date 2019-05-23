@@ -229,6 +229,18 @@ app.use('/ext/connections', function(req,res){
   });
 });
 
+app.use('/ext/coldstakingnodes', function(req,res){
+  db.get_coldstaking_nodes(function(peers){
+    res.send({data: peers});
+  });
+});
+
+app.use('/ext/coldstakingnodesnum', function(req,res){
+  db.get_coldstaking_nodes_num(function(num){
+    res.send({total: num});
+  });
+});
+
 // locals
 app.set('title', settings.title);
 app.set('symbol', settings.symbol);
