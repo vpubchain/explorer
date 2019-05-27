@@ -230,8 +230,31 @@ app.use('/ext/connections', function(req,res){
 });
 
 app.use('/ext/coldstakingnodes', function(req,res){
-  db.get_coldstaking_nodes(function(peers){
-    res.send({data: peers});
+  var nodes_data = [];
+  //var i = 0;
+  db.get_coldstaking_nodes(function(nodes){
+    function insert_nodes_address(i)
+    {
+      //console.log("i=", i);
+      if(i == nodes.length)
+      {
+        res.send({data: nodes_data});
+        return;
+      }
+
+      var item = {};
+      item.address = nodes[i].address;
+      item.rewards = nodes[i].rewards;
+
+      db.get_address(item.address, function(ret){
+        if (ret) {
+          item.balance = ret.balance/100000000;
+          nodes_data.push(item);
+          insert_nodes_address(++i);
+        }
+      });
+    }
+    insert_nodes_address(0);
   });
 });
 

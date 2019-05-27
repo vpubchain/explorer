@@ -83,9 +83,10 @@ block content
         filter: true,  // 搜索栏
         searching: true, 
         ajax: {
-          url: '/bitcoin/api/nodes',
+          url: '/ext/coldstakingnodes',
           dataSrc: function ( json ) {
-            var res = {data:[]};
+            //alert(json.data.length);
+            /*var res = {data:[]};
             for(var key in json.nodes) {  
               var arr = json.nodes[key];//json.nodes[key].toString().split(',');
               //alert(arr[14]);
@@ -105,18 +106,14 @@ block content
               item.stakingcoin = (arr[16]/100000000).toFixed(2);
               res.data.push(item);
             }
-            return res.data;
+            return res.data;*/
+            return json.data;
           }
         },
         columns: [
-          { data: 'time', width: '10%' },
-          { data: 'address', width: '20%' },
-          { data: 'useragent', width: '10%' },
-          { data: 'hight', width:'10%' },
-          { data: 'location', width:'10%' },
-          { data: 'city', width:'10%' },
-          { data: 'network', width: '20%'},
-          { data: 'stakingcoin', width: '10%'},
+          { data: 'address', width: '60%' },
+          { data: 'rewards', width: '20%' },
+          { data: 'balance', width: '20%' },
         ]
       });
 
@@ -428,21 +425,16 @@ block content
             th.text-center #{settings.locale.network}
         tbody.text-center
 
-  //.col-md-12(style="margin-bottom: 4%")
+  .col-md-12(style="margin-bottom: 4%")
     .panel.panel-default
       .panel-heading
         strong #{settings.locale.cold_staking_wallet_nodes}
       table#cold-wallet-nodes-table.table.table-bordered.table-striped
         thead
           tr
-            th.text-center #{settings.locale.timestamp}
             th.text-center #{settings.locale.tx_address}
-            th.text-center #{settings.locale.net_subversion}
-            th.text-center #{settings.locale.height}
-            th.text-center #{settings.locale.net_country}
-            th.text-center #{settings.locale.city}
-            th.text-center #{settings.locale.network}
-            th.text-center #{settings.locale.staking_coin}
+            th.text-center #{settings.locale.menu_reward}
+            th.text-center #{settings.locale.rl_balance}
         tbody.text-center
 
   .col-md-12(style="margin-bottom: 4%")
