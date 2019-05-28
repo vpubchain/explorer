@@ -21,14 +21,14 @@ block market_view
               th #{settings.locale.mkt_change}
           tbody
             tr
-              td #{parseFloat(marketdata.data.summary.High).toFixed(8)}
-              td #{parseFloat(marketdata.data.summary.Low).toFixed(8)}
-              td #{parseFloat(marketdata.data.summary.Volume).toFixed(8)}
-              td.hidden-xs #{parseFloat(marketdata.data.summary.Bid).toFixed(8)}
-              td.hidden-xs #{parseFloat(marketdata.data.summary.Ask).toFixed(8)}
-              td.hidden-xs #{parseFloat(marketdata.data.summary.PrevDay).toFixed(8)}
-              td.hidden-xs #{parseFloat(marketdata.data.summary.Last).toFixed(8)}
-              - var bleutrade_change = (100 - ((parseFloat(marketdata.data.summary.PrevDay)/parseFloat(marketdata.data.summary.Last))*100)).toFixed(2);
+              td #{parseFloat(marketdata.data.summary.High).toFixed(6)}
+              td #{parseFloat(marketdata.data.summary.Low).toFixed(6)}
+              td #{parseFloat(marketdata.data.summary.Volume).toFixed(6)}
+              td.hidden-xs #{parseFloat(marketdata.data.summary.Bid).toFixed(6)}
+              td.hidden-xs #{parseFloat(marketdata.data.summary.Ask).toFixed(6)}
+              td.hidden-xs #{parseFloat(marketdata.data.summary.PrevDay).toFixed(6)}
+              td.hidden-xs #{parseFloat(marketdata.data.summary.Last).toFixed(6)}
+              - var bleutrade_change = (100 - ((parseFloat(marketdata.data.summary.PrevDay)/parseFloat(marketdata.data.summary.Last))*100)).toFixed(6);
               if bleutrade_change >= 0
                 td.success +#{bleutrade_change} %
               else
@@ -48,11 +48,11 @@ block market_view
             each buy in marketdata.data.buys
               tr
                 td
-                  =parseFloat(buy.price).toFixed(8)
+                  =parseFloat(buy.price).toFixed(6)
                 td
-                  =parseFloat(buy.amount).toFixed(8)
+                  =parseFloat(buy.amount).toFixed(6)
                 td.hidden-xs
-                  =parseFloat(buy.total).toFixed(8)
+                  =parseFloat(buy.total).toFixed(6)
     .col-md-6.col-xs-12
       .panel.panel-default
         .panel-heading
@@ -67,11 +67,11 @@ block market_view
             each sell in marketdata.data.sells
               tr
                 td
-                  =parseFloat(sell.price).toFixed(8)
+                  =parseFloat(sell.price).toFixed(6)
                 td
-                  =parseFloat(sell.amount).toFixed(8)
+                  =parseFloat(sell.amount).toFixed(6)
                 td.hidden-xs
-                  =parseFloat(sell.total).toFixed(8)
+                  =parseFloat(sell.total).toFixed(6)
   .row   
     .col-md-12
       .panel.panel-default

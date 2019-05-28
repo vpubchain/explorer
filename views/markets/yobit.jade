@@ -38,12 +38,12 @@ block market_view
             each buy in marketdata.data.buys
               tr
                 td
-                  =buy[0].toFixed(8)
+                  =buy[0].toFixed(6)
                 td
-                  =buy[1].toFixed(8)
+                  =buy[1].toFixed(6)
                 td.hidden-xs
                   - var total = buy[0] * buy[1];
-                  =total.toFixed(8)
+                  =total.toFixed(6)
     .col-md-6.col-xs-12
       .panel.panel-default
         .panel-heading
@@ -58,12 +58,12 @@ block market_view
             each sell in marketdata.data.sells
               tr
                 td
-                  =sell[0].toFixed(8)
+                  =sell[0].toFixed(6)
                 td
-                  =sell[1].toFixed(8)
+                  =sell[1].toFixed(6)
                 td.hidden-xs
                   - var total = sell[0] * sell[1];
-                  =total.toFixed(8)
+                  =total.toFixed(6)
   .row   
     .col-md-12
       .panel.panel-default
@@ -84,12 +84,12 @@ block market_view
                   td.hidden-xs
                     =order.type
                   td
-                    =order.amount.toFixed(8)
+                    =order.amount.toFixed(6)
                   td
-                    =order.price.toFixed(8)
+                    =order.price.toFixed(6)
                   td
                     - var total = order.amount * order.price;
-                    =total.toFixed(8)
+                    =total.toFixed(6)
                   td.hidden-xs
                     =format_unixtime(order.timestamp)       
               else
@@ -97,12 +97,12 @@ block market_view
                   td.hidden-xs
                     =order.type
                   td
-                    =order.amount.toFixed(8)
+                    =order.amount.toFixed(6)
                   td
-                    =order.price.toFixed(8)
+                    =order.price.toFixed(6)
                   td
                     - var total = order.amount * order.price;
-                    =total.toFixed(8)
+                    =total.toFixed(6)
                   td.hidden-xs
                     =format_unixtime(order.timestamp)
       .footer-padding

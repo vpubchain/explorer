@@ -146,7 +146,7 @@ block content
               item.network = arr[12] + '<br>' + arr[11];
               item.time = new Date((arr[2]) * 1000).toLocaleString();
               item.rtt = arr[13];
-              item.stakingcoin = (arr[16]/100000000).toFixed(2);
+              item.stakingcoin = (arr[16]/100000000).toFixed(6);
               res.data.push(item);
             }
             return res.data;

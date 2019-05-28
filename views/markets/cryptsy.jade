@@ -42,7 +42,7 @@ block market_view
                 td
                   =buy.price
                 td
-                  =buy.amount.toFixed(8)
+                  =buy.amount.toFixed(6)
                 td.hidden-xs
                   =buy.total
     .col-md-6.col-xs-12
@@ -61,7 +61,7 @@ block market_view
                 td
                   =sell.price
                 td
-                  =sell.amount.toFixed(8)
+                  =sell.amount.toFixed(6)
                 td.hidden-xs
                   =sell.total
   .row   
@@ -84,11 +84,11 @@ block market_view
                   td.hidden-xs
                     =order.initiate_ordertype
                   td
-                    =order.quantity.toFixed(8)
+                    =order.quantity.toFixed(6)
                   td
-                    =order.tradeprice.toFixed(8)
+                    =order.tradeprice.toFixed(6)
                   td
-                    =order.total.toFixed(8)
+                    =order.total.toFixed(6)
                   td.hidden-xs
                     =(new Date(order.timestamp * 1000).toUTCString())
               else
@@ -96,11 +96,11 @@ block market_view
                   td.hidden-xs
                     =order.initiate_ordertype
                   td
-                    =order.quantity.toFixed(8)
+                    =order.quantity.toFixed(6)
                   td
-                    =order.tradeprice.toFixed(8)
+                    =order.tradeprice.toFixed(6)
                   td
-                    =order.total.toFixed(8)
+                    =order.total.toFixed(6)
                   td.hidden-xs
                      =(new Date(order.timestamp * 1000).toUTCString())
       .footer-padding

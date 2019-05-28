@@ -80,9 +80,9 @@ block content
                         td 
                           a.mono.loading(href='/address/#{r.addresses}')
                             =r.addresses
-                        td.danger.hidden-xs #{ramount.toFixed(2)}
+                        td.danger.hidden-xs #{ramount.toFixed(6)}
                       tr.hidden-lg.hidden-md
-                          td.danger #{ramount.toFixed(2)} #{settings.symbol}
+                          td.danger #{ramount.toFixed(6)} #{settings.symbol}
                 else
                   tr.info(style='text-align:center')
                     td #{settings.locale.proof_of_stake}
@@ -103,17 +103,17 @@ block content
                       td 
                         a.mono.loading(href='/address/#{r.addresses}')
                           =r.addresses 
-                      td.success.hidden-xs  #{ramount.toFixed(2)}
+                      td.success.hidden-xs  #{ramount.toFixed(6)}
                     tr.hidden-lg.hidden-md
-                      td.success #{ramount.toFixed(2)} #{settings.symbol}
+                      td.success #{ramount.toFixed(6)} #{settings.symbol}
                   else
                     tr
                       td 
                         a.loading(href='/address/#{r.addresses}') 
                           =r.addresses 
-                      td.success.hidden-xs  #{ramount.toFixed(2)}
+                      td.success.hidden-xs  #{ramount.toFixed(6)}
                     tr.hidden-lg.hidden-md
-                      td.success #{ramount.toFixed(2)} #{settings.symbol} 
+                      td.success #{ramount.toFixed(6)} #{settings.symbol} 
       if tx.version == 672
         .col-md-2
           .panel.panel-default
@@ -121,5 +121,5 @@ block content
               tbody
                 - var ramount = tx.total / 100000000
                   tr
-                    td REWARD(VP): #{ramount.toFixed(2)}
+                    td REWARD(VP): #{ramount.toFixed(6)}
     .footer-padding

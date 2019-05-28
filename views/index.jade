@@ -118,7 +118,7 @@ block content
                 json.data[i]['txid'] = "<a href='/tx/" + json.data[i]['txid'] + "' class='mono'>" + json.data[i]['blockhash'] + "</a>";
             
                 var amount = json.data[i]['total'] / 100000000;
-                json.data[i]['total'] = amount.toFixed(2);
+                json.data[i]['total'] = amount.toFixed(6);
                 json.data[i]['recipients'] = json.data[i]['vout'].length;
               }
             }
@@ -148,7 +148,7 @@ block content
               if ( type == 'sort' ) {
                 return data.Amount;
               } else {
-                return addCommas( data.Amount.toFixed(2) );
+                return addCommas( data.Amount.toFixed(6) );
               }
             }, class: "right" },
             { data: null, render: function ( data, type, row ) {
@@ -230,14 +230,14 @@ block content
               if ( type == 'sort' ) {
                 return data.RatioBlocksPayed;
               } else {
-                return (Math.round( data.RatioBlocksPayed * 10000 ) / 100).toFixed(2) + '%';
+                return (Math.round( data.RatioBlocksPayed * 10000 ) / 100).) + '%';
               }
             } },*/
             { data: null, render: function ( data, type, row ) {
               if ( type == 'sort' ) {
                 return data.TotalAmount;
               } else {
-                return data.TotalAmount.toFixed(2);
+                return data.TotalAmount.toFixed(6);
               }
             } },
             /*{ data: null, render: function ( data, type, row ) {
@@ -348,9 +348,9 @@ block content
           dataType: "json",
           dataSrc: function ( json ) {
             
-            $('#globalsupplyamount').text( addCommas(json.data.stats.global.SupplyAmount.toFixed(2))+' ');
+            $('#globalsupplyamount').text( addCommas(json.data.stats.global.SupplyAmount.toFixed(6))+' ');
             //alert('11111');
-            $('#globalmnamount').text( addCommas( json.data.stats.global.MNPaymentsAmount.toFixed(2))+' ');
+            $('#globalmnamount').text( addCommas( json.data.stats.global.MNPaymentsAmount.toFixed(6))+' ');
             
             $('#globalpayed').text( (Math.round( json.data.stats.global.RatioBlocksPayed * 10000 ) / 100) +'%' );
             $('#globalcorrectlypayed').text( (Math.round( json.data.stats.global.RatioBlocksPayedCorrectly * 10000 ) / 100) +'%' );
@@ -404,8 +404,8 @@ block content
               json.data[i]['BlockId'] = "<a href='/block/" + json.data[i]['BlockHash'] + "'>" + json.data[i]['BlockId'] + "</a>";
               //json.data[i]['BlockPoolPubKey'] = "<a href='/address/" + json.data[i]['BlockPoolPubKey'] + "'>" + json.data[i]['BlockPoolPubKey'] + "</a>";
               //json.data[i]['BlockMNPayee'] = "<a href='/address/" + json.data[i]['BlockMNPayee'] + "'>" + json.data[i]['BlockMNPayee'] + "</a>";
-              json.data[i]['BlockSupplyValue'] = json.data[i]['BlockSupplyValue'].toFixed(2);
-              json.data[i]['BlockDifficulty'] = json.data[i]['BlockDifficulty'].toFixed(2);
+              json.data[i]['BlockSupplyValue'] = json.data[i]['BlockSupplyValue'].toFixed(6);
+              json.data[i]['BlockDifficulty'] = json.data[i]['BlockDifficulty'].toFixed(6);
             }
             
             return json.data;

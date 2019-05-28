@@ -66,7 +66,7 @@ function route_get_tx(res, txid) {
                       txid: rtx.txid,
                       vin: rvin,
                       vout: rvout,
-                      total: total.toFixed(8),
+                      total: total.toFixed(6),
                       timestamp: rtx.time,
                       blockhash: '-',
                       blockindex: -1,
@@ -77,7 +77,7 @@ function route_get_tx(res, txid) {
                       txid: rtx.txid,
                       vin: rvin,
                       vout: rvout,
-                      total: total.toFixed(8),
+                      total: total.toFixed(6),
                       timestamp: rtx.time,
                       blockhash: rtx.blockhash,
                       blockindex: rtx.blockheight,
@@ -188,7 +188,7 @@ router.get('/richlist', function(req, res) {
               balance: richlist.balance,
               received: richlist.received,
               stats: stats,
-              coin_supply: new BigNumber(stats.supply).toFixed(2),
+              coin_supply: new BigNumber(stats.supply).toFixed(6),
               dista: distribution.t_1_25,
               distb: distribution.t_26_50,
               distc: distribution.t_51_75,
@@ -244,11 +244,11 @@ router.get('/coininfo', function(req, res) {
             }
 
             var mnRewardsPerYear = mnRewardsPerDay * 365;
-            var mnRoi = ((mnRewardsPerYear / settings.coininfo.masternode_required) * 100).toFixed(2);
+            var mnRoi = ((mnRewardsPerYear / settings.coininfo.masternode_required) * 100).toFixed(6);
             var coinsLocked = totalMnCount * settings.coininfo.masternode_required;
             var coinsLockedPerc = coinsLocked / (stats.supply/100);
-            var nodeWorthBtc = (settings.coininfo.masternode_required * priceBtc).toFixed(8);
-            var nodeWorthUsd = (cmc.price_usd) ? (settings.coininfo.masternode_required * cmc.price_usd).toFixed(2) : null;
+            var nodeWorthBtc = (settings.coininfo.masternode_required * priceBtc).toFixed(6);
+            var nodeWorthUsd = (cmc.price_usd) ? (settings.coininfo.masternode_required * cmc.price_usd).toFixed(6) : null;
 
             var dailyCoin = formatNum(mnRewardsPerDay, { maxFraction: 4});
             var dailyBtc = formatNum(mnRewardsPerDay * priceBtc, { maxFraction: 8 });
@@ -568,9 +568,10 @@ router.get('/ext/summary', function(req, res) {
               difficulty = difficulty['proof-of-work'];
             } else {
         difficulty = difficulty['proof-of-stake'];
+        difficulty = difficulty.toFixed(6);
       }
     }
-    difficulty = difficulty.toFixed(2);
+    
     lib.get_hashrate(function(hashrate) {
       lib.get_connectioncount(function(connections){
         lib.get_blockcount(function(blockcount) {
@@ -582,16 +583,16 @@ router.get('/ext/summary', function(req, res) {
                     hashrate = 0;
                   }
                   res.send({ data: [{
-                    difficulty: difficulty,
-                    difficultyHybrid: difficultyHybrid,
+                    difficulty: formatNum(difficulty ,{ maxFraction: 6 }),
+                    difficultyHybrid: formatNum(difficultyHybrid ,{ maxFraction: 6 }),
                     masternodeCount: masternodecount,
                     masternodeOnlineCount: masternodeonlinecount,
-                    supply: formatNum(stats.supply, { maxFraction: 2 }),
+                    supply: formatNum(stats.supply, { maxFraction: 6 }),
                     hashrate: hashrate,
-                    lastPriceBtc: formatNum(stats.last_price, { maxFraction: 2 }),
-                    lastPriceUsd: formatCurrency(cmc.price_usd, { maxFraction: 2 }),
-                    marketCapUsd: formatCurrency(cmc.market_cap_usd, { maxFraction: 2 }),
-                    marketVolumeUsd: formatCurrency(cmc.volume_24h_usd, { maxFraction: 2 }),
+                    lastPriceBtc: formatNum(stats.last_price, { maxFraction: 6 }),
+                    lastPriceUsd: formatCurrency(cmc.price_usd, { maxFraction: 6 }),
+                    marketCapUsd: formatCurrency(cmc.market_cap_usd, { maxFraction: 6 }),
+                    marketVolumeUsd: formatCurrency(cmc.volume_24h_usd, { maxFraction: 6 }),
                     connections: connections,
                     blockcount: blockcount,
                     cmc: cmc,

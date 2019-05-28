@@ -244,11 +244,11 @@ app.use('/ext/coldstakingnodes', function(req,res){
 
       var item = {};
       item.address = nodes[i].address;
-      item.rewards = nodes[i].rewards;
+      item.rewards = nodes[i].rewards.toFixed(6);
 
       db.get_address(item.address, function(ret){
         if (ret) {
-          item.balance = ret.balance/100000000;
+          item.balance = (ret.balance/100000000).toFixed(6);
           nodes_data.push(item);
           insert_nodes_address(++i);
         }

@@ -127,7 +127,7 @@ block content
             item.lineStyle.normal.color = colorArray[colorIndex];
             colorIndex++;
             item.itemStyle.normal.label.formatter = function (params) {
-              return (params.value*100).toFixed(2)+'%';
+              return (params.value*100).toFixed(6)+'%';
             };
             seriesData.push(item);
           }
@@ -273,7 +273,7 @@ block content
               colorIndex++;
               
               item.itemStyle.normal.label.formatter = function (params) {
-                return (params.value*100).toFixed(2)+'%';
+                return (params.value*100).toFixed(6)+'%';
               };
               seriesData.push(item);
             }
@@ -412,7 +412,7 @@ block content
               colorIndex++;
               
               item.itemStyle.normal.label.formatter = function (params) {
-                return (params.value*100).toFixed(2)+'%';
+                return (params.value*100).toFixed(6)+'%';
               };
               seriesData.push(item);
             }
@@ -550,7 +550,7 @@ block content
               colorIndex++;
               
               item.itemStyle.normal.label.formatter = function (params) {
-                return (params.value*100).toFixed(2)+'%';
+                return (params.value*100).toFixed(6)+'%';
               };
               seriesData.push(item);
             }
@@ -680,7 +680,7 @@ block content
             item.lineStyle.normal.color = '#FF3030';
               
             item.itemStyle.normal.label.formatter = function (params) {
-              return (params.value*100).toFixed(2)+'%';
+              return (params.value*100).toFixed(6)+'%';
             };
             seriesData.push(item);
             $('#total-text').text( '最低 ' + low + ' 最高 ' + high + ' 平均 ' + averageNodes + ' 最新 ' + result.nodes[0]);
