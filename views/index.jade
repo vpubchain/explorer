@@ -230,7 +230,7 @@ block content
               if ( type == 'sort' ) {
                 return data.RatioBlocksPayed;
               } else {
-                return (Math.round( data.RatioBlocksPayed * 10000 ) / 100).) + '%';
+                return (Math.round( data.RatioBlocksPayed * 10000 ) / 100).toFixed(2)) + '%';
               }
             } },*/
             { data: null, render: function ( data, type, row ) {
