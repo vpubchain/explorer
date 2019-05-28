@@ -160,9 +160,9 @@
     "heavy_lastxvotes": "Last 20 votes",
 
      // last 24 hours blocks
-     "perversionlast24h": "各区块版本详情(最近24小时)",
+     "perversionlast24h": "最近24小时区块发行统计",
      "blockversion": "区块版本",
-     "last24blocks": "区块详情(最近24小时)",
+     "last24blocks": "最近24小时区块详情(不包括交易)",
 
      "blocknum": "区块数",
      "paidblocksratio": "占区块支付比例",
@@ -171,13 +171,13 @@
      "paidblockscorrectratio": "区块支付(正确率)",
 
      "miner": "收益地址",
-     "minerdetail": "区块发行详情",
+     "minerdetail": "最近24小时各地址收益详情",
 
-     "blocksfound": "发现区块数",
-     "foundratio": "区块发现占比",
+     "blocksfound": "区块数",
+     "foundratio": "区块占比",
      "blocksmnpayed": "奖励主节点区块数",
      "blocksmnpayedratio": "奖励主节点区块比例",
-     "totalsupply": "总发行金额",
+     "totalsupply": "总收益金额",
      "minermnpayment": "主节点奖励金额",
      "minermnpaymentratio": "主节点奖励比例",
      "payedtolastversion": "支付给最新版本比例",     

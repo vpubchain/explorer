@@ -54,7 +54,7 @@ block content
           });
         },
         error: function(){
-          alert('test');
+          //alert('test');
         }
       });
       }
@@ -137,6 +137,7 @@ block content
       tablePerVersion = $('#perversiontable').dataTable( {
         data: [],
         paging: false,
+        searching: false,
         columns: [
             { data: null, render: function ( data, type, row ) {
               return data.BlockVersionDesc;
@@ -150,7 +151,7 @@ block content
               } else {
                 return addCommas( data.Amount.toFixed(6) );
               }
-            }, class: "right" },
+            }, class: "right" }/*,
             { data: null, render: function ( data, type, row ) {
               if ( type == 'sort' ) {
                 return data.RatioBlocksPayed;
@@ -164,14 +165,14 @@ block content
               } else {
                 return (Math.round( data.RatioBlocksAll * 10000 ) / 100).toFixed(2) + '%';
               }
-            } }
+            } }*/
         ],
         createdRow: function ( row, data, index ) {
-            $('td',row).eq(2).css({"text-align": "right"});
-            $('td',row).eq(3).css({"text-align": "right"});
-            $('td',row).eq(4).css({"text-align": "right"});
-            $('td',row).eq(5).css({"text-align": "right"});
-            console.log(data.BlockVersionDesc+' == '.maxblockversiondesc);
+            //$('td',row).eq(2).css({"text-align": "right"});
+            //$('td',row).eq(3).css({"text-align": "right"});
+            //$('td',row).eq(4).css({"text-align": "right"});
+            //$('td',row).eq(5).css({"text-align": "right"});
+            /*console.log(data.BlockVersionDesc+' == '.maxblockversiondesc);
             if (data.BlockVersionDesc == maxblockversiondesc) {
               $('td',row).eq(0).css({"background-color": "#8FFF8F"});
               var color = '#8FFF8F';
@@ -187,16 +188,16 @@ block content
             else {
                 $('td',row).eq(0).css({});
               $('td',row).eq(6).css({"text-align": "right"});
-            }
+            }*/
         }
     } );
 
     tablePerMiner = $('#perminertable').dataTable( {
         data: [],
         paging: true,
-        lengthMenu: [ [20, 50, 100, 200, -1], [20, 50, 100, 200, "All"] ],
+        lengthMenu: [ [20, 50, 100, -1], [20, 50, 100, "All"] ],
         pageLength: 20,
-        order: [[ 1, "desc" ], [ 4, "desc" ]],
+        order: [[ 1, "desc" ], [ 3, "desc" ]],
         fixedColumns:{
           rightColumns:2,
           leftColumns:3,
@@ -239,7 +240,7 @@ block content
               } else {
                 return data.TotalAmount.toFixed(6);
               }
-            } },
+            } }//,
             /*{ data: null, render: function ( data, type, row ) {
               if ( type == 'sort' ) {
                 return data.MasternodeAmount;
@@ -254,13 +255,13 @@ block content
                 return (Math.round( data.RatioMNPayments * 1000 ) / 10).toFixed(1) + '%';
               }
             } },*/
-            { data: null, render: function ( data, type, row ) {
+            /*{ data: null, render: function ( data, type, row ) {
               if ( type == 'sort' ) {
                 return data.RatioBlocksPayedToCurrentProtocol;
               } else {
                 return (Math.round( data.RatioBlocksPayedToCurrentProtocol * 10000 ) / 100).toFixed(2) + '%';
               }
-            } }/*,
+            } }*//*,
             { data: null, render: function ( data, type, row ) {
               if ( type == 'sort' ) {
                 return data.RatioBlocksPayedCorrectly;
@@ -280,8 +281,8 @@ block content
               console.log ( 'CLICK' );
               tableBlockFilter( $(event.target).text() );
             });
-            $('td',row).eq(1).css({"text-align": "right"});
-            $('td',row).eq(2).css({"text-align": "right"});
+            //$('td',row).eq(1).css({"text-align": "right"});
+            //$('td',row).eq(2).css({"text-align": "right"});
             //$('td',row).eq(3).css({"text-align": "right"});
             /*$('td',row).eq(4).css({"text-align": "right"});
             $('td',row).eq(5).css({"text-align": "right"});
@@ -402,6 +403,8 @@ block content
             for ( var i=0;i<json.data.length; i++ ) {
               json.data[i]['datefound'] = new Date((json.data[i]['BlockTime']) * 1000).toLocaleString();
               json.data[i]['BlockId'] = "<a href='/block/" + json.data[i]['BlockHash'] + "'>" + json.data[i]['BlockId'] + "</a>";
+              json.data[i]['BlockHash'] = json.data[i]['TxId'] = "<a href='/tx/" + json.data[i]['TxId'] + "' class='mono'>" + json.data[i]['BlockHash'] + "</a>";
+              //"<a href='/block/" + json.data[i]['TxId'] + "'>" + json.data[i]['BlockHash'] + "</a>";
               //json.data[i]['BlockPoolPubKey'] = "<a href='/address/" + json.data[i]['BlockPoolPubKey'] + "'>" + json.data[i]['BlockPoolPubKey'] + "</a>";
               //json.data[i]['BlockMNPayee'] = "<a href='/address/" + json.data[i]['BlockMNPayee'] + "'>" + json.data[i]['BlockMNPayee'] + "</a>";
               json.data[i]['BlockSupplyValue'] = json.data[i]['BlockSupplyValue'].toFixed(6);
@@ -414,7 +417,8 @@ block content
         },
         columns: [
           { data: 'datefound', width: '10%' },
-          { data: 'BlockId', width: '10%' },/*
+          { data: 'BlockId', width: '10%' },
+          { data: 'BlockHash', width: '10%' },/*
           { data: null, render: function ( data, type, row ) {
                var outtxt = data.BlockPoolPubKey;
                if (data.PoolDescription) {
@@ -468,7 +472,7 @@ block content
         tbody.text-center
     .footer-padding
 
-  <div class="row"><h2> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最近24小时</h2><p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最近24小时总发行: <span id="globalsupplyamount" style="font-weight: bold;">????.?????? </span> .</p></div>
+  //<div class="row"><h2> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最近24小时</h2><p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最近24小时总发行: <span id="globalsupplyamount" style="font-weight: bold;">????.?????? </span> .</p></div>
 
   
   
@@ -476,14 +480,15 @@ block content
     .panel.panel-default
       .panel-heading
         strong #{settings.locale.perversionlast24h}
-      table#perversiontable.table.table-striped.table-condensed.table-responsive.text-nowrap
+      //table#perversiontable.table.table-striped.table-condensed.table-responsive.text-nowrap
+      table#perversiontable.table.table-striped
         thead
           tr
             th.hidden-xs.text-center #{settings.locale.blockversion}
             th.hidden-xs.text-center #{settings.locale.blocknum}
             th.hidden-xs.text-center #{settings.locale.mkt_amount}
-            th.hidden-xs.text-center #{settings.locale.paidblocksratio}
-            th.hidden-xs.text-center #{settings.locale.allblocks}
+            //th.hidden-xs.text-center #{settings.locale.paidblocksratio}
+            //th.hidden-xs.text-center #{settings.locale.allblocks}
         tbody.text-center
     .footer-padding
 
@@ -504,7 +509,7 @@ block content
             th.hidden-xs.text-center #{settings.locale.totalsupply}
             //th.hidden-xs.text-center #{settings.locale.minermnpayment}
             //th.hidden-xs.text-center #{settings.locale.minermnpaymentratio}
-            th.hidden-xs.text-center #{settings.locale.payedtolastversion}
+            //th.hidden-xs.text-center #{settings.locale.payedtolastversion}
             //th.hidden-xs.text-center #{settings.locale.payedcorrectly}
         tbody.text-center
     .footer-padding
@@ -518,7 +523,7 @@ block content
           tr
             th.hidden-xs.text-center #{settings.locale.datefound}
             th.hidden-xs.text-center #{settings.locale.ex_block}
-            //th.hidden-xs.text-center #{settings.locale.foundby}
+            th.hidden-xs.text-center #{settings.locale.block_hash}
             th.hidden-xs.text-center #{settings.locale.difficulty}
             th.hidden-xs.text-center #{settings.locale.blockamount}
             //th.hidden-xs.text-center #{settings.locale.mnpayment}

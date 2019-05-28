@@ -107,6 +107,7 @@ mongoose.connect(dbString, function(err) {
                 blockdata.BlockMNPayed = 0;
                 blockdata.BlockId = blocks24h[i].blockindex;
                 blockdata.BlockHash = blocks24h[i].blockhash;
+                blockdata.TxId = blocks24h[i].txid;
                 blockdata.BlockSupplyValue = blocks24h[i].total/100000000;
                 blocksdata.data.stats.global.SupplyAmount = blocksdata.data.stats.global.SupplyAmount + blockdata.BlockSupplyValue;
                 blockdata.BlockTime = blocks24h[i].timestamp;
