@@ -90,7 +90,7 @@
     "net_warning": "这是基于过于24小时连接到钱包的网络节点。",
 
     //coldstaking
-    "cold_staking_wallet_nodes": "收益地址(包括冷钱包节点地址)",
+    "cold_staking_wallet_nodes": "冷钱包",
     "cold_staking_nodes": "质押节点(staking nodes)",
     "staking_coin": "质押数",
 
