@@ -86,28 +86,17 @@ block content
           url: '/ext/coldstakingnodes',
           dataSrc: function ( json ) {
             //alert(json.data.length);
-            /*var res = {data:[]};
-            for(var key in json.nodes) {  
-              var arr = json.nodes[key];//json.nodes[key].toString().split(',');
-              //alert(arr[14]);
-              if(arr[14] == false)
-              {
-                continue;
-              }
-              var item = {'address':'','useragent':'',hight:0, 'location': '','city':'','network':'','time':'','rtt':'','stakingcoin':''};
-              item.address = key;
-              item.useragent = arr[1] + '<br>' + arr[0];
-              item.hight = arr[4];
-              item.location = arr[20];//json.nodes[key][13].country;
-              item.city = arr[19];//json.nodes[key][13].city;
-              item.network = arr[12] + '<br>' + arr[11];
-              item.time = new Date((arr[2]) * 1000).toLocaleString();
-              item.rtt = arr[13];
-              item.stakingcoin = (arr[16]/100000000).toFixed(2);
+            var res = {data:[]};
+            for(var i = 0; i < json.data.length; i++)
+            {
+              var item = {'address':'', rewards:0, balance:0};
+              item.address = "<a href='/address/" + json.data[i].address + "'>" + json.data[i].address + "</a>";
+              item.rewards = json.data[i].rewards;
+              item.balance = json.data[i].balance;
               res.data.push(item);
             }
-            return res.data;*/
-            return json.data;
+            
+            return res.data;
           }
         },
         columns: [
