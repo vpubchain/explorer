@@ -231,22 +231,34 @@ app.use('/ext/connections', function(req,res){
 
 app.use('/ext/coldstakingnodes', function(req,res){
   var nodes_data = [];
-  //var i = 0;
-  db.get_coldstaking_nodes(function(nodes){
-    function insert_nodes_address(i)
-    {
-      //console.log("i=", i);
-      if(i == nodes.length)
+  lib.get_bitnodes_url('coldstakes', function(coldstakes){
+    //console.log(coldstakes);
+    db.get_coldstaking_nodes(function(nodes){
+      function insert_nodes_address(i)
       {
-        res.send({data: nodes_data});
-        return;
-      }
+        if(i == nodes.length)
+        {
+          res.send({data: nodes_data});
+          return;
+        }
 
-      var item = {};
-      item.address = nodes[i].address;
-      item.rewards = nodes[i].rewards.toFixed(6);
+        var item = {};
+        item.address = nodes[i].address;
+        item.rewards = nodes[i].rewards.toFixed(6);
+        stakenode = coldstakes[item.address];
+        if(stakenode != undefined)
+        {
+          //console.log(item.address + stakenode);
+          item.stakeaddress = stakenode["onlineaddress"];
+          item.stakevalue = (stakenode["value"]/100000000).toFixed(8);
+        }
+        else
+        {
+          item.stakeaddress = "null";
+          item.stakevalue = 0;
+        }
 
-      db.get_address(item.address, function(ret){
+        db.get_address(item.address, function(ret){
         if (ret) {
           item.balance = (ret.balance/100000000).toFixed(6);
           nodes_data.push(item);
@@ -255,6 +267,7 @@ app.use('/ext/coldstakingnodes', function(req,res){
       });
     }
     insert_nodes_address(0);
+  });
   });
 });
 

@@ -91,7 +91,7 @@
 
     //coldstaking
     "cold_staking_wallet_nodes": "冷钱包节点",
-    "cold_staking_nodes": "质押节点",
+    "cold_staking_nodes": "在线质押节点",
     "staking_coin": "质押数",
 
     // api view
