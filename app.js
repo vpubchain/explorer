@@ -250,7 +250,7 @@ app.use('/ext/coldstakingnodes', function(req,res){
         {
           //console.log(item.address + stakenode);
           item.stakeaddress = stakenode["onlineaddress"];
-          item.stakevalue = (stakenode["value"]/100000000).toFixed(8);
+          item.stakevalue = (stakenode["value"]/100000000).toFixed(6);
         }
         else
         {
