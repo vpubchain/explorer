@@ -233,11 +233,29 @@ app.use('/ext/coldstakingnodes', function(req,res){
   var nodes_data = [];
   lib.get_bitnodes_url('coldstakes', function(coldstakes){
     //console.log(coldstakes);
+    var coldstakecount = 0;
+    for(key in coldstakes)
+    {
+      coldstakecount++;
+    }
     db.get_coldstaking_nodes(function(nodes){
       function insert_nodes_address(i)
       {
         if(i == nodes.length)
         {
+          for(key in coldstakes)
+          {
+            if(!coldstakes[key].hascount)
+            {
+              var item = {};
+              item.address = key;
+              item.stakeaddress = coldstakes[key].onlineaddress;
+              item.rewards = 0;
+              //item.balance = 0;
+              item.stakevalue = (coldstakes[key].value/100000000).toFixed(6);
+              nodes_data.push(item);
+            }    
+          }
           res.send({data: nodes_data});
           return;
         }
@@ -251,6 +269,7 @@ app.use('/ext/coldstakingnodes', function(req,res){
           //console.log(item.address + stakenode);
           item.stakeaddress = stakenode["onlineaddress"];
           item.stakevalue = (stakenode["value"]/100000000).toFixed(6);
+          stakenode.hascount = true;
         }
         else
         {
@@ -258,13 +277,13 @@ app.use('/ext/coldstakingnodes', function(req,res){
           item.stakevalue = 0;
         }
 
-        db.get_address(item.address, function(ret){
-        if (ret) {
-          item.balance = (ret.balance/100000000).toFixed(6);
+        //db.get_address(item.address, function(ret){
+        //if (ret) {
+          //item.balance = (ret.balance/100000000).toFixed(6);
           nodes_data.push(item);
           insert_nodes_address(++i);
-        }
-      });
+        //}
+      //});
     }
     insert_nodes_address(0);
   });

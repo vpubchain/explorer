@@ -92,7 +92,7 @@ block content
               var item = {'address':'', rewards:0, balance:0, stakeaddress:'', stakevalue:0};
               item.address = "<a href='/address/" + json.data[i].address + "'>" + json.data[i].address + "</a>";
               item.rewards = json.data[i].rewards;
-              item.balance = json.data[i].balance;
+              //item.balance = json.data[i].balance;
               item.stakeaddress = json.data[i].stakeaddress;
               item.stakevalue = json.data[i].stakevalue;
 
@@ -103,11 +103,11 @@ block content
           }
         },
         columns: [
-          { data: 'address', width: '20%' },
+          { data: 'address', width: '30%' },
           { data: 'rewards', width: '20%' },
-          { data: 'stakeaddress', width: '20%' },
+          { data: 'stakeaddress', width: '30%' },
           { data: 'stakevalue', width: '20%' },
-          { data: 'balance', width: '20%' },
+          //{ data: 'balance', width: '20%' },
         ]
       });
 
@@ -430,7 +430,7 @@ block content
             th.text-center #{settings.locale.menu_reward}
             th.text-center #{settings.locale.cold_staking_nodes}
             th.text-center #{settings.locale.staking_coin}
-            th.text-center #{settings.locale.rl_balance}
+            //th.text-center #{settings.locale.rl_balance}
         tbody.text-center
 
   .col-md-12(style="margin-bottom: 4%")
