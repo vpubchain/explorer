@@ -103,9 +103,9 @@ block content
           }
         },
         columns: [
-          { data: 'address', width: '30%' },
+          { data: 'address', width: '40%' },
+          { data: 'stakeaddress', width: '20%' },
           { data: 'rewards', width: '20%' },
-          { data: 'stakeaddress', width: '30%' },
           { data: 'stakevalue', width: '20%' },
           //{ data: 'balance', width: '20%' },
         ]
@@ -427,8 +427,8 @@ block content
         thead
           tr
             th.text-center #{settings.locale.tx_address}
-            th.text-center #{settings.locale.menu_reward}
             th.text-center #{settings.locale.cold_staking_nodes}
+            th.text-center #{settings.locale.menu_reward}
             th.text-center #{settings.locale.staking_coin}
             //th.text-center #{settings.locale.rl_balance}
         tbody.text-center
