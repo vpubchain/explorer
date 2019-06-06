@@ -369,7 +369,7 @@ router.get('/network', function(req, res) {
       }
     }*/
 
-    var snapshot_localtime = (new Date((ret.timestamp + 54000) * 1000)).toLocaleString();
+    var snapshot_localtime = (new Date((ret.timestamp) * 1000)).toLocaleString();
     
     console.log('snapshot_localtime=' + snapshot_localtime + ret.timestamp);
     
