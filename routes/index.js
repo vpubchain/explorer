@@ -369,9 +369,9 @@ router.get('/network', function(req, res) {
       }
     }*/
 
-    var snapshot_localtime = new Date((ret.timestamp) * 1000).toLocaleString();
+    var snapshot_localtime = (new Date((ret.timestamp + 54000) * 1000)).toLocaleString();
     
-    console.log('u length=' + user_agent_list_data.length);
+    console.log('snapshot_localtime=' + snapshot_localtime + ret.timestamp);
     
     res.render('network', {
                         active: 'network',

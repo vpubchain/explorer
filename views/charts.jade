@@ -135,7 +135,7 @@ block content
           var agentChart = echarts.init(document.getElementById('agentCharts'));
           // 指定图表的配置项和数据
           var option = {
-            backgroundColor: '#5F9EA0',//背景色
+            backgroundColor: '#D1EEEE',//背景色
             title: {
               text: '',
               subtext: ''
@@ -281,7 +281,7 @@ block content
             var networkChart = echarts.init(document.getElementById('networkCharts'));
             // 指定图表的配置项和数据
             var option = {
-              backgroundColor: '#5F9EA0',//背景色
+              backgroundColor: '#D1EEEE',//背景色
               title: {
                 text: '',
                 subtext: ''
@@ -420,7 +420,7 @@ block content
             var asnsChart = echarts.init(document.getElementById('asnsCharts'));
             // 指定图表的配置项和数据
             var option = {
-              backgroundColor: '#5F9EA0',//背景色
+              backgroundColor: '#D1EEEE',//背景色
               title: {
                 text: '',
                 subtext: ''
@@ -557,7 +557,7 @@ block content
             var countryChart = echarts.init(document.getElementById('countryCharts'));
             // 指定图表的配置项和数据
             var option = {
-              backgroundColor: '#5F9EA0',//背景色
+              backgroundColor: '#D1EEEE',//背景色
               title: {
                 text: '',
                 subtext: ''
@@ -661,7 +661,8 @@ block content
             $('#reachable-nodes').text( totalNodes[timeArray.length-1] );
             var averageNodes = (sum/timeArray.length).toFixed(0);
             $('#average-nodes').text(averageNodes);
-            $('#last-nodes').text(totalNodes[timeArray.length-1]);
+            $('#last-nodes').text(totalNodes[0]);
+            //alert(totalNodes);
 
             $('#low-nodes').text( low );
             $('#high-nodes').text( high );
@@ -688,7 +689,7 @@ block content
             var totalChart = echarts.init(document.getElementById('totalCharts'));
             // 指定图表的配置项和数据
             var option = {
-              backgroundColor: '#5F9EA0',//背景色
+              backgroundColor: '#D1EEEE',//背景色
               title: {
                 text: '',
                 subtext: ''
@@ -738,18 +739,18 @@ block content
         .col-md-12
           hr.simple(color='#6f5499')
           .pull-left
-            span.text-muted #{settings.locale.currectnodes}
-            h1#reachable-nodes  
+            span.text-muted(style='color:#FF7F24') #{settings.locale.currectnodes}&nbsp&nbsp
+            h1(align='center')#reachable-nodes&nbsp&nbsp  
           .pull-left.hidden-xs
             .divider
           .pull-left.hidden-xs
-            span.text-muted #{settings.locale.averagenodes}
-            h1#average-nodes
+            span.text-muted(style='color:#FF7F24') #{settings.locale.averagenodes}&nbsp&nbsp
+            h1(align='center')#average-nodes&nbsp&nbsp
           .pull-left
             .divider
           .pull-left
-            span.text-muted #{days} #{settings.locale.dayagonodes}
-            h1#last-nodes
+            span.text-muted(style='color:#FF7F24') #{days} #{settings.locale.dayagonodes}&nbsp&nbsp
+            h1(align='center')#last-nodes&nbsp&nbsp
         
       .col-md-12
         hr.simple(color='#EBEBEB')

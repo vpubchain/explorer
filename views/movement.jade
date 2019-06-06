@@ -42,12 +42,12 @@ block content
           url: '/ext/getlastrealtxs/#{min_amount}',
           dataSrc: function ( json ) {
             for ( var i=0;i<json.data.length; i++ ) {
-              json.data[i]['timestamp'] = new Date((json.data[i]['timestamp']) * 1000).toLocaleString();//format_unixtime(json.data[i]['timestamp']);
+              json.data[i]['timestamp'] = new Date((json.data[i]['timestamp']) * 1000).toLocaleString();
               json.data[i]['txid'] = "<a href='/tx/" + json.data[i]['txid'] + "' class='mono' target='_blank'>" + json.data[i]['txid'] + "</a>"
               var amount = (json.data[i]['total'] / 100000000).toFixed(6);
-              if (amount > '#{flagb}') {
+              if (amount > #{flagb}) {
                 json .data[i]['total'] = "<label class='label label-danger'>" + amount + "</label>";
-              } else if (amount > '#{flaga}') {
+              } else if (amount > #{flaga}) {
                 json .data[i]['total'] = "<label class='label label-warning'>" + amount + "</label>";
               } else {
                 json .data[i]['total'] = "<label class='label label-success'>" + amount + "</label>";
@@ -132,7 +132,7 @@ block content
           {
             var myTXCharts = echarts.init(document.getElementById('txChart'));
             option = {
-              backgroundColor: '#F0FFF0',
+              backgroundColor: '#D1EEEE',
               title: {
                 text: '',
                 left: 'center'
@@ -207,7 +207,7 @@ block content
 
           var myMapCharts = echarts.init(document.getElementById('bigChangeChart'));
           option = {
-            backgroundColor: '#F0FFF0',
+            backgroundColor: '#D1EEEE',
             title: {
               text: '',
               left: 'center'
@@ -288,12 +288,8 @@ block content
     var showInterval = null;
     function updateValue()
     {
-      //alert('updateValue');
       var date = document.getElementById("selectDate");
-      //alert('test1');
-      //alert(date.value);
       var chooseAmount = document.getElementById("amount");
-      //alert(chooseAmount.value);
       var address = document.getElementById("address");
       if(date == null)
       {
@@ -301,16 +297,13 @@ block content
       }
       if(chooseAmount == null)
       {
-        chooseAmount = {"value":100};
+        chooseAmount = {"value":1000};
       }
-      //alert(address.value);
       var time = parseInt(new Date().getTime()/1000 - date.value * 86400);
       if(date.value == 0)
       {
         time = 0;
       }
-      //alert(date.value);
-      //alert(address);
       var url = '';
       if(address == null || address.value == '请输入地址')
       {
@@ -320,14 +313,12 @@ block content
       {
         url='/ext/gettxs?second=' + time + '&amount=' + chooseAmount.value + '&address=' + address.value;
       }
-      //alert(url);
       if(bigChangeTable)
       {
         bigChangeTable.fnClearTable();
         $('#big-change-table').dataTable().fnDestroy();
       }
       
-      //alert("test3");
       bigChangeTable = $('#big-change-table').dataTable( {  
         autoWidth: false,      
         searching: false,
@@ -341,14 +332,14 @@ block content
             {
               clearInterval(showInterval);
             }
-            //alert(json.data.length);
+
             for ( var i=0;i<json.data.length; i++ ) {
               var amount = (json.data[i]['total'] / 100000000).toFixed(6);
               json.data[i]['timestamp'] = new Date((json.data[i]['timestamp']) * 1000).toLocaleString();//format_unixtime(json.data[i]['timestamp']);
               json.data[i]['txid'] = "<a href='/tx/" + json.data[i]['txid'] + "' class='mono' target='_blank'>" + json.data[i]['txid'] + "</a>"
-              if (amount > '#{flagb}') {
+              if (amount > #{flagb}) {
                 json.data[i]['total'] = "<label class='label label-danger'>" + amount + "</label>";
-              } else if (amount > '#{flaga}') {
+              } else if (amount > #{flaga}) {
                 json.data[i]['total'] = "<label class='label label-warning'>" + amount + "</label>";
               } else {
                 json.data[i]['total'] = "<label class='label label-success'>" + amount + "</label>";
@@ -412,15 +403,15 @@ block content
         br
         | #{settings.locale.date} : 
         select#selectDate(name='choosedate' onchange='updateValue()' style='color:#030303;height:40px;')
-          option(value='1' style='color:#030303;height:40px;') #{settings.locale.twentyfourhours}
+          option(value='1' style='color:#030303;height:40px;' selected) #{settings.locale.twentyfourhours}
           option(value='7' style='color:#030303;height:40px;') #{settings.locale.weeks}
-          option(value='21' style='color:#030303;height:40px;' selected) #{settings.locale.threeweeks}
+          option(value='21' style='color:#030303;height:40px;') #{settings.locale.threeweeks}
           option(value='180' style='color:#030303;height:40px;') #{settings.locale.halfyears}
           option(value='365' style='color:#030303;height:40px;') #{settings.locale.year}
           option(value='0' style='color:#030303;height:40px;') #{settings.locale.all}
-        | &nbsp;&nbsp;&nbsp;&nbsp;金额: >= &nbsp;
-        input#amount(type='number', value='100', onchange='updateValue()', style="width:50px; height:40px;")
-        | VP &nbsp;&nbsp;&nbsp;&nbsp;
+        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;金额: >= &nbsp;
+        input#amount(type='number', value='1000', onchange='updateValue()', style="width:50px; height:40px;")
+        | &nbsp;VP &nbsp;&nbsp;&nbsp;&nbsp;
         | #{settings.locale.mn_address}：
         input#address(type='text', value='#{settings.locale.inputaddress}', onchange='updateValue()', style="width:600px; height:40px;")
 

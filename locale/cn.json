@@ -273,14 +273,14 @@
 
      //bitnodes
      "networkslapshot": "网络节点快照",
-     "snapshotreachable": "可达网络节点刷新时间:",
+     "snapshotreachable": "可达节点更新时间:",
      "useragent": "版本",
      "livemap": "实时地图",
      "livemapcrawler": "可达网络节点实时抓取地图",
      "charts": "节点图表",
-     "currectnodes": "当前可达节点     ",
-     "averagenodes": "平均可达节点     ",
-     "dayagonodes": "天以前节点",
+     "currectnodes": "当前可达节点数",
+     "averagenodes": "平均可达节点数",
+     "dayagonodes": "天以前节点数",
      "agentsnotes": "图表显示了根据版本可访问节点的数量。某个版本统计可从图例中启用或禁用，以查看特定统计的情况",
      "asnsnotes": "图表显示了根据ASNS统计可达节点的分布情况,某个ASNs统计可从图表中启用或禁用，以查看特定统计的情况",
      "countrynotes": "图表显示了根据国家统计可达节点的分布情况,某个国家统计可从图表中启用或禁用，以查看特定统计的情况",
