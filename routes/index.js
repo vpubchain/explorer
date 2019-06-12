@@ -455,11 +455,11 @@ router.get('/ext/stakingnodes', function(req, res) {
         continue;
       }
       
-      var item = {'address':'','version':'',protocol:0,hight:0, 'country': '','city':'','network':'','asns':'','time':'','stakingcoin':''};
+      var item = {'address':'','version':'',protocol:0,height:0, 'country': '','city':'','network':'','asns':'','time':'','stakingcoin':''};
       item.address = key;
       item.version = arr[1];
       item.protocol = arr[0];
-      item.hight = arr[4];
+      item.height = arr[4];
       item.country = arr[21];//json.nodes[key][13].country;
       item.city = arr[20];//json.nodes[key][13].city;
       item.network = arr[12] + ':' + arr[11];
