@@ -444,6 +444,34 @@ router.get('/bitcoin/api/nodes', function(req, res) {
   });
 });
 
+router.get('/ext/stakingnodes', function(req, res) {
+  console.log('/bitcoin/api/stakingnodes');
+  lib.get_bitnodes_url('nodes', function(ret){
+    var stakingnodes = {data:[]};
+    for(var key in ret.nodes) {  
+      var arr = ret.nodes[key];
+      if(arr[14] == true || arr[16] <= 0)
+      {
+        continue;
+      }
+      
+      var item = {'address':'','version':'',protocol:0,hight:0, 'country': '','city':'','network':'','asns':'','time':'','stakingcoin':''};
+      item.address = key;
+      item.version = arr[1];
+      item.protocol = arr[0];
+      item.hight = arr[4];
+      item.country = arr[21];//json.nodes[key][13].country;
+      item.city = arr[20];//json.nodes[key][13].city;
+      item.network = arr[12] + ':' + arr[11];
+      item.asns = arr[11];
+      item.time = arr[2];//new Date((arr[2]) * 1000).toLocaleString();
+      item.stakingcoin = (arr[16]).toFixed(6);
+      stakingnodes.data.push(item);
+    }
+    res.send(stakingnodes);
+  });
+});
+
 router.get('/bitcoin/api/dashboard', function(req, res) {
   //console.log('/bitcoin/api/dashboard');
   var params_days = req.query.days;
