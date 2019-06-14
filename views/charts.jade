@@ -25,14 +25,15 @@ block content
             }
           }
           var timeArray = [];
-          var timeNum = #{days}*48;
+          var timeNum = 48;
           var tmpTime = 0;
           var tmpDays = #{days};
           var strTimeArray = [];
           var strTmpTime = '';
+          var intertime = #{days}*3600*24/48;
           for(var i = 1; i <= timeNum; i++)
           {
-            tmpTime = startTime - timeNum * 1800 + i * 1800;
+            tmpTime = startTime - timeNum * intertime + i * intertime;
             timeArray.push(tmpTime);
             strTmpTime = riqigeshi(tmpTime, tmpDays);
             strTimeArray.push(strTmpTime);
