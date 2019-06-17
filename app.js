@@ -132,9 +132,9 @@ app.use('/ext/getlastpoolbytime/:second', function(req,res){
 });
 
 app.use('/ext/getstakerewards/:hash', function(req,res){
-  db.get_stake_rewards_by_address(req.param('hash'), function(rewards){
-    if (rewards) {
-      res.send(' ' + rewards);
+  db.get_cold_node_info_by_address(req.param('hash'), function(ret){
+    if (ret.length == 1) {
+      res.send(' ' + ret[0].rewards);
     }
     else
     {
@@ -230,124 +230,16 @@ app.use('/ext/connections', function(req,res){
 });
 
 app.use('/ext/coldstakingnodes', function(req,res){
-  var nodes_data = [];
-  lib.get_bitnodes_url('coldstakes', function(coldstakes){
-    //console.log(coldstakes);
-    var coldstakecount = 0;
-    for(key in coldstakes)
-    {
-      coldstakecount++;
-    }
-    db.get_coldstaking_nodes(function(nodes){
-      function insert_nodes_address(i)
-      {
-        if(i == nodes.length)
-        {
-          for(key in coldstakes)
-          {
-            if(!coldstakes[key].hascount)
-            {
-              var item = {};
-              item.address = key;
-              item.stakeaddress = coldstakes[key].onlineaddress;
-              item.rewards = 0;
-              //item.balance = 0;
-              item.stakevalue = (coldstakes[key].value/100000000).toFixed(6);
-              nodes_data.push(item);
-            }    
-          }
-          res.send({data: nodes_data});
-          return;
-        }
-
-        var item = {};
-        item.address = nodes[i].address;
-        item.rewards = nodes[i].rewards.toFixed(6);
-        stakenode = coldstakes[item.address];
-        if(stakenode != undefined)
-        {
-          //console.log(item.address + stakenode);
-          item.stakeaddress = stakenode["onlineaddress"];
-          item.stakevalue = (stakenode["value"]/100000000).toFixed(6);
-          stakenode.hascount = true;
-          nodes_data.push(item);
-        }
-
-        //db.get_address(item.address, function(ret){
-        //if (ret) {
-          //item.balance = (ret.balance/100000000).toFixed(6);
-          insert_nodes_address(++i);
-        //}
-      //});
-    }
-    insert_nodes_address(0);
-  });
-  });
+  db.get_cold_nodes(function(ret){
+    res.send(ret);
+  })
 });
 
 
 app.use('/ext/getorderedcoldnodes', function(req,res){
-  var nodes_data = [];
-  var sorted_count = 0;
-  lib.get_bitnodes_url('coldstakes', function(coldstakes){
-    //console.log(coldstakes);
-    var coldstakecount = 0;
-    for(key in coldstakes)
-    {
-      coldstakecount++;
-    }
-    db.get_sorted_coldstaking_nodes(function(nodes){
-      function insert_nodes_address(i)
-      {
-        if(i == nodes.length)
-        {
-          console.log('nodes length=' + sorted_count);
-          for(key in coldstakes)
-          {
-            if(sorted_count >= 20)
-            {
-              break;
-            }
-            if(!coldstakes[key].hascount)
-            {
-              var item = {};
-              item.address = key;
-              item.stakeaddress = coldstakes[key].onlineaddress;
-              item.rewards = 0;
-              //item.balance = 0;
-              item.stakevalue = (coldstakes[key].value/100000000).toFixed(6);
-              nodes_data.push(item);
-              ++sorted_count;
-            }    
-          }
-          res.send({data: nodes_data});
-          return;
-        }
-
-        var item = {};
-        item.address = nodes[i].address;
-        item.rewards = nodes[i].rewards.toFixed(6);
-        stakenode = coldstakes[item.address];
-        if(stakenode != undefined)
-        {
-          //console.log(item.address + stakenode);
-          item.stakeaddress = stakenode["onlineaddress"];
-          item.stakevalue = (stakenode["value"]/100000000).toFixed(6);
-          stakenode.hascount = true;
-          nodes_data.push(item);
-          ++sorted_count;
-          if(sorted_count >= 20)
-          {
-            res.send({data: nodes_data});
-            return;
-          }
-        }
-
-        insert_nodes_address(++i);
-    }
-    insert_nodes_address(0);
-  });
-  });
+  db.get_cold_nodes(function(ret){
+    res.send(ret);
+  })
 });
 
 app.use('/ext/coldstakingnodesnum', function(req,res){
