@@ -231,15 +231,15 @@ app.use('/ext/connections', function(req,res){
 
 app.use('/ext/coldstakingnodes', function(req,res){
   db.get_cold_nodes(function(ret){
-    res.send(ret);
-  })
+    res.send({data:ret});
+  });
 });
 
 
 app.use('/ext/getorderedcoldnodes', function(req,res){
   db.get_cold_nodes(function(ret){
-    res.send(ret);
-  })
+    res.send({data:ret});
+  });
 });
 
 app.use('/ext/coldstakingnodesnum', function(req,res){

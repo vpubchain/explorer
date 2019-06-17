@@ -453,20 +453,20 @@ router.get('/ext/getcoldstakingnodes', function(req, res) {
   if(address != undefined)
   {
     db.get_cold_node_info_by_address(address, function(ret){
-      res.send(ret);
+      res.send({data:ret});
     });
   }
   else if(page != undefined)
   {
     params_pagesize = isNaN(pagesize) || pagesize == 0 ? 10 : pagesize;
     db.get_cold_nodes_by_pages(page, params_pagesize, function(ret){
-      res.send(ret);
+      res.send({data:ret});
     });
   }
   else
   {
     db.get_cold_nodes(function(ret){
-      res.send(ret);
+      res.send({data:ret});
     })  
   }
 });
