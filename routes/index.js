@@ -444,6 +444,33 @@ router.get('/bitcoin/api/nodes', function(req, res) {
   });
 });
 
+router.get('/ext/getcoldstakingnodes', function(req, res) {
+  //console.log('/bitcoin/api/dashboard');
+  var address = req.query.address;
+  params_address = isNaN(address) ? null : address;
+  var page = req.query.page;
+  var pagesize = req.query.pagesize;
+  if(address != undefined)
+  {
+    db.get_cold_node_info_by_address(address, function(ret){
+      res.send(ret);
+    });
+  }
+  else if(page != undefined)
+  {
+    params_pagesize = isNaN(pagesize) || pagesize == 0 ? 10 : pagesize;
+    db.get_cold_nodes_by_pages(page, params_pagesize, function(ret){
+      res.send(ret);
+    });
+  }
+  else
+  {
+    db.get_cold_nodes(function(ret){
+      res.send(ret);
+    })  
+  }
+});
+
 router.get('/ext/stakingnodes', function(req, res) {
   console.log('/bitcoin/api/stakingnodes');
   lib.get_bitnodes_url('nodes', function(ret){

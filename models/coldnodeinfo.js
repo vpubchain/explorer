@@ -3,8 +3,8 @@ var mongoose = require('mongoose')
  
 var ColdNodeInfoSchema = new Schema({
   address: { type: String, unique: true, index: true},
-  onlineaddress: { type: String },
   rewards: {type: Number, default: 0},
+  stakeaddress: { type: String },
   stakevalue: {type: Number, default: 0},
 }, {id: false});
 
