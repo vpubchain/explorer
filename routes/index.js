@@ -474,8 +474,15 @@ router.get('/ext/getcoldstakingnodes', function(req, res) {
   {
     db.get_cold_nodes(function(ret){
       res.send({data:ret});
-    })  
+    });  
   }
+});
+
+
+router.get('/ext/getcoldstakingnodeslist', function(req, res) {
+  db.get_cold_nodes_list(function(ret){
+    res.send({data:ret});
+  });  
 });
 
 router.get('/ext/stakingnodes', function(req, res) {
