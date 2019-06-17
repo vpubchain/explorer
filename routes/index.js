@@ -447,12 +447,19 @@ router.get('/bitcoin/api/nodes', function(req, res) {
 router.get('/ext/getcoldstakingnodes', function(req, res) {
   //console.log('/bitcoin/api/dashboard');
   var address = req.query.address;
+  var stakeaddress = req.query.stakeaddress;
   params_address = isNaN(address) ? null : address;
   var page = req.query.page;
   var pagesize = req.query.pagesize;
   if(address != undefined)
   {
     db.get_cold_node_info_by_address(address, function(ret){
+      res.send({data:ret});
+    });
+  }
+  else if(stakeaddress != undefined)
+  {
+    db.get_cold_node_info_by_stakeaddress(stakeaddress, function(ret){
       res.send({data:ret});
     });
   }
