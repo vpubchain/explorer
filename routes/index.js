@@ -398,14 +398,7 @@ router.get('/charts', function(req, res) {
                         days: params_days
                       });
 });
-/*
-router.get('/charts:days', function(req, res) {
-  var params_days = req.params['days'];
-  console.log('params_days' + params_days);
-  res.render('charts', {active: 'charts',
-                        days: params_days });
-});
-*/
+
 router.get('/live-map', function(req, res) {
   res.render('live-map', {active: 'live-map'});
 });
@@ -513,7 +506,10 @@ router.get('/ext/getcoldstakingnodeslist', function(req, res) {
 });
 
 router.get('/ext/stakingnodes', function(req, res) {
-  console.log('/bitcoin/api/stakingnodes');
+  db.get_stake_nodes(function(ret){
+    res.send({data:ret});
+  });
+  /*console.log('/bitcoin/api/stakingnodes');
   lib.get_bitnodes_url('nodes', function(ret){
     var stakingnodes = {data:[]};
     for(var key in ret.nodes) {  
@@ -537,7 +533,7 @@ router.get('/ext/stakingnodes', function(req, res) {
       stakingnodes.data.push(item);
     }
     res.send(stakingnodes);
-  });
+  });*/
 });
 
 router.get('/bitcoin/api/dashboard', function(req, res) {
