@@ -51,11 +51,24 @@ mongoose.connect(dbString, function(err) {
                   nodes_data.push(item);
                   db.update_cold_node_info(item.address, item.stakeaddress, item.rewards, item.stakevalue, function(){
                   //insert_nodes_address(++i);  
+		    ++index;
+                    if(index >= coldstakecount)
+                    {
+                      exit();
+                    }
                   });
-                }    
+                }
+		else
+		{
+		  ++index;
+                  if(index >= coldstakecount)
+                  {
+                    exit();
+                  }
+		}
               }
               //res.send({data: nodes_data});
-              exit();
+              //exit();
               return;
             }
 
