@@ -27,12 +27,12 @@ mongoose.connect(dbString, function(err) {
     ColdNodeInfo.remove({}, function(err) { 
       lib.get_bitnodes_url('coldstakes', function(coldstakes){
         //console.log(coldstakes);
-        var coldstakecount = 0;
+        var coldstakeslen = 0;
         for(key in coldstakes)
         {
-          coldstakecount++;
+          coldstakeslen++;
         }
-        var index = 0;
+        var coldstakecount = 0;
         db.get_coldstaking_nodes(function(nodes){
           function insert_nodes_address(i)
           {
@@ -50,12 +50,25 @@ mongoose.connect(dbString, function(err) {
                   item.stakevalue = (coldstakes[key].value/100000000).toFixed(6);
                   nodes_data.push(item);
                   db.update_cold_node_info(item.address, item.stakeaddress, item.rewards, item.stakevalue, function(){
-                  //insert_nodes_address(++i);  
+                  //insert_nodes_address(++i);
+                    ++coldstakecount;
+                    if(coldstakecount >= coldstakeslen)
+                    {
+                      exit();
+                    }  
                   });
+                }
+                else
+                {
+                  ++coldstakecount;
+                  if(coldstakecount >= coldstakeslen)
+                  {
+                    exit();
+                  }
                 }    
               }
               //res.send({data: nodes_data});
-              exit();
+              //exit();
               return;
             }
 
