@@ -13,15 +13,6 @@ block content
         ajax: {
           url: '/ext/connections',
           dataSrc: function ( json ) {
-            /*for ( var i=0;i<json.data.length; i++ ) {
-              json.data[i]['timestamp'] = new Date((json.data[i]['timestamp']) * 1000).toUTCString();
-              json.data[i]['txid'] = "<a href='/tx/" + json.data[i]['txid'] + "'>" + json.data[i]['txid'] + "</a>";
-              json.data[i]['blockindex'] = "<a href='/block/" + json.data[i]['blockhash'] + "'>" + json.data[i]['blockindex'] + "</a>";
-              var amount = json.data[i]['total'] / 100000000;
-              json.data[i]['total'] = amount.toFixed(8);
-              json.data[i]['recipients'] = json.data[i]['vout'].length;
-            }*/
-            //alert('test2');
             return json.data;
           }
         },
@@ -121,26 +112,24 @@ block content
         filter: true,  // 搜索栏
         searching: true, 
         ajax: {
-          url: '/bitcoin/api/nodes',
+          url: '/ext/stakingnodes',
           dataSrc: function ( json ) {
             var res = {data:[]};
-            for(var key in json.nodes) {  
-              var arr = json.nodes[key];//json.nodes[key].toString().split(',');
-              //alert(arr[14]);
-              if(arr[14] == true || arr[16] <= 0)
-              {
-                continue;
-              }
-              var item = {'address':'','useragent':'',hight:0, 'location': '','city':'','network':'','time':'','rtt':'','stakingcoin':''};
-              item.address = key;
-              item.useragent = arr[1] + '<br>' + arr[0];
-              item.hight = arr[4];
-              item.location = arr[21];//json.nodes[key][13].country;
-              item.city = arr[20];//json.nodes[key][13].city;
-              item.network = arr[12] + '<br>' + arr[11];
-              item.time = new Date((arr[2]) * 1000).toLocaleString();
-              item.rtt = arr[13];
-              item.stakingcoin = (arr[16]).toFixed(6);
+            //alert(json.data.length);
+            for(var i = 0; i < json.data.length; i++)
+            {
+              var itemdata = json.data[i];
+              var item = {'address':'','useragent':'',height:0, 'location': '','city':'','network':'','time':'','rtt':'','stakingcoin':''};
+              item.address = itemdata.address;
+              item.useragent = itemdata.version + '<br>' + itemdata.protocol;
+              item.height = itemdata.height;
+              item.location = itemdata.country;//json.nodes[key][13].country;
+              item.city = itemdata.city;//json.nodes[key][13].city;
+              item.network = itemdata.network + '<br>' + itemdata.asns;
+              item.time = new Date((itemdata.time) * 1000).toLocaleString();
+              item.rtt = 0;
+              item.stakingcoin = (itemdata.stakingcoin).toFixed(6);
+              //alert(item.time);
               res.data.push(item);
             }
             return res.data;
@@ -150,7 +139,7 @@ block content
           { data: 'time', width: '10%' },
           { data: 'address', width: '20%' },
           { data: 'useragent', width: '10%' },
-          { data: 'hight', width:'10%' },
+          { data: 'height', width:'10%' },
           { data: 'location', width:'10%' },
           { data: 'city', width:'10%' },
           { data: 'network', width: '20%'},
