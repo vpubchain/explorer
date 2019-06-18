@@ -478,6 +478,33 @@ router.get('/ext/getcoldstakingnodes', function(req, res) {
   }
 });
 
+router.get('/ext/getstakingnodes', function(req, res) {
+  //console.log('/bitcoin/api/dashboard');
+  var address = req.query.address;
+  params_address = isNaN(address) ? null : address;
+  var page = req.query.page;
+  var pagesize = req.query.pagesize;
+  if(address != undefined)
+  {
+    db.get_stake_node_info_by_address(address, function(ret){
+      res.send({data:ret});
+    });
+  }
+  else if(page != undefined)
+  {
+    params_pagesize = isNaN(pagesize) || pagesize == 0 ? 10 : pagesize;
+    db.get_stake_nodes_by_pages(page, params_pagesize, function(ret){
+      res.send({data:ret});
+    });
+  }
+  else
+  {
+    db.get_stake_nodes(function(ret){
+      res.send({data:ret});
+    });  
+  }
+});
+
 
 router.get('/ext/getcoldstakingnodeslist', function(req, res) {
   db.get_cold_nodes_list(function(ret){
@@ -503,7 +530,7 @@ router.get('/ext/stakingnodes', function(req, res) {
       item.height = arr[4];
       item.country = arr[21];//json.nodes[key][13].country;
       item.city = arr[20];//json.nodes[key][13].city;
-      item.network = arr[12] + ':' + arr[11];
+      item.network = arr[12];
       item.asns = arr[11];
       item.time = arr[2];//new Date((arr[2]) * 1000).toLocaleString();
       item.stakingcoin = (arr[16]).toFixed(6);
