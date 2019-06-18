@@ -237,7 +237,7 @@ app.use('/ext/coldstakingnodes', function(req,res){
 
 
 app.use('/ext/getorderedcoldnodes', function(req,res){
-  db.get_cold_nodes(function(ret){
+  db.get_sorted_cold_nodes(function(ret){
     res.send({data:ret});
   });
 });
