@@ -27,14 +27,8 @@ mongoose.connect(dbString, function(err) {
     ColdNodeInfo.remove({}, function(err) { 
       lib.get_bitnodes_url('coldstakes', function(coldstakes){
         //console.log(coldstakes);
-        var coldstakeslen = 0;
-        for(key in coldstakes)
-        {
-          coldstakeslen++;
-        }
-        var coldstakecount = 0;
         db.get_coldstaking_nodes(function(nodes){
-          function insert_nodes_address(i)
+          function update_nodes_address(i)
           {
             if(i == nodes.length)
             {
@@ -46,33 +40,29 @@ mongoose.connect(dbString, function(err) {
                   item.address = key;
                   item.stakeaddress = coldstakes[key].onlineaddress;
                   item.rewards = 0;
-                  //item.balance = 0;
                   item.stakevalue = (coldstakes[key].value/100000000).toFixed(6);
                   nodes_data.push(item);
-                  db.update_cold_node_info(item.address, item.stakeaddress, item.rewards, item.stakevalue, function(){
-                  //insert_nodes_address(++i);
-                    ++coldstakecount;
-                    if(coldstakecount >= coldstakeslen)
-                    {
-                      exit();
-                    }  
-                  });
-                }
-                else
-                {
-                  ++coldstakecount;
-                  if(coldstakecount >= coldstakeslen)
-                  {
-                    exit();
-                  }
                 }    
               }
-              //res.send({data: nodes_data});
-              //exit();
+
+              function update_cold_node_info2db(j)
+              {
+                if(j >= nodes_data.length)
+                {
+                  exit();
+                  return;
+                }
+                var item = nodes_data[j];
+                db.update_cold_node_info(item.address, item.stakeaddress, item.rewards, item.stakevalue, function(){
+                  update_cold_node_info2db(++j);  
+                });
+              }
+
+              update_cold_node_info2db(0); 
               return;
             }
 
-            var item = {};
+            var item = {'address':'', 'rewards':0,'stakeaddress':'','stakevalue':0,'hascount':false};
             item.address = nodes[i].address;
             item.rewards = nodes[i].rewards.toFixed(6);
             stakenode = coldstakes[item.address];
@@ -82,20 +72,16 @@ mongoose.connect(dbString, function(err) {
               item.stakeaddress = stakenode["onlineaddress"];
               item.stakevalue = (stakenode["value"]/100000000).toFixed(6);
               stakenode.hascount = true;
-              //db.update_cold_node_info(item.address, item.stakeaddress, item.rewards, item.stakevalue);
               nodes_data.push(item);
-              db.update_cold_node_info(item.address, item.stakeaddress, item.rewards, item.stakevalue, function(){
-                insert_nodes_address(++i);  
-              });
+              update_nodes_address(++i);
             }
             else
             {
-              db.update_cold_node_info(item.address, 0, item.rewards, 0, function(){
-                insert_nodes_address(++i);  
-              }); 
+              nodes_data.push(item);
+              update_nodes_address(++i);
             }
           }
-          insert_nodes_address(0);
+          update_nodes_address(0);
         });
       });
     });
