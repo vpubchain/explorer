@@ -201,6 +201,14 @@ app.use('/ext/gettxs/', function(req,res){
   });
 });
 
+app.use('/ext/getrealtxsbytime/', function(req,res){
+  console.log("getrealtxsbytime");
+  var second = req.query.second;
+  db.get_real_txs(second, function(txs){
+    res.send({data: txs});
+  });
+});
+
 
 app.use('/ext/getblockhashbytime/:lte/:gte', function(req,res){
   db.get_blockhash_by_time(req.params.lte, req.params.gte, function(txs){

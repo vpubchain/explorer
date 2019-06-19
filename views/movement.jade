@@ -62,74 +62,56 @@ block content
           { data: 'total', width: '15%' },
         ]
       });
-      setInterval( function () {
-        rtable.api().ajax.reload(null, false);
-      }, 45000 );
-    });
 
-    function format_unixtime_to_day(unixtime) {
-      var a = new Date(unixtime*1000);  
-      var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-      var year = a.getFullYear();
-      var month = a.getMonth()+1;//months[a.getMonth()];
-      var date = a.getDate();
-      var time = year + '-' + month + '-' + date;   
-      return time;
-    }
+      {
+        var baseTime = parseInt(new Date().getTime()/1000) - 59 * 86400;
+        var timeData = [];
+        var timestampData = [];
+        var timeNumData = [];
+        var timeAmountData = [];
+        var TIME_LEN = 60;
+        for(var i = 0; i < TIME_LEN; i++)
+        {
+          var time = baseTime + i * 86400;
+          var strTime = format_unixtime_to_day(time);
+          timeData.push(strTime);
+          timestampData.push(time);
+          timeNumData.push(0);
+          timeAmountData.push(0);
+        }
 
-    function changeChartAmount() {
-      var baseTime = parseInt(new Date().getTime()/1000) - 59 * 86400;
-      var amount = document.getElementById("chartAmount");
-      if(amount == null)
-      {
-        amount = {value:100};
-      }
-      var timeData = [];
-      var timestampData = [];
-      var timeNumData = [];
-      var timeAmountData = [];
-      for(var i = 0; i < 60; i++)
-      {
-        var time = baseTime + i * 86400;
-        var strTime = format_unixtime_to_day(time);
-        timeData.push(strTime);
-        timestampData.push(time);
-        timeNumData.push(0);
-        timeAmountData.push(0);
-      }
-      var url = '';
-      url='/ext/gettxs?second=' + baseTime + '&amount=' + amount.value;
-      var ajaxReq = $.ajax ({
-        url: url,
-        success: function( json ){
-          var j = 0;
-          for ( var i=json.data.length-1;i>=0; i-- ) {
-            if(json.data[i].timestamp >= timestampData[j] && json.data[i].timestamp <= timestampData[j+1])
-            {
-              timeNumData[j]++;
-              timeAmountData[j] += json.data[i].total/100000000;
-            }
-            else
-            {
-              j++;
-              for(; j < 60; j++)
+        var url = '';
+        url='/ext/getrealtxsbytime?second=' + baseTime;
+        //alert(url);
+        var ajaxReq = $.ajax ({
+          url: url,
+          success: function( json ){
+            //alert(json.data.length);
+            var j = 0;
+            for ( var i=json.data.length-1;i>=0; i-- ) {
+              if(json.data[i].timestamp >= timestampData[j] && json.data[i].timestamp <= timestampData[j+1])
               {
-                if(json.data[i].timestamp >= timestampData[j] && json.data[i].timestamp <= timestampData[j+1])
+                timeAmountData[j] += json.data[i].total/100000000;
+              }
+              else
+              {
+                j++;
+                for(; j < TIME_LEN; j++)
                 {
-                  timeNumData[j]++;
-                  timeAmountData[j] += json.data[i].total/100000000;
+                  if(json.data[i].timestamp >= timestampData[j] && json.data[i].timestamp <= timestampData[j+1])
+                  {
+                    timeAmountData[j] += json.data[i].total/100000000;
+                    break;
+                  }
+                }
+                if(j >= TIME_LEN)
+                {
+                  j = 0;
                   break;
                 }
               }
-              if(j >= 60)
-              {
-                j = 0;
-                break;
-              }
             }
-          }
-          
-          {
+            
             var myTXCharts = echarts.init(document.getElementById('txChart'));
             option = {
               backgroundColor: '#D1EEEE',
@@ -160,7 +142,7 @@ block content
               yAxis: {
                 type: 'value',
                 data: timeAmountData,
-                boundaryGap: [0, '50%']
+                boundaryGap: [0, '30%']
               },
               dataZoom: [{
                 type: 'inside',
@@ -204,6 +186,77 @@ block content
             };
             myTXCharts.setOption(option);      
           }
+        });
+      }
+      setInterval( function () {
+        rtable.api().ajax.reload(null, false);
+      }, 45000 );
+    });
+
+    function format_unixtime_to_day(unixtime) {
+      var a = new Date(unixtime*1000);  
+      var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var year = a.getFullYear();
+      var month = a.getMonth()+1;//months[a.getMonth()];
+      var date = a.getDate();
+      var time = year + '-' + month + '-' + date;   
+      return time;
+    }
+
+    function changeChartAmount() {
+      var baseTime = parseInt(new Date().getTime()/1000) - 59 * 86400;
+      var amount = document.getElementById("chartAmount");
+      if(amount == null)
+      {
+        amount = {value:100};
+      }
+      var timeData = [];
+      var timestampData = [];
+      var timeNumData = [];
+      var timeAmountData = [];
+      var TIME_LEN = 60;
+      for(var i = 0; i < TIME_LEN; i++)
+      {
+        var time = baseTime + i * 86400;
+        var strTime = format_unixtime_to_day(time);
+        timeData.push(strTime);
+        timestampData.push(time);
+        timeNumData.push(0);
+        timeAmountData.push(0);
+      }
+      var url = '';
+      url='/ext/gettxs?second=' + baseTime + '&amount=' + amount.value;
+      var ajaxReq = $.ajax ({
+        url: url,
+        success: function( json ){
+          var j = 0;
+          for ( var i=json.data.length-1;i>=0; i-- ) {
+            if(json.data[i].timestamp >= timestampData[j] && json.data[i].timestamp <= timestampData[j+1])
+            {
+              timeNumData[j]++;
+              timeAmountData[j] += json.data[i].total/100000000;
+            }
+            else
+            {
+              j++;
+              for(; j < TIME_LEN; j++)
+              {
+                if(json.data[i].timestamp >= timestampData[j] && json.data[i].timestamp <= timestampData[j+1])
+                {
+                  timeNumData[j]++;
+                  timeAmountData[j] += json.data[i].total/100000000;
+                  break;
+                }
+              }
+              if(j >= TIME_LEN)
+              {
+                j = 0;
+                break;
+              }
+            }
+          }
+          
+          
 
           var myMapCharts = echarts.init(document.getElementById('bigChangeChart'));
           option = {
