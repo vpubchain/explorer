@@ -196,7 +196,7 @@ app.use('/ext/gettxs/', function(req,res){
   var amount = req.query.amount * 100000000;
   var address = req.query.address;
   address = isNaN(address) || address == '' ? '' : address;
-  db.get_vpub_txs(second, amount, address, function(txs){
+  db.get_bigcharge_txs(second, amount, address, function(txs){
     res.send({data: txs});
   });
 });

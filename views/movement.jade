@@ -64,13 +64,14 @@ block content
       });
 
       {
-        var baseTime = parseInt(new Date().getTime()/1000) - 59 * 86400;
+        var baseTime = new Date(new Date().toLocaleDateString()).getTime()/1000-59*86400;//parseInt(new Date().getTime()/1000) - 59 * 86400;
+        //alert(baseTime);
         var timeData = [];
         var timestampData = [];
         var timeNumData = [];
         var timeAmountData = [];
         var TIME_LEN = 60;
-        for(var i = 0; i < TIME_LEN; i++)
+        for(var i = 0; i <= TIME_LEN; i++)
         {
           var time = baseTime + i * 86400;
           var strTime = format_unixtime_to_day(time);
@@ -95,6 +96,7 @@ block content
               }
               else
               {
+                timeAmountData[j] = (timeAmountData[j]).toFixed(6);
                 j++;
                 for(; j < TIME_LEN; j++)
                 {
@@ -111,6 +113,8 @@ block content
                 }
               }
             }
+
+            timeAmountData[TIME_LEN-1] = (timeAmountData[TIME_LEN-1]).toFixed(6);
             
             var myTXCharts = echarts.init(document.getElementById('txChart'));
             option = {
@@ -204,7 +208,7 @@ block content
     }
 
     function changeChartAmount() {
-      var baseTime = parseInt(new Date().getTime()/1000) - 59 * 86400;
+      var baseTime = new Date(new Date().toLocaleDateString()).getTime()/1000-59*86400;
       var amount = document.getElementById("chartAmount");
       if(amount == null)
       {
@@ -213,16 +217,14 @@ block content
       var timeData = [];
       var timestampData = [];
       var timeNumData = [];
-      var timeAmountData = [];
       var TIME_LEN = 60;
-      for(var i = 0; i < TIME_LEN; i++)
+      for(var i = 0; i <= TIME_LEN; i++)
       {
         var time = baseTime + i * 86400;
         var strTime = format_unixtime_to_day(time);
         timeData.push(strTime);
         timestampData.push(time);
         timeNumData.push(0);
-        timeAmountData.push(0);
       }
       var url = '';
       url='/ext/gettxs?second=' + baseTime + '&amount=' + amount.value;
@@ -234,7 +236,6 @@ block content
             if(json.data[i].timestamp >= timestampData[j] && json.data[i].timestamp <= timestampData[j+1])
             {
               timeNumData[j]++;
-              timeAmountData[j] += json.data[i].total/100000000;
             }
             else
             {
@@ -244,7 +245,6 @@ block content
                 if(json.data[i].timestamp >= timestampData[j] && json.data[i].timestamp <= timestampData[j+1])
                 {
                   timeNumData[j]++;
-                  timeAmountData[j] += json.data[i].total/100000000;
                   break;
                 }
               }
@@ -256,8 +256,6 @@ block content
             }
           }
           
-          
-
           var myMapCharts = echarts.init(document.getElementById('bigChangeChart'));
           option = {
             backgroundColor: '#D1EEEE',
