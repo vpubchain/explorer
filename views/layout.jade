@@ -216,7 +216,7 @@ html
           .col-lg-2.col-md-0
 
         if settings.index.show_coin_supply
-          - supplyPanelSize = settings.display.coinmarketcap == true ? "col-lg-2 col-md-4 col-sm-4" : "col-lg-3 col-md-4 col-sm-4"
+          - supplyPanelSize = settings.display.coinmarketcap == true ? "col-lg-2 col-md-4 col-sm-4" : "col-lg-2 col-md-4 col-sm-4"
           div(class=supplyPanelSize)
             .panel.panel-primary.panel-summary
               .panel-heading
@@ -226,11 +226,11 @@ html
                   .col-md-12
                     h1#supply -
         if settings.index.show_hashrate
-          .col-lg-3.col-md-4.col-sm-4
+          .col-lg-2.col-md-4.col-sm-4
             .panel.panel-primary.panel-summary
               .panel-heading
-                span #{settings.locale.network}
-              .panel-body(style="padding-top: 25px")
+                span #{settings.locale.hashrate}
+              .panel-body(style="padding-top: 35px")
                 row.text-center
                   .col-md-12
                     h1
@@ -252,14 +252,15 @@ html
                         =" (PH/s)"
                       else if settings.nethash_units == 'H'
                         =" (H/s)"
-                    h3
-                      label #{settings.locale.difficulty}: &nbsp;
-                      if settings.index.difficulty == 'Hybrid'
-                        label#difficulty -
-                        <br>
-                        label#difficultyHybrid -
-                      else
-                        label#difficulty -
+        if settings.index.show_hashrate
+          .col-lg-2.col-md-4.col-sm-4
+            .panel.panel-primary.panel-summary
+              .panel-heading
+                span #{settings.locale.difficulty}
+              .panel-body(style="padding-top: 35px")
+                row.text-center
+                  .col-md-12
+                    h1#difficulty -
         if settings.display.masternodes == true
           .col-lg-2.col-md-4.col-sm-4
             .panel.panel-primary.panel-summary

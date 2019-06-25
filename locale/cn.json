@@ -26,7 +26,7 @@
     "ex_search_error": "查找无结果: ",
     "ex_latest_transactions": "最新",
     "ex_summary": "Block Summary",
-    "ex_supply": "区块总量",
+    "ex_supply": "发行总量",
     "ex_block": "区块高度",
     "ex_ledger": "Ledger",
 
@@ -49,6 +49,7 @@
     // global
     "difficulty": "难度",
     "network": "网络",
+    "hashrate": "哈希率",
     "masternodes": "主节点",
     "height": "高度",
     "timestamp": "时间",

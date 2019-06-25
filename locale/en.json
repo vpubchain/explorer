@@ -48,6 +48,7 @@
     // global
     "difficulty": "Difficulty",
     "network": "Network",
+    "hashrate": "hashrate",
     "masternodes": "Masternodes",
     "height": "Height",
     "timestamp": "Timestamp",
