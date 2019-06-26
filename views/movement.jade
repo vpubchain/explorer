@@ -444,7 +444,7 @@ block content
         br
         | 金额: >= &nbsp;
         input#chartAmount(type='number', onchange='changeChartAmount()', value='100', style="width:50px; height:40px;")
-        | VCL
+        | #{settings.symbol}
         br
       .col-md-offset-1.col-md-10
         br
@@ -462,7 +462,7 @@ block content
           option(value='0' style='color:#030303;height:40px;') #{settings.locale.all}
         | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;金额: >= &nbsp;
         input#amount(type='number', value='1000', onchange='updateValue()', style="width:50px; height:40px;")
-        | &nbsp;VCL &nbsp;&nbsp;&nbsp;&nbsp;
+        | &nbsp;#{settings.symbol} &nbsp;&nbsp;&nbsp;&nbsp;
         | #{settings.locale.mn_address}：
         input#address(type='text', value='#{settings.locale.inputaddress}', onchange='updateValue()', style="width:600px; height:40px;")
 
