@@ -78,9 +78,12 @@ block content
           timeData.push(strTime);
           timestampData.push(time);
           timeNumData.push(0);
-          timeAmountData.push(0);
+          var amoutItem = {time:"",amount:0};
+          amoutItem.time = strTime;
+          timeAmountData.push(amoutItem);
         }
-
+        //alert("test1");
+        //alert(timeAmountData);
         var url = '';
         url='/ext/getrealtxsbytime?second=' + baseTime;
         //alert(url);
@@ -90,19 +93,27 @@ block content
             //alert(json.data.length);
             var j = 0;
             for ( var i=json.data.length-1;i>=0; i-- ) {
+              //alert("test2");
+              //alert(timeAmountData[j].time);
               if(json.data[i].timestamp >= timestampData[j] && json.data[i].timestamp <= timestampData[j+1])
               {
-                timeAmountData[j] += json.data[i].total/100000000;
+                //alert("test3");
+                timeAmountData[j].amount += json.data[i].total/100000000;
+                //alert("test4");
               }
               else
               {
-                timeAmountData[j] = (timeAmountData[j]).toFixed(6);
+                //alert("test3");
+                timeAmountData[j].amount = (timeAmountData[j].amount).toFixed(6);
+                //alert("test4");
                 j++;
                 for(; j < TIME_LEN; j++)
                 {
                   if(json.data[i].timestamp >= timestampData[j] && json.data[i].timestamp <= timestampData[j+1])
                   {
-                    timeAmountData[j] += json.data[i].total/100000000;
+                    //alert("test3");
+                    timeAmountData[j].amount += json.data[i].total/100000000;
+                    //alert("test4");
                     break;
                   }
                 }
@@ -114,9 +125,67 @@ block content
               }
             }
 
-            timeAmountData[TIME_LEN-1] = (timeAmountData[TIME_LEN-1]).toFixed(6);
+            timeAmountData[TIME_LEN-1].amount = (timeAmountData[TIME_LEN-1].amount).toFixed(6);
+            //alert(timeAmountData);
+            AmCharts.makeChart("txChart", {
+            "type": "serial",
+            "theme": "black",
+            "marginRight": 80,
+            "dataProvider": timeAmountData,
+            "fill": "green",
+            "borderColor": "green",
+            "valueAxes": [{
+              "position": "left",
+              "axisColor": "green",
+              "color": "green",
+              "title": "交易金额",
+              "titleColor": "#575757"
+            }],
+            "graphs": [{
+              "id": "g1",
+              "fillAlphas": 0.4,
+              "valueField": "amount",
+              "lineColor": "green",
+              "balloonText": "<div style='margin:5px; font-size:19px;'>金额:<b> [[value]]</b></div>",   
+              }
+            ],
+            "chartCursor": {
+              "categoryBalloonDateFormat": "JJ:NN, DD MMMM",
+              "cursorPosition": "mouse"
+            },
+            "categoryField": "time",
+            "categoryAxis": {
+              "gridAlpha": 0,
+              "position": "left",
+              "labelsEnabled": true,
+              "axisColor": "green",
+              "color": "green",
+              "gridColor": "green",
+              "title": "日期",
+              "titleColor": "#575757",
+              "tickLength": 0
+            },
+            "chartScrollbar": {
+              "graph": "g1",
+              "oppositeAxis": false,
+              "offset": 30,
+              "scrollbarHeight": 50,
+              "backgroundAlpha": 0,
+              "selectedBackgroundAlpha": 0.1,
+              "selectedBackgroundColor": "#888888",
+              "graphFillAlpha": 0,
+              "graphLineAlpha": 0.5,
+              "selectedGraphFillAlpha": 0,
+              "selectedGraphLineAlpha": 1,
+              "autoGridCount": true,
+              "color": "#AAAAAA"
+            },
+            "export": {
+              "enabled": true,
+            }
+          });
             
-            var myTXCharts = echarts.init(document.getElementById('txChart'));
+            /*var myTXCharts = echarts.init(document.getElementById('txChart'));
             option = {
               backgroundColor: '#D1EEEE',
               title: {
@@ -188,7 +257,7 @@ block content
               }
               ]
             };
-            myTXCharts.setOption(option);      
+            myTXCharts.setOption(option);*/      
           }
         });
       }
@@ -224,7 +293,9 @@ block content
         var strTime = format_unixtime_to_day(time);
         timeData.push(strTime);
         timestampData.push(time);
-        timeNumData.push(0);
+        var numItem = {time:"", num: 0};
+        numItem.time = strTime;
+        timeNumData.push(numItem);
       }
       var url = '';
       url='/ext/gettxs?second=' + baseTime + '&amount=' + amount.value;
@@ -235,7 +306,7 @@ block content
           for ( var i=json.data.length-1;i>=0; i-- ) {
             if(json.data[i].timestamp >= timestampData[j] && json.data[i].timestamp <= timestampData[j+1])
             {
-              timeNumData[j]++;
+              timeNumData[j].num++;
             }
             else
             {
@@ -244,7 +315,7 @@ block content
               {
                 if(json.data[i].timestamp >= timestampData[j] && json.data[i].timestamp <= timestampData[j+1])
                 {
-                  timeNumData[j]++;
+                  timeNumData[j].num++;
                   break;
                 }
               }
@@ -256,7 +327,64 @@ block content
             }
           }
           
-          var myMapCharts = echarts.init(document.getElementById('bigChangeChart'));
+          AmCharts.makeChart("bigChangeChart", {
+            "type": "serial",
+            "theme": "black",
+            "marginRight": 80,
+            "dataProvider": timeNumData,
+            "fill": "green",
+            "borderColor": "green",
+            "valueAxes": [{
+              "position": "left",
+              "axisColor": "green",
+              "color": "green",
+              "title": "超过金额数",
+              "titleColor": "#575757"
+            }],
+            "graphs": [{
+              "id": "g1",
+              "fillAlphas": 0.4,
+              "valueField": "num",
+              "lineColor": "green",
+              "balloonText": "<div style='margin:5px; font-size:19px;'>数量:<b> [[value]]</b></div>",   
+              }
+            ],
+            "chartCursor": {
+              "categoryBalloonDateFormat": "JJ:NN, DD MMMM",
+              "cursorPosition": "mouse"
+            },
+            "categoryField": "time",
+            "categoryAxis": {
+              "gridAlpha": 0,
+              "position": "left",
+              "labelsEnabled": true,
+              "axisColor": "green",
+              "color": "green",
+              "gridColor": "green",
+              "title": "日期",
+              "titleColor": "#575757",
+              "tickLength": 0
+            },
+            "chartScrollbar": {
+              "graph": "g1",
+              "oppositeAxis": false,
+              "offset": 30,
+              "scrollbarHeight": 50,
+              "backgroundAlpha": 0,
+              "selectedBackgroundAlpha": 0.1,
+              "selectedBackgroundColor": "#888888",
+              "graphFillAlpha": 0,
+              "graphLineAlpha": 0.5,
+              "selectedGraphFillAlpha": 0,
+              "selectedGraphLineAlpha": 1,
+              "autoGridCount": true,
+              "color": "#AAAAAA"
+            },
+            "export": {
+              "enabled": true,
+            }
+          });
+          /*var myMapCharts = echarts.init(document.getElementById('bigChangeChart'));
           option = {
             backgroundColor: '#D1EEEE',
             title: {
@@ -328,7 +456,7 @@ block content
             }
             ]
           };
-          myMapCharts.setOption(option);
+          myMapCharts.setOption(option);*/
         }
       });
     }
