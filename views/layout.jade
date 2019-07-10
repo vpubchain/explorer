@@ -146,7 +146,7 @@ html
                 a.navbar-link(href='/network')
                   span.fa.fa-share-alt
                   span.menu-text #{settings.locale.menu_network}
-              li#masternodes
+              li#charts
                 a.navbar-link(href='/charts')
                   span.fa.fa-server
                   span.menu-text #{settings.locale.charts}
@@ -178,10 +178,10 @@ html
           ul.nav.nav-bar.navbar-right
             img(src='#{settings.logo}', style='margin-top:4px;height:40px;')
 
-    .col-md-12
+    .col-md-16
       .row
         if settings.display.masternodes == false
-          .col-lg-1.col-md-2
+          .col-lg-2.col-md-2
         if settings.display.coinmarketcap == true
           .col-lg-5.col-md-8
             .panel.panel-primary.panel-summary
@@ -213,7 +213,7 @@ html
                       span#cmc_volume_24h -
                       =" USD"
         else
-          .col-lg-2.col-md-0
+          .col-lg-1.col-md-1
 
         if settings.index.show_coin_supply
           - supplyPanelSize = settings.display.coinmarketcap == true ? "col-lg-2 col-md-4 col-sm-4" : "col-lg-2 col-md-4 col-sm-4"
@@ -224,7 +224,9 @@ html
               .panel-body(style="padding-top: 35px")
                 row.text-center
                   .col-md-12
-                    h1#supply -
+                    h1
+                      strong#supply -
+          .col-lg-0.col-md-0
         if settings.index.show_hashrate
           .col-lg-2.col-md-4.col-sm-4
             .panel.panel-primary.panel-summary
@@ -235,23 +237,24 @@ html
                   .col-md-12
                     h1
                       if settings.index.difficulty == 'Hybrid'
-                        label#hashrate -
+                        strong#hashrate -
                         <br>
-                        label#lblX1
+                        strong#lblX1
                       else
-                        label#hashrate -
+                        strong#hashrate -
                       if settings.nethash_units == 'K'
-                        =" (KH/s)"
+                        strong=" (KH/s)"
                       else if settings.nethash_units == 'M'
-                        =" (MH/s)"
+                        strong=" (MH/s)"
                       else if settings.nethash_units == 'G'
-                        =" (GH/s)"
+                        strong=" (GH/s)"
                       else if settings.nethash_units == 'T'
-                        =" (TH/s)"
+                        strong=" (TH/s)"
                       else if settings.nethash_units == 'P'
-                        =" (PH/s)"
+                        strong=" (PH/s)"
                       else if settings.nethash_units == 'H'
-                        =" (H/s)"
+                        strong=" (H/s)"
+          .col-md-0.col-md-0
         if settings.index.show_hashrate
           .col-lg-2.col-md-4.col-sm-4
             .panel.panel-primary.panel-summary
@@ -260,7 +263,8 @@ html
               .panel-body(style="padding-top: 35px")
                 row.text-center
                   .col-md-12
-                    h1#difficulty -
+                    h1
+                      strong#difficulty -
         if settings.display.masternodes == true
           .col-lg-2.col-md-4.col-sm-4
             .panel.panel-primary.panel-summary
