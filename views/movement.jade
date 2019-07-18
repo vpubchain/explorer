@@ -95,20 +95,23 @@ block content
             for ( var i=json.data.length-1;i>=0; i-- ) {
               //alert("test2");
               //alert(timeAmountData[j].time);
+              //alert(i);
+              //alert(json.data[i].timestamp);
               if(json.data[i].timestamp >= timestampData[j] && json.data[i].timestamp <= timestampData[j+1])
               {
                 //alert("test3");
                 timeAmountData[j].amount += json.data[i].total/100000000;
-                //alert("test4");
+                //alert(timeAmountData[j].amount);
               }
               else
               {
-                //alert("test3");
-                timeAmountData[j].amount = (timeAmountData[j].amount).toFixed(6);
                 //alert("test4");
+                //alert(j);
+                //alert(j);
                 j++;
                 for(; j < TIME_LEN; j++)
                 {
+                  //alert(timestampData[j]);
                   if(json.data[i].timestamp >= timestampData[j] && json.data[i].timestamp <= timestampData[j+1])
                   {
                     //alert("test3");
@@ -120,12 +123,15 @@ block content
                 if(j >= TIME_LEN)
                 {
                   j = 0;
-                  break;
+                  //continue;
                 }
               }
             }
 
-            timeAmountData[TIME_LEN-1].amount = (timeAmountData[TIME_LEN-1].amount).toFixed(6);
+            for( var i = 0; i < TIME_LEN ; i++)
+            {
+              timeAmountData[i].amount = (timeAmountData[i].amount).toFixed(6);
+            }
             //alert(timeAmountData);
             AmCharts.makeChart("txChart", {
             "type": "serial",
