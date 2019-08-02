@@ -256,6 +256,12 @@ app.use('/ext/coldstakingnodesnum', function(req,res){
   });
 });
 
+app.use('/ext/getcoldstakingnodesnum', function(req,res){
+  db.get_coldstaking_nodes_num(function(num){
+    res.send({total: num});
+  });
+});
+
 // locals
 app.set('title', settings.title);
 app.set('symbol', settings.symbol);
