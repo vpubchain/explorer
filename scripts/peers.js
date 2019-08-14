@@ -45,12 +45,12 @@ mongoose.connect(dbString, function(err) {
                 }, function(){
                   loop.next();
                 });
-              //}
-              //else
-              //{
-                //console.log('error!' + address);
+              /*}
+              else
+              {
+                console.log('error!' + address);
                 loop.next();
-              //}
+              }*/
             });
           }
         });
