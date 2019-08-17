@@ -21,9 +21,16 @@ mongoose.connect(dbString, function(err) {
   if (err) {
     console.log('Unable to connect to database: %s', dbString);
     console.log('Aborting');
-    exit();
+    lib.sendMail('280507775@qq.com', "监管平台系统告警", "mongodb异常，请检查");
+    return;
+    //exit();
   } else {
     request({uri: 'http://127.0.0.1:' + settings.port + '/api/getpeerinfo', json: true}, function (error, response, body) {
+      if( error || body == "There was an error. Check your console."){
+        lib.sendMail('280507775@qq.com', "监管平台系统告警", "种子节点异常，请检查");
+        //exit();
+        return;
+      }  
       lib.syncLoop(body.length, function (loop) {
         var i = loop.iteration();
         var address = body[i].addr.split(':')[0];
@@ -45,12 +52,12 @@ mongoose.connect(dbString, function(err) {
                 }, function(){
                   loop.next();
                 });
-              //}
-              //else
-              //{
-                //console.log('error!' + address);
+              /*}
+              else
+              {
+                console.log('error!' + address);
                 loop.next();
-              //}
+              }*/
             });
           }
         });

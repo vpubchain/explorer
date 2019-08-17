@@ -31,6 +31,8 @@
     "request": "2.74.0",
     "echarts": "^3.6.2",
     "express-rate-limit": "^5.0.0",
+    "nodemailer": "^2.3.2",
+    "nodemailer-smtp-transport": "^2.4.2",
     "static-favicon": "~1.0.0"
   },
   "devDependencies": {
