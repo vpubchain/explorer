@@ -59,6 +59,21 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+const rateLimit = require("express-rate-limit");
+ 
+// Enable if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
+// see https://expressjs.com/en/guide/behind-proxies.html
+// app.set('trust proxy', 1);
+ 
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 80000
+});
+ 
+// only apply to requests that begin with /api/
+app.use("/api/", apiLimiter);
+app.use("/ext/", apiLimiter);
+
 // routes
 app.use('/api', bitcoinapi.app);
 app.use('/', routes);
@@ -275,6 +290,9 @@ app.set('show_sent_received', settings.show_sent_received);
 app.set('logo', settings.logo);
 app.set('theme', settings.theme);
 app.set('labels', settings.labels);
+app.set('ecological_funds_address', settings.ecological_funds_address);
+app.set('performance_funds_address', settings.performance_funds_address);
+app.set('development_team_fund_address', settings.development_team_fund_address);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

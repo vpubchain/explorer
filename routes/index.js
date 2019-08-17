@@ -674,21 +674,46 @@ router.get('/ext/summary', function(req, res) {
                   if (hashrate == 'There was an error. Check your console.') {
                     hashrate = 0;
                   }
-                  res.send({ data: [{
-                    difficulty: formatNum(difficulty ,{ maxFraction: 6 }),
-                    difficultyHybrid: formatNum(difficultyHybrid ,{ maxFraction: 6 }),
-                    masternodeCount: masternodecount,
-                    masternodeOnlineCount: masternodeonlinecount,
-                    supply: formatNum(stats.supply, { maxFraction: 6 }),
-                    hashrate: hashrate,
-                    lastPriceBtc: formatNum(stats.last_price, { maxFraction: 6 }),
-                    lastPriceUsd: formatCurrency(cmc.price_usd, { maxFraction: 6 }),
-                    marketCapUsd: formatCurrency(cmc.market_cap_usd, { maxFraction: 6 }),
-                    marketVolumeUsd: formatCurrency(cmc.volume_24h_usd, { maxFraction: 6 }),
-                    connections: connections,
-                    blockcount: blockcount,
-                    cmc: cmc,
-                  }]});
+                  db.get_address(settings.ecological_funds_address, function(ef_address){
+                    //console.log("settings.ecological_funds_address=", settings.ecological_funds_address);
+                    if (ef_address) {
+                      ef_balance = (ef_address.balance / 100000000).toString().replace(/(^-+)/mg, '');
+                    } else {
+                      ef_balance = 0;
+                    }
+                    db.get_address(settings.performance_funds_address, function(pf_address){
+                      if (pf_address) {
+                        pf_balance = (pf_address.balance / 100000000).toString().replace(/(^-+)/mg, '');
+                      } else {
+                        pf_balance = 0;
+                      }
+                      db.get_address(settings.development_team_fund_address, function(df_address) {
+                        if (df_address) {
+                          df_balance = (df_address.balance / 100000000).toString().replace(/(^-+)/mg, '');
+                        } else {
+                          df_balance = 0;
+                        }
+                        res.send({ data: [{
+                          difficulty: formatNum(difficulty ,{ maxFraction: 6 }),
+                          difficultyHybrid: formatNum(difficultyHybrid ,{ maxFraction: 6 }),
+                          masternodeCount: masternodecount,
+                          masternodeOnlineCount: masternodeonlinecount,
+                          supply: formatNum(stats.supply, { maxFraction: 6 }),
+                          hashrate: hashrate,
+                          lastPriceBtc: formatNum(stats.last_price, { maxFraction: 6 }),
+                          lastPriceUsd: formatCurrency(cmc.price_usd, { maxFraction: 6 }),
+                          marketCapUsd: formatCurrency(cmc.market_cap_usd, { maxFraction: 6 }),
+                          marketVolumeUsd: formatCurrency(cmc.volume_24h_usd, { maxFraction: 6 }),
+                          connections: connections,
+                          blockcount: blockcount,
+                          cmc: cmc,
+                          ef_balance: formatCurrency(ef_balance, { maxFraction: 6 }),
+                          pf_balance: formatCurrency(pf_balance, { maxFraction: 6 }),
+                          df_balance: formatCurrency(df_balance, { maxFraction: 6 }),
+                        }]});
+                      });
+                    });
+                  });
                 });
               });
             });
