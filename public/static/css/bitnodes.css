@@ -1,0 +1,557 @@
+@import url(//fonts.googleapis.com/css?family=Play:400,700);
+@import url(https://fonts.googleapis.com/css?family=Titillium+Web);
+
+body {
+    background: #fff;
+    color: #333;
+    font-family: 'Play', sans-serif;
+    font-size: 1.2em;
+}
+
+.overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: #fff;
+    background: rgba(255,255,255,0.9);
+    z-index: 3;
+}
+.loading {
+    position: relative;
+    top: 45%;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.container {
+    padding: 0 15px;
+    margin-bottom: 40px;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Play', sans-serif;
+    padding: 0;
+    margin: 0;
+    text-transform: uppercase;
+}
+h1 {
+    font-size: 2.4em;
+}
+h2 {
+    font-size: 2em;
+}
+h3, h4 {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.logo {
+    background: url(/static/img/bitnodes.png) no-repeat;
+    background-size: contain;
+    width: 195px;
+    height: 22px;
+    display: block;
+    text-indent: -9999px;
+    margin-bottom: 3px;
+    overflow: hidden;
+}
+.logo {
+    margin-top: 40px;
+}
+@media screen and (max-width: 800px) {
+    .logo {
+        margin-top: 30px;
+    }
+}
+
+a {
+    color: #26597b;
+    text-decoration: none;
+}
+h3 a, ul.nav-tabs a {
+    color: #2c3e50;
+}
+
+pre {
+    overflow: auto;
+    word-wrap: normal;
+    white-space: pre;
+    font-size: .9em;
+    line-height: 1.6em;
+}
+
+code {
+    background: none;
+    color: #333;
+}
+
+.btn {
+    text-shadow: 0 0 5px #999;
+    background: #3c4e70;
+    border: 1px solid #2c3e50;
+}
+.btn:hover {
+    border: 1px solid #2c3e50;
+}
+.btn:focus,
+.btn:active,
+.btn:active:focus {
+    background: #2c3e50;
+    border: 1px solid #2c3e50;
+    outline: none;
+}
+.btn[disabled],
+.btn[disabled]:hover {
+    text-shadow: none;
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #999;
+    opacity: 1;
+}
+.input-group-btn:last-child > .btn {
+    margin-left: 0;
+}
+.input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle) {
+    border-right: 0;
+}
+.btn-group > .btn:hover,
+.btn-group > .btn:active,
+.btn-group > .btn:focus,
+.btn-group > .btn:active:focus {
+    z-index: 0;
+}
+
+#check-node-status {
+    display: none;
+}
+#check-node-status.alert-success a {
+    color: #3c763d;
+}
+
+.chart {
+    position: relative;
+}
+.chart:nth-child(2) {
+    margin-top: 1em;
+}
+.annotated-chart {
+    padding-top: 2.4em;
+}
+.annotation {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: .3em;
+    padding: .3em .5em;
+}
+.value {
+    color: #333;
+    margin-right: .5em;
+}
+.value:last-child {
+    margin-right: 0;
+}
+
+.field {
+    color: #555;
+    font-size: .85em;
+    text-transform: uppercase;
+}
+
+#nodes-chart, #availability-chart, #user-agents-chart, #countries-chart, #heights-chart, #transactions-chart, #blocks-chart {
+    max-width: 1280px;
+    height: 360px;
+}
+#latency-chart {
+    height: 180px;
+}
+#tps-chart {
+    height: 60px;
+}
+#mempool-chart {
+    height: 140px;
+}
+
+#tps {
+    cursor: pointer;
+}
+
+#mempool-txs {
+    font-size: 0;
+    margin-bottom: 20px;
+}
+    #mempool-txs a {
+        display: inline-block;
+        position: relative;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-left: 1px solid #5c5c5c;
+        width: 6.25%;
+        font-size: 10px;
+        text-align: center;
+        text-decoration: none;
+    }
+        #mempool-txs a:hover {
+            text-decoration: underline;
+        }
+        #mempool-txs a .bytes {
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background: #333;
+            height: 2px;
+        }
+@media screen and (max-width: 1440px) {
+    #mempool-txs a {
+        width: 10%;
+    }
+}
+@media screen and (max-width: 768px) {
+    #mempool-txs a {
+        width: 12.5%;
+    }
+}
+@media screen and (max-width: 640px) {
+    #mempool-txs a {
+        width: 20%;
+    }
+}
+@media screen and (max-width: 480px) {
+    #mempool-txs a {
+        width: 25%;
+    }
+}
+
+.block {
+    display: inline-block;
+    background: #e2ecf6;
+    text-align: center;
+    border: 1px solid #cad4de;
+    padding: 15px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+    .block .row {
+        margin: 0;
+    }
+    .block code {
+        display: block;
+        border-top: 1px solid #cad4de;
+        border-radius: 0;
+        font-size: .65em;
+        padding: 0;
+        padding-top: 5px;
+        margin-top: 5px;
+    }
+        .block code:last-child {
+            border-top: 0;
+            padding-top: 2px;
+            margin-top: 0;
+        }
+    .block p.field {
+        margin-bottom: 0;
+    }
+@media screen and (max-width: 768px) {
+    .block {
+        width: 100%;
+        background: none;
+        border: 0;
+        margin-bottom: 0;
+    }
+}
+
+span.label {
+    font-size: 1.2em;
+    font-weight: normal;
+}
+span.label .fa {
+    color: #333;
+}
+
+.table-striped > tbody > tr:nth-child(odd) > td, .table-striped > tbody > tr:nth-child(odd) > th {
+    background: #f9fbfc;
+}
+.table-hover > tbody > tr:hover > td {
+    background: #f0f4f6;
+}
+td {
+    vertical-align: top;
+}
+table.status-messages > tbody > tr > td {
+    padding-left: 0;
+}
+
+.paginator {
+    font-family: 'Play', sans-serif;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+span.zero {
+    color: #aaa;
+}
+
+#map-canvas {
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    min-width: 240px;
+    height: 480px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.container-fluid {
+    line-height: 1.8em;
+}
+
+ul {
+    margin: 0;
+}
+
+.big h3 {
+    color: #333;
+    font-size: 1.6em;
+    font-weight: normal;
+    text-transform: none;
+}
+.big h4 {
+    color: #333;
+    font-size: 1.2em;
+    text-transform: none;
+    margin-top: .5em;
+}
+.big h4:nth-child(1) {
+    margin-top: 0;
+}
+.big i.fa-chevron-left {
+    position: absolute;
+    top: 135px;
+    left: 15px;
+}
+.big i.fa-chevron-right {
+    position: absolute;
+    top: 135px;
+    right: 15px;
+}
+
+.close {
+    margin-top: -3px
+}
+.close:active {
+    outline: none;
+}
+
+.social-buttons a {
+    margin-right: .65em;
+    transition: all .2s ease-in;
+}
+.social-buttons a:last-child {
+    margin-right: 0;
+}
+
+.divider {
+    border-left: 1px solid #eee;
+    width: 1px;
+    height: 4em;
+    margin: 0 2.4em;
+}
+@media screen and (max-width: 480px) {
+    .divider {
+        margin: 0 1.2em;
+    }
+    @media screen and (max-width: 320px) {
+        .divider {
+            border: 0;
+            margin: 0 1em;
+        }
+    }
+}
+
+.delimiter {
+    margin: 0 .4em;
+}
+
+#stream {
+    width: 3em;
+}
+.fa-play {
+    display: none;
+}
+#shortlisted {
+    display: none;
+}
+table.paused td, h3.paused, #tps-chart.paused {
+    opacity: .5;
+}
+
+.installer {
+    text-align: center;
+    background: #f8f8f8;
+    border: 1px solid #efefee;
+    border-radius: 4px;
+    padding: 30px;
+    margin-bottom: 20px;
+}
+    .installer p {
+        margin: 0 0 5px;
+    }
+    .installer code {
+        font-size: 1em;
+        font-weight: bold;
+    }
+
+.sponsors {
+    font-weight: bold;
+    font-size: .9em;
+    text-transform: uppercase;
+}
+p.sponsors {
+    margin: 0;
+    padding: 0;
+    margin-top: -.5em;
+}
+div.sponsors {
+    text-align: right;
+}
+div.sponsors img {
+    height: 30px;
+    margin-top: 3px;
+}
+@media screen and (max-width: 768px) {
+    div.sponsors {
+        border-top: 1px solid #eee;
+        text-align: center;
+        margin-top: 1em;
+        padding-top: 1em;
+    }
+}
+
+.progress {
+    height: 5px;
+    border-radius: 0;
+    margin-top: 5px;
+    margin-bottom: 0;
+    background: #f8f8f8;
+}
+.progress-bar {
+    background: #2c3e50;
+    opacity: .2;
+}
+.progress-bar.fill {
+    background: #2c3e50;
+    opacity: .6;
+}
+
+.ads {
+    font-family: 'Titillium Web', sans-serif;
+    display: none;
+}
+.ads a:hover,
+.ads a:focus,
+.ads a:active,
+.ads a:active:focus {
+    text-decoration: none;
+}
+@media screen and (min-width: 320px) {
+    .ads {
+        margin-top: 20px;
+        display: block;
+    }
+}
+.ads img.lg {
+    display: inline-block;
+}
+@media screen and (max-width: 640px) {
+    .ads img.lg {
+        display: none;
+    }
+}
+.campaign {
+    border-radius: 3px;
+    display: block;
+    padding: 2em;
+}
+    .banner-earn-com {
+        background: #a57c51;
+        background: -webkit-linear-gradient(90deg, #a57c51, #d7a157);
+        background: -o-linear-gradient(90deg, #a57c51, #d7a157);
+        background: -moz-linear-gradient(90deg, #a57c51, #d7a157);
+        background: linear-gradient(90deg, #a57c51, #d7a157);
+    }
+.campaign-content {
+    font-size: 1.4em;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+    .banner-earn-com .campaign-content {
+        color: #fff;
+    }
+.campaign-content > * {
+    display: inline-block;
+    vertical-align: middle;
+}
+.campaign-text {
+    width: 80%;
+}
+    .campaign-text > * {
+        display: inline-block;
+        vertical-align: middle;
+    }
+    .campaign-text > .campaign-logo {
+        height: 2.4em;
+        margin-right: 1em;
+    }
+.campaign-learn-more {
+    width: 20%;
+    text-align: right;
+}
+.campaign-learn-more > * {
+    display: inline-block;
+    font-size: .9em;
+}
+.campaign-learn-more > img {
+    margin-left: 1em;
+}
+@media screen and (max-width: 720px) {
+    .campaign-text {
+        width: 85%;
+    }
+    .campaign-learn-more {
+        width: 15%;
+    }
+    .campaign-learn-more > div {
+        display: none;
+    }
+}
+@media screen and (max-width: 640px) {
+    .campaign {
+        padding: 1.6em 1em;
+    }
+    .campaign-text {
+        width: 95%;
+    }
+    .campaign-learn-more {
+        width: 5%;
+    }
+    .campaign-content {
+        font-size: 1.2em;
+    }
+    .campaign-learn-more > div {
+        display: none;
+    }
+    .campaign-learn-more > img {
+        margin-left: 0;
+        height: 1em;
+    }
+}
+
+div.advertise {
+    font-family: 'Play', sans-serif;
+    text-align: right;
+    color: #333;
+}

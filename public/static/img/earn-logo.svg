@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1536px" height="1536px" viewBox="0 0 1536 1536" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>logo-shield-gold</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#F6BB6A" offset="0%"></stop>
+            <stop stop-color="#A57C51" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="base" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="logo-shield-white" fill="url(#linearGradient-1)">
+            <path d="M1305.6,1536 L0,1536 L0,230.4 C0,103.15296 103.15392,0 230.4,0 L1536,0 L1536,1305.6 C1536,1432.84704 1432.84608,1536 1305.6,1536 Z M1088,448 L1088,288 L608,288 L448,288 L448,1248 L608,1248 L1088,1248 L1088,1088 L608,1088 L608,448 L1088,448 Z M848,608 L648,848 L1048,848 L848,608 Z" id="Combined-Shape-Copy-2"></path>
+        </g>
+    </g>
+</svg>
