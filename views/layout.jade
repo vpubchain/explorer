@@ -220,7 +220,7 @@ html
                       span#cmc_volume_24h -
                       =" USD"
         else
-          //.col-lg-1.col-md-1
+          .col-lg-1.col-md-1
 
         if settings.index.show_coin_supply
           - supplyPanelSize = settings.display.coinmarketcap == true ? "col-lg-2 col-md-4 col-sm-4" : "col-lg-2 col-md-4 col-sm-4"
@@ -272,22 +272,6 @@ html
                   .col-md-12
                     h1
                       strong#difficulty -
-          .col-lg-2.col-md-4.col-sm-4
-            .panel.panel-primary.panel-summary
-              .panel-heading
-                span 基金余额信息
-              .panel-body(style="padding-top: 20px")
-                row
-                  .col-md-12
-                    h5 
-                      strong生态基金: 
-                      strong#ef_balance -
-                    h5 
-                      strong业绩基金: 
-                      strong#pf_balance -
-                    h5 
-                      strong技术基金: 
-                      strong#df_balance -
         if settings.display.masternodes == true
           .col-lg-2.col-md-4.col-sm-4
             .panel.panel-primary.panel-summary
@@ -299,6 +283,68 @@ html
                     h1#masternodeCount -
                     h3 可用节点数:&nbsp;
                       label#masternodeOnlineCount -
+      .row
+        if settings.display.masternodes == false
+          .col-lg-2.col-md-2
+        if settings.display.coinmarketcap == true
+          .col-lg-5.col-md-8
+            .panel.panel-primary.panel-summary
+              .panel-heading
+                span Market
+              .panel-body
+                row.text-center
+                  .col-sm-4
+                    h1
+                      label#price_usd
+                      =" USD"
+                    h5#price_percent_change
+                      =" ("
+                      label#price_percent_change_value
+                      ="%)"
+                    h3
+                      label#price_btc
+                      =" BTC"
+                  .col-sm-4
+                    p(class="text-right") Market cap:
+                    p(class="text-right") 24H Volume:
+                  .col-sm-4
+                    p(class='text-left')
+                      ="$"
+                      span#cmc_market_cap -
+                      =" USD"
+                    p(class='text-left')
+                      ="$"
+                      span#cmc_volume_24h -
+                      =" USD"
+        else
+          .col-lg-1.col-md-1
+        .col-lg-2.col-md-4.col-sm-4
+            .panel.panel-primary.panel-summary
+              .panel-heading
+                span 生态基金余额
+              .panel-body(style="padding-top: 35px")
+                row.text-center
+                  .col-md-12
+                    h1
+                      strong<a href='/address/RYVDqsLVzwrP4aC3dFAfEXAip2BDWznzDp' id='ef_balance'></a> 
+        .col-lg-2.col-md-4.col-sm-4
+            .panel.panel-primary.panel-summary
+              .panel-heading
+                span 业绩基金余额
+              .panel-body(style="padding-top: 35px")
+                row.text-center
+                  .col-md-12
+                    h1
+                      strong<a href='/address/RGbEf3UhnKFAZn16tbCrDT4eh1GsgPTLqa' id='pf_balance'></a> 
+        .col-lg-2.col-md-4.col-sm-4
+            .panel.panel-primary.panel-summary
+              .panel-heading
+                span 技术基金余额
+              .panel-body(style="padding-top: 35px")
+                row.text-center
+                  .col-md-12
+                    h1 
+                      strong<a href='/address/RBNytppxP49DX1zvDmUGsZFHitrE7owa59' id='df_balance'></a>
 
     .col-md-12
       .row.text-center(style='margin-top:10px;margin-bottom:20px;')
