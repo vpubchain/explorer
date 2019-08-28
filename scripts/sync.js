@@ -9,6 +9,8 @@ var mongoose = require('mongoose')
   , explorer = require('../lib/explorer')
   , settings = require('../lib/settings')
   , fs = require('fs')
+  , BlockRewardsPerDay = require('../models/blockrewardsperday.js')
+  , BlockRewardsPerHour = require('../models/blockrewardsperhour.js')
   , BigNumber = require('bignumber.js')
 ;
 
@@ -163,18 +165,22 @@ is_locked(function (exists) {
                             Stats.update({coin: settings.coin}, { 
                               last: 0,
                             }, function() {
-                              console.log('index cleared (reindex)');
-                            }); 
-                            db.update_tx_db(settings.coin, 0, stats.count, settings.update_timeout, function(){
-                              db.update_richlist('received', function(){
-                                db.update_richlist('balance', function(){
-                                  db.get_stats(settings.coin, function(nstats){
-                                    console.log('reindex complete (block: %s)', nstats.last);
-                                    exit();
+                              BlockRewardsPerDay.remove({}, function(err4) {
+                                BlockRewardsPerHour.remove({}, function(err5) {
+                                  console.log('index cleared (reindex)');
+                                  db.update_tx_db(settings.coin, 0, stats.count, settings.update_timeout, function(){
+                                    db.update_richlist('received', function(){
+                                      db.update_richlist('balance', function(){
+                                        db.get_stats(settings.coin, function(nstats){
+                                          console.log('reindex complete (block: %s)', nstats.last);
+                                          exit();
+                                        });
+                                      });
+                                    });
                                   });
                                 });
                               });
-                            });
+                            }); 
                           }); 
                         });
                       });

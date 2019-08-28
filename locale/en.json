@@ -299,6 +299,7 @@
     "bigchange": "bigchange",
     "date": "date",
     "txperday": "每日交易金额",
+    "blockperday": "每日区块生成金额",
     "twentyfourhours": "twenty four hours",
     "weeks": "weeks",
     "threeweeks": "three weeks",

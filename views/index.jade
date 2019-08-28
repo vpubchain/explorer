@@ -72,6 +72,94 @@ block content
           //alert('test');
         }
       });
+
+      var url = '';
+      url='/ext/getblockrewardscountperhour';
+      var ajaxReq = $.ajax ({
+        url: url,
+        success: function( json ){
+          var j = 0;
+          var rewardsData = [];
+          
+          function format_unixtime_to_day(unixtime) {
+            var a = new Date(unixtime*1000);  
+            var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+            var year = a.getFullYear();
+            var month = a.getMonth()+1;//months[a.getMonth()];
+            var date = a.getDate();
+            var time = year + '-' + month + '-' + date;   
+            return time;
+          }
+
+          for ( var i = 1; i < json.data.length; i++ ) {
+            var tmpData = {'date':'', 'rewards':0};
+            tmpData.date = /*format_unixtime_to_day(json.data[i].timepoint*86400);*/new Date((json.data[i].timepoint*3600+3600) * 1000).toLocaleString();
+            tmpData.rewards = (json.data[i].rewards).toFixed(6);
+            rewardsData.push(tmpData);
+          }
+          
+          AmCharts.makeChart("blockRewards", {
+            "type": "serial",
+            "theme": "black",
+            "marginRight": 80,
+            "dataProvider": rewardsData,
+            "fill": "green",
+            "borderColor": "green",
+            "valueAxes": [{
+              "position": "left",
+              "axisColor": "green",
+              "color": "green",
+              "title": "金额",
+              "titleColor": "#575757"
+            }],
+            "graphs": [{
+              "id": "g1",
+              "fillAlphas": 0.4,
+              "valueField": "rewards",
+              "lineColor": "green",
+              "balloonText": "<div style='margin:5px; font-size:19px;'>金额:<b> [[value]]</b></div>",   
+              }
+            ],
+            "chartCursor": {
+              "categoryBalloonDateFormat": "JJ:NN, DD MMMM",
+              "cursorPosition": "mouse"
+            },
+            "categoryField": "date",
+            "categoryAxis": {
+              "autoRotateAngle": 60,
+              "autoRotateCount": 10,
+              "parseDates":false,
+              "gridAlpha": 0,
+              "position": "left",
+              "labelsEnabled": true,
+              "axisColor": "green",
+              "color": "green",
+              "gridColor": "green",
+              "title": "",
+              "titleColor": "#575757",
+              "tickLength": 0
+            },
+            "chartScrollbar": {
+              "graph": "g1",
+              "oppositeAxis": false,
+              "offset": 30,
+              "scrollbarHeight": 50,
+              "backgroundAlpha": 0,
+              "selectedBackgroundAlpha": 0.1,
+              "selectedBackgroundColor": "#888888",
+              "graphFillAlpha": 0,
+              "graphLineAlpha": 0.5,
+              "selectedGraphFillAlpha": 0,
+              "selectedGraphLineAlpha": 1,
+              "autoGridCount": false,
+              "color": "#AAAAAA"
+            },
+            "export": {
+              "enabled": true,
+            }
+          });
+        }
+      });
       }
       ajax_function();
       setInterval( ajax_function, 60000 );
@@ -489,7 +577,15 @@ block content
 
   //<div class="row"><h2> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最近24小时</h2><p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最近24小时总发行: <span id="globalsupplyamount" style="font-weight: bold;">????.?????? </span> .</p></div>
 
-  
+  .row
+      .col-md-offset-5.col-md-2
+        label #{settings.locale.blockperday}
+        br
+      .col-md-12
+        br
+        #blockRewards(style='width: 100%; height: 400px;')
+        br
+        br
   
   .col-md-12
     .panel.panel-default

@@ -498,6 +498,17 @@ router.get('/ext/getstakingnodes', function(req, res) {
   }
 });
 
+router.get('/ext/getblockrewardsperday', function(req, res) {
+  db.get_sorted_block_rewards_perday(function(ret){
+    res.send({data:ret});
+  });
+});
+
+router.get('/ext/getblockrewardscountperhour', function(req, res) {
+  db.get_sorted_block_rewards_perhour(function(ret){
+    res.send({data:ret});
+  });
+});
 
 router.get('/ext/getcoldstakingnodeslist', function(req, res) {
   db.get_cold_nodes_list(function(ret){
@@ -667,8 +678,8 @@ router.get('/ext/summary', function(req, res) {
     lib.get_hashrate(function(hashrate) {
       lib.get_connectioncount(function(connections){
         lib.get_blockcount(function(blockcount) {
-          lib.get_masternodecount(function(masternodecount){
-            lib.get_masternodeonlinecount(function(masternodeonlinecount){
+          //lib.get_masternodecount(function(masternodecount){
+            //lib.get_masternodeonlinecount(function(masternodeonlinecount){
               db.get_cmc(settings.coinmarketcap.ticker, function(cmc){
                 db.get_stats(settings.coin, function (stats) {
                   if (hashrate == 'There was an error. Check your console.') {
@@ -696,8 +707,8 @@ router.get('/ext/summary', function(req, res) {
                         res.send({ data: [{
                           difficulty: formatNum(difficulty ,{ maxFraction: 6 }),
                           difficultyHybrid: formatNum(difficultyHybrid ,{ maxFraction: 6 }),
-                          masternodeCount: masternodecount,
-                          masternodeOnlineCount: masternodeonlinecount,
+                          //masternodeCount: masternodecount,
+                          //masternodeOnlineCount: masternodeonlinecount,
                           supply: formatNum(stats.supply, { maxFraction: 6 }),
                           hashrate: hashrate,
                           lastPriceBtc: formatNum(stats.last_price, { maxFraction: 6 }),
@@ -716,8 +727,8 @@ router.get('/ext/summary', function(req, res) {
                   });
                 });
               });
-            });
-          });
+            //});
+          //});
         });
       });
     });
