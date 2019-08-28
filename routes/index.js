@@ -510,6 +510,15 @@ router.get('/ext/getblockrewardscountperhour', function(req, res) {
   });
 });
 
+router.get('/ext/getblocksupply', function(req, res) {
+  //console.log("getblockrewards");
+  var starttime = req.query.starttime;
+  var endtime = req.query.endtime;
+  db.get_block_rewards(starttime, endtime, function(ret){
+    res.send({data:ret});
+  });
+});
+
 router.get('/ext/getcoldstakingnodeslist', function(req, res) {
   db.get_cold_nodes_list(function(ret){
     res.send({data:ret});
