@@ -299,7 +299,7 @@
      "bigchange": "大额交易监控",
      "date": "日期",
      "txperday": "每日交易金额",
-     "blockperday": "区块生成金额统计",
+     "blockperday": "区块发行统计",
      "twentyfourhours": "24小时",
      "weeks": "一周",
      "threeweeks": "三周",
