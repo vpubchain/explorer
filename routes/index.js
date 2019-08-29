@@ -514,7 +514,25 @@ router.get('/ext/getblocksupply', function(req, res) {
   //console.log("getblockrewards");
   var starttime = req.query.starttime;
   var endtime = req.query.endtime;
-  db.get_block_rewards(starttime, endtime, function(ret){
+  db.get_block_supply(starttime, endtime, function(ret){
+    res.send({data:ret});
+  });
+});
+
+router.get('/ext/getsupplybytime', function(req, res) {
+  //console.log("getblockrewards");
+  var starttime = req.query.starttime;
+  var endtime = req.query.endtime;
+  db.get_block_supply(starttime, endtime, function(ret){
+    res.send({data:ret});
+  });
+});
+
+router.get('/ext/getsupplybyblockindex', function(req, res) {
+  //console.log("getblockrewards");
+  var starttime = req.query.startindex;
+  var endtime = req.query.endindex;
+  db.get_block_supply_by_blockindex(starttime, endtime, function(ret){
     res.send({data:ret});
   });
 });
