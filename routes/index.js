@@ -630,7 +630,7 @@ router.get('/block/:hash', function(req, res) {
 });
 
 router.get('/address/:hash', function(req, res) {
-  route_get_address(res, req.param('hash'), 10000);
+  route_get_address(res, req.param('hash'), 1000);
 });
 
 router.get('/address/:hash/:count', function(req, res) {
