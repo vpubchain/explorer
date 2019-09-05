@@ -104,43 +104,6 @@ block content
                *Returns current balance of given address*  
                [#{address}/ext/getbalance/#{hashes.address}](/ext/getbalance/#{hashes.address})
 
-          *  **coldstakingnodes (/ext/coldstakingnodes)**  
-               *Returns coldstakingnodes*  
-               [#{address}/ext/coldstakingnodes](/ext/coldstakingnodes)
-
-          *  **getcoldstakingnodes (/ext/getcoldstakingnodes)**  
-               *Returns getcoldstakingnodes*    
-               *param address stakeaddress page or pagesize optional*    
-               [#{address}/ext/getcoldstakingnodes](/ext/getcoldstakingnodes/?page=1)
-
-          *  **getorderedcoldnodes (ext/getorderedcoldnodes)**  
-               *Returns getorderedcoldnodes*  
-               [#{address}/ext/getorderedcoldnodes](/ext/getorderedcoldnodes)
-
-          *  **stakingnodes (/ext/stakingnodes)**  
-               *Return the list of all reachable stakingnodes*  
-               *Note: returned the list of all reachable stakingnodes*  
-               [#{address}/ext/stakingnodes](/ext/stakingnodes)
-
-          *  **getstakingnodes (/ext/getstakingnodes)**  
-               *Return the list of all reachable stakingnodes*  
-               *Param address page or pagesize optional*    
-               *Note: returned the list of all reachable stakingnodes*  
-               [#{address}/ext/stakingnodes](/ext/stakingnodes?page=1)
-
-          *  **coldstakingnodesnum (/ext/coldstakingnodesnum)**  
-               *Returns coldstaking nodes num*  
-               [#{address}/ext/coldstakingnodesnum](/ext/coldstakingnodesnum)
-
-          *  **getstakerewards (/ext/getstakerewards/hash)**  
-               *Returns current rewards of given cold staking wallet address*  
-               [#{address}/ext/getstakerewards/#{hashes.address}](/ext/getstakerewards/#{hashes.address})
-
-          *  **getstakerewardsdetail (/ext/getstakerewardsdetail/hash?begintime=1553928851&endtime=1553932722)**  
-               *Returns current rewards of given masternode address*
-               *param begintime or endtime optional*  
-               [#{address}/ext/getstakerewardsdetail/#{hashes.address}](/ext/getmasternoderewardsdetail/#{hashes.address}?begintime=1553928851&endtime=1553932722)
-
           *  **getlasttxs (/ext/getlasttxs/count/min)**  
                *Returns last [count] transactions greater than [min]*  
                *Note: returned values are in satoshis*  
@@ -166,6 +129,23 @@ block content
                *Note: returned the list of all reachable nodes*     	
                [#{address}/bitcoin/api/nodes](/bitcoin/api/nodes) 
 
+          *  **getnodesnum (/ext/getnodesnum)**  
+               *Returns nodes num from reachable network nodes*  
+               *Note: returned values are in satoshis*  
+               [#{address}/ext/getnodesnum](/ext/getnodesnum)
+
+          *  **getnodesinfo (/ext/getnodesinfo)**  
+               *Returns nodes num from reachable network nodes* 
+               *param page optional*  
+               *Note: returned values are in satoshis*  
+               [#{address}/ext/getnodesnum](/ext/getnodesnum?page=1)
+
+          *  **getminingrewards (/ext/getminingrewards)**  
+               *Returns mining rewards by address* 
+               *param page optional*  
+               *Note: returned values are in satoshis*      
+               [#{address}/ext/getminingrewards](/ext/getminingrewards?address=RYVDqsLVzwrP4aC3dFAfEXAip2BDWznzDp)
+          
           ------
 
           ### Linking (GET)

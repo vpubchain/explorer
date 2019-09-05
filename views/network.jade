@@ -64,88 +64,6 @@ block content
         ]
       });
 
-      var coldwallettable = $('#cold-wallet-nodes-table').dataTable( {  
-        autoWidth: true,      
-        //searching: false,
-        ordering: false,
-        responsive: true,
-        lengthChange: true,
-        processing: true,
-        filter: true,  // 搜索栏
-        searching: true, 
-        ajax: {
-          url: '/ext/getcoldstakingnodeslist',
-          dataSrc: function ( json ) {
-            //alert(json.data.length);
-            var res = {data:[]};
-            for(var i = 0; i < json.data.length; i++)
-            {
-              var item = {'address':'', rewards:0, balance:0, stakeaddress:'', stakevalue:0};
-              item.address = "<a href='/address/" + json.data[i].address + "'>" + json.data[i].address + "</a>";
-              item.rewards = json.data[i].rewards;
-              //item.balance = json.data[i].balance;
-              item.stakeaddress = json.data[i].stakeaddress;
-              item.stakevalue = json.data[i].stakevalue;
-
-              res.data.push(item);
-            }
-            
-            return res.data;
-          }
-        },
-        columns: [
-          { data: 'address', width: '40%' },
-          { data: 'stakeaddress', width: '20%' },
-          { data: 'rewards', width: '20%' },
-          { data: 'stakevalue', width: '20%' },
-          //{ data: 'balance', width: '20%' },
-        ]
-      });
-
-      var coldstakingtable = $('#cold-staking-nodes-table').dataTable( {  
-        autoWidth: true,      
-        //searching: false,
-        ordering: false,
-        responsive: true,
-        lengthChange: true,
-        processing: true,
-        filter: true,  // 搜索栏
-        searching: true, 
-        ajax: {
-          url: '/ext/stakingnodes',
-          dataSrc: function ( json ) {
-            var res = {data:[]};
-            //alert(json.data.length);
-            for(var i = 0; i < json.data.length; i++)
-            {
-              var itemdata = json.data[i];
-              var item = {'address':'','useragent':'',height:0, 'location': '','city':'','network':'','time':'','rtt':'','stakingcoin':''};
-              item.address = itemdata.address;
-              item.useragent = itemdata.version + '<br>' + itemdata.protocol;
-              item.height = itemdata.height;
-              item.location = itemdata.country;//json.nodes[key][13].country;
-              item.city = itemdata.city;//json.nodes[key][13].city;
-              item.network = itemdata.network + '<br>' + itemdata.asns;
-              item.time = new Date((itemdata.time) * 1000).toLocaleString();
-              item.rtt = 0;
-              item.stakingcoin = (itemdata.stakingcoin).toFixed(6);
-              //alert(item.time);
-              res.data.push(item);
-            }
-            return res.data;
-          }
-        },
-        columns: [
-          { data: 'time', width: '10%' },
-          { data: 'address', width: '20%' },
-          { data: 'useragent', width: '10%' },
-          { data: 'height', width:'10%' },
-          { data: 'location', width:'10%' },
-          { data: 'city', width:'10%' },
-          { data: 'network', width: '20%'},
-          { data: 'stakingcoin', width: '10%'},
-        ]
-      });
 
       function ajax_function()
       {
@@ -406,36 +324,5 @@ block content
             th.text-center #{settings.locale.net_country}
             th.text-center #{settings.locale.city}
             th.text-center #{settings.locale.network}
-        tbody.text-center
-
-  .col-md-12(style="margin-bottom: 4%")
-    .panel.panel-default
-      .panel-heading
-        strong #{settings.locale.cold_staking_wallet_nodes}
-      table#cold-wallet-nodes-table.table.table-bordered.table-striped
-        thead
-          tr
-            th.text-center #{settings.locale.tx_address}
-            th.text-center #{settings.locale.cold_staking_nodes}
-            th.text-center #{settings.locale.menu_reward}
-            th.text-center #{settings.locale.staking_coin}
-            //th.text-center #{settings.locale.rl_balance}
-        tbody.text-center
-
-  .col-md-12(style="margin-bottom: 4%")
-    .panel.panel-default
-      .panel-heading
-        strong #{settings.locale.cold_staking_nodes}
-      table#cold-staking-nodes-table.table.table-bordered.table-striped
-        thead
-          tr
-            th.text-center #{settings.locale.timestamp}
-            th.text-center #{settings.locale.tx_address}
-            th.text-center #{settings.locale.net_subversion}
-            th.text-center #{settings.locale.height}
-            th.text-center #{settings.locale.net_country}
-            th.text-center #{settings.locale.city}
-            th.text-center #{settings.locale.network}
-            th.text-center #{settings.locale.staking_coin}
         tbody.text-center
   

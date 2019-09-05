@@ -437,6 +437,32 @@ router.get('/bitcoin/api/nodes', function(req, res) {
   });
 });
 
+router.get('/ext/getnodesnum', function(req, res) {
+  lib.get_bitnodes_url('nodesnum', function(ret){
+      res.send(ret);
+  });
+});
+
+router.get('/ext/getnodesinfo', function(req, res) {
+  var page = req.query.page;
+  page = isNaN(page) || page == 0 ? 1 : page;
+  url = 'nodesinfo?page=' + page;
+  lib.get_bitnodes_url(url, function(ret){
+    res.send(ret);
+  });
+});
+
+router.get('/ext/getminingrewards', function(req, res) {
+  var hash = req.query.address;
+  db.get_address(hash, function(address) {
+    if (address) {
+      res.send({rewards:address.rewards/100000000});
+    } else {
+      route_get_index(res, hash + ' not found');
+    }
+  });
+});
+
 router.get('/ext/getcoldstakingnodes', function(req, res) {
   //console.log('/bitcoin/api/dashboard');
   var address = req.query.address;
