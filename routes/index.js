@@ -463,7 +463,7 @@ router.get('/ext/getminingrewards', function(req, res) {
   });
 });
 
-router.get('/ext/getminingrewards', function(req, res) {
+router.get('/ext/getminingrewardsdetail', function(req, res) {
   db.get_address(hash, function(address) {
     if (address) {
       var txs = [];
