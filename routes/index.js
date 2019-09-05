@@ -453,10 +453,16 @@ router.get('/ext/getnodesinfo', function(req, res) {
 });
 
 
-router.get('/ext/getminingrewards', function(req, res) {
+router.get('/ext/getminingsrewards', function(req, res) {
   var page = req.query.page;
   page = isNaN(page) || page == 0 ? 1 : page;
   db.get_mining_address(page, 10, function(ret){
+    res.send(ret);
+  });
+});
+
+router.get('/ext/getminingsrewardsnum', function(req, res) {
+  db.get_mining_rewards_num(function(ret){
     res.send(ret);
   });
 });
