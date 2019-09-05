@@ -458,7 +458,49 @@ router.get('/ext/getminingrewards', function(req, res) {
     if (address) {
       res.send({rewards:address.rewards/100000000});
     } else {
-      route_get_index(res, hash + ' not found');
+      res.send(hash + ' not found');
+    }
+  });
+});
+
+router.get('/ext/getminingrewards', function(req, res) {
+  db.get_address(hash, function(address) {
+    if (address) {
+      var txs = [];
+      var hashes = address.txs.reverse();
+      if (address.txs.length < count) {
+        count = address.txs.length;
+      }
+      lib.syncLoop(count, function (loop) {
+        var i = loop.iteration();
+        if(hashes[i].version != 160) {
+          db.get_tx(hashes[i].addresses, function(tx) {
+            if (tx) {
+              txs.push(tx);
+              loop.next();
+            } else {
+              loop.next();
+            }
+          });
+        }
+      }, function(){
+
+        // hack to support numbers longer than 15 digits.
+        var balance = new BigInteger(address.balance);
+        var viewBalance = balance.divide(100000000);
+        var balanceRemain = (new BigNumber(balance.toString().substr(
+          viewBalance.toString().length))/100).toFixed(0);
+
+        res.send({
+          active: 'address',
+          address: address,
+          balance: viewBalance.toString()+'.'+balanceRemain.toString(),
+          txs: txs
+        });
+      });
+
+    } else {
+      res.send(hash + ' not found');
     }
   });
 });
