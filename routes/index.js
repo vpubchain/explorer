@@ -463,7 +463,7 @@ router.get('/ext/getminingsrewards', function(req, res) {
 
 router.get('/ext/getminingsrewardsnum', function(req, res) {
   db.get_mining_rewards_num(function(ret){
-    res.send(ret);
+    res.send({num:ret});
   });
 });
 
