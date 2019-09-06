@@ -445,8 +445,15 @@ router.get('/ext/getnodesnum', function(req, res) {
 
 router.get('/ext/getnodesinfo', function(req, res) {
   var page = req.query.page;
-  page = isNaN(page) || page == 0 ? 1 : page;
-  url = 'nodesinfo?page=' + page;
+  var pagesize = req.query.pagesize;
+
+  if(undefined == page){
+    page = 1;
+  }
+  if(undefined == pagesize){
+    pagesize = 10;
+  }
+  url = 'nodesinfo?page=' + page + '&pagesize=' + pagesize;
   lib.get_bitnodes_url(url, function(ret){
     res.send(ret);
   });
@@ -468,8 +475,20 @@ router.get('/ext/getnodesinfobyip', function(req, res) {
 
 router.get('/ext/getminingsrewards', function(req, res) {
   var page = req.query.page;
-  page = isNaN(page) || page == 0 ? 1 : page;
-  db.get_mining_address(page, 10, function(ret){
+  var pagesize = req.query.pagesize;
+
+  if(undefined == page){
+    page = 1;
+  }
+  if(undefined == pagesize){
+    pagesize = 10;
+  }
+  
+  db.get_mining_address(page, pagesize, function(ret){
+    for(var i = 0; i < ret.length; i++)
+    {
+      ret[i].rewards = ret[i].rewards/100000000;
+    }
     res.send(ret);
   });
 });
@@ -484,7 +503,7 @@ router.get('/ext/getminingrewardsbyaddress', function(req, res) {
   var hash = req.query.address;
   db.get_address(hash, function(address) {
     if (address) {
-      res.send({rewards:address.rewards});
+      res.send({rewards:address.rewards/100000000});
     } else {
       res.send(hash + ' not found');
     }
