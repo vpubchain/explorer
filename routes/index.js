@@ -484,7 +484,7 @@ router.get('/ext/getminingrewardsbyaddress', function(req, res) {
   var hash = req.query.address;
   db.get_address(hash, function(address) {
     if (address) {
-      res.send({rewards:address.rewards/100000000});
+      res.send({rewards:address.rewards});
     } else {
       res.send(hash + ' not found');
     }
