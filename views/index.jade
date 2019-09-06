@@ -91,7 +91,7 @@ block content
             return time;
           }
 
-          for ( var i = 1; i < json.data.length; i++ ) {
+          for ( var i = 0; i < json.data.length; i++ ) {
             var tmpData = {'date':'', 'rewards':0};
             tmpData.date = /*format_unixtime_to_day(json.data[i].timepoint*86400);*/new Date((json.data[i].timepoint*3600+3600) * 1000).toLocaleString();
             tmpData.rewards = (json.data[i].rewards).toFixed(6);
