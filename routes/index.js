@@ -505,7 +505,7 @@ router.get('/ext/getminingrewardsbyaddress', function(req, res) {
     if (address) {
       res.send({rewards:address.rewards/100000000});
     } else {
-      res.send(hash + ' not found');
+      res.send({'error':hash + ' not found'});
     }
   });
 });
