@@ -455,6 +455,10 @@ router.get('/ext/getnodesinfo', function(req, res) {
 
 router.get('/ext/getnodesinfobyip', function(req, res) {
   var ip = req.query.ip;
+  if(undefined == ip){
+    res.send({'error':'ip is not defined!'});
+    return;
+  }
   url = 'getnodesinfobyip?ip=' + ip;
   lib.get_bitnodes_url(url, function(ret){
     res.send(ret);
