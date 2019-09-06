@@ -453,6 +453,15 @@ router.get('/ext/getnodesinfo', function(req, res) {
 });
 
 
+router.get('/ext/getnodesinfobyip', function(req, res) {
+  var ip = req.query.ip;
+  url = 'getnodesinfobyip?ip=' + ip;
+  lib.get_bitnodes_url(url, function(ret){
+    res.send(ret);
+  });
+});
+
+
 router.get('/ext/getminingsrewards', function(req, res) {
   var page = req.query.page;
   page = isNaN(page) || page == 0 ? 1 : page;
