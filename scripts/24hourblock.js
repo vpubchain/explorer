@@ -101,7 +101,8 @@ mongoose.connect(dbString, function(err) {
                 
                 return;
             }
-            if(blocks24h[i].totol != 0 && blocks24h[i].vout.length > 0)
+            
+            if(blocks24h[i].total != 0 && blocks24h[i].vout.length > 0)
             {
                 var blockdata = {};
                 blockdata.BlockMNPayed = 0;
@@ -136,14 +137,14 @@ mongoose.connect(dbString, function(err) {
                     if(blocks24h[i].version == 672)
                     {
                         //pool node is now
-                        blockdata.BlockPoolPubKey = vout[0].addresses;
+                        blockdata.BlockPoolPubKey = vout[vout.length-2].addresses;
                         if(blocksdata.data.stats.perminer.hasOwnProperty(blockdata.BlockPoolPubKey))
                         {
                             blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].Blocks++;
                             blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayed++;
                             blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayedToCurrentProtocol++;
                         
-                            blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount = blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount + blockdata.BlockSupplyValue;
+                            blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount = blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount + blockdata.BlockSupplyValue - vout[vout.length-1].amount/100000000;
                         }
                         else
                         {
@@ -166,7 +167,7 @@ mongoose.connect(dbString, function(err) {
                                 "RatioBlocksPayedToCurrentProtocol":0,
                                 "RatioBlocksPayedToOldProtocol":0,
                                 "RatioBlocksPayedCorrectly":0};
-                            perminerData.TotalAmount = blockdata.BlockSupplyValue;
+                            perminerData.TotalAmount = blockdata.BlockSupplyValue - vout[vout.length-1].amount/100000000;
                             perminerData.PoolPubKeys.push(blockdata.BlockPoolPubKey);
                             blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey] = perminerData; 
                         }
@@ -177,6 +178,7 @@ mongoose.connect(dbString, function(err) {
                         {
                             //pool node is now
                             blockdata.BlockPoolPubKey = vout[j].addresses;
+                            
                             if(blocksdata.data.stats.perminer.hasOwnProperty(blockdata.BlockPoolPubKey))
                             {
                                 blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].Blocks++;
