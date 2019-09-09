@@ -472,6 +472,11 @@ router.get('/ext/getnodesinfobyip', function(req, res) {
   });
 });
 
+router.get('/ext/getmininginfo', function(req, res) {
+  db.get_mining_info(function(ret){
+    res.send(ret);
+  });
+});
 
 router.get('/ext/getminingsrewards', function(req, res) {
   var page = req.query.page;
@@ -493,7 +498,34 @@ router.get('/ext/getminingsrewards', function(req, res) {
   });
 });
 
+
+router.get('/ext/getminingrewards', function(req, res) {
+  var page = req.query.page;
+  var pagesize = req.query.pagesize;
+
+  if(undefined == page){
+    page = 1;
+  }
+  if(undefined == pagesize){
+    pagesize = 10;
+  }
+  
+  db.get_mining_address(page, pagesize, function(ret){
+    for(var i = 0; i < ret.length; i++)
+    {
+      ret[i].rewards = ret[i].rewards/100000000;
+    }
+    res.send(ret);
+  });
+});
+
 router.get('/ext/getminingsrewardsnum', function(req, res) {
+  db.get_mining_rewards_num(function(ret){
+    res.send({num:ret});
+  });
+});
+
+router.get('/ext/getminingrewardsnum', function(req, res) {
   db.get_mining_rewards_num(function(ret){
     res.send({num:ret});
   });

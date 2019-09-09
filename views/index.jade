@@ -237,6 +237,36 @@ block content
         ]
       });
 
+      var mtable = $('#mining-table').dataTable( {  
+        autoWidth: true,      
+        searching: false,
+        ordering: false,
+        responsive: true,
+        lengthChange: true,
+        processing: true,
+        ajax: {
+            
+          url: '/ext/getmininginfo',
+          dataSrc: function ( json ) {
+            for ( var i=0;i<json.length; i++ ) {
+              json[i]['address'] = "<a href='/address/" + json[i]['a_id'] + "'>" + json[i]['a_id'] + "</a>";
+              var amount = json[i]['balance'] / 100000000;
+              json[i]['balance'] = amount.toFixed(6);
+              amount = json[i]['rewards'] / 100000000;
+              json[i]['rewards'] = amount.toFixed(6);
+              json[i]['rank'] = i+1;
+            }
+            return json;
+          }
+        },
+        columns: [
+          { data: 'rank', width: '20%' },
+          { data: 'address', width: '40%' },
+          { data: 'balance', width: '20%' },
+          { data: 'rewards', width: '20%' },
+        ]
+      });
+
       tablePerVersion = $('#perversiontable').dataTable( {
         data: [],
         paging: false,
@@ -541,6 +571,7 @@ block content
         rtable.api().ajax.reload(null, false);
         stable.api().ajax.reload(null, false);
         ltable.api().ajax.reload(null, false);
+        mtable.api().ajax.reload(null, false);
       }, 60000 );
     });
       
@@ -576,6 +607,20 @@ block content
     .footer-padding
 
   //<div class="row"><h2> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最近24小时</h2><p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最近24小时总发行: <span id="globalsupplyamount" style="font-weight: bold;">????.?????? </span> .</p></div>
+
+  .col-md-12
+    .panel.panel-default
+      .panel-heading
+        strong #{settings.locale.miningcount}
+      table#mining-table.table.table-striped
+        thead
+          tr
+            th.hidden-xs.text-center #{settings.locale.rank}
+            th.hidden-xs.text-center #{settings.locale.tx_address}
+            th.hidden-xs.text-center #{settings.locale.rl_balance}
+            th.hidden-xs.text-center #{settings.locale.menu_reward}
+        tbody.text-center
+    .footer-padding
 
   .row
       .col-md-offset-5.col-md-2

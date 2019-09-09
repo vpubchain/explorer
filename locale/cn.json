@@ -165,6 +165,7 @@
      "blockversion": "区块版本",
      "last24blocks": "最近24小时区块详情(不包括交易)",
 
+     "miningcount": "挖矿",
      "blocknum": "区块数",
      "paidblocksratio": "占区块支付比例",
      "allblocks": "占总区块比例",
@@ -313,5 +314,7 @@
      "mnpaymentratio": "主节点预期费率/实际",
      "mnpayee": "主节点钱包地点",
      "mnversion": "主节点版本",
+
+     "rank": "排行",
     
 }

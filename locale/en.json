@@ -163,6 +163,7 @@
     "perversionlast24h": "Per Version Statistics (last 24h)",
     "blockversion": "Block Version",
 
+    "miningcount": "Mining count",
     "blocknum": "Blocks",
     "paidblocksratio": "Paid blocks",
     "last24blocks": "last 24 hours blocks",
@@ -312,4 +313,6 @@
     "mnpaymentratio": "MNP Ratio Expected/Actual",
     "mnpayee": "MN Payee",
     "mnversion": "masternode version",
+
+    "rank": "排行",
 }
