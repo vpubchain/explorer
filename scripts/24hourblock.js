@@ -137,14 +137,14 @@ mongoose.connect(dbString, function(err) {
                     if(blocks24h[i].version == 672)
                     {
                         //pool node is now
-                        blockdata.BlockPoolPubKey = vout[vout.length-2].addresses;
+                        blockdata.BlockPoolPubKey = vout[vout.length-1].addresses;
                         if(blocksdata.data.stats.perminer.hasOwnProperty(blockdata.BlockPoolPubKey))
                         {
                             blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].Blocks++;
                             blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayed++;
                             blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayedToCurrentProtocol++;
                         
-                            blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount = blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount + blockdata.BlockSupplyValue - vout[vout.length-1].amount/100000000;
+                            blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount = blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount + blockdata.BlockSupplyValue;
                         }
                         else
                         {
@@ -167,7 +167,7 @@ mongoose.connect(dbString, function(err) {
                                 "RatioBlocksPayedToCurrentProtocol":0,
                                 "RatioBlocksPayedToOldProtocol":0,
                                 "RatioBlocksPayedCorrectly":0};
-                            perminerData.TotalAmount = blockdata.BlockSupplyValue - vout[vout.length-1].amount/100000000;
+                            perminerData.TotalAmount = blockdata.BlockSupplyValue;
                             perminerData.PoolPubKeys.push(blockdata.BlockPoolPubKey);
                             blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey] = perminerData; 
                         }
