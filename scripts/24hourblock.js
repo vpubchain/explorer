@@ -144,7 +144,7 @@ mongoose.connect(dbString, function(err) {
                             blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayed++;
                             blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].BlocksPayedToCurrentProtocol++;
                         
-                            blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount = blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount + blockdata.BlockSupplyValue;
+                            blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount = blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey].TotalAmount + blockdata.BlockSupplyValue - vout[0].amount/100000000;
                         }
                         else
                         {
@@ -167,7 +167,7 @@ mongoose.connect(dbString, function(err) {
                                 "RatioBlocksPayedToCurrentProtocol":0,
                                 "RatioBlocksPayedToOldProtocol":0,
                                 "RatioBlocksPayedCorrectly":0};
-                            perminerData.TotalAmount = blockdata.BlockSupplyValue;
+                            perminerData.TotalAmount = blockdata.BlockSupplyValue - vout[0].amount/100000000;
                             perminerData.PoolPubKeys.push(blockdata.BlockPoolPubKey);
                             blocksdata.data.stats.perminer[blockdata.BlockPoolPubKey] = perminerData; 
                         }
