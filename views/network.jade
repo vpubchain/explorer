@@ -42,7 +42,8 @@ block content
               item.address = key;
               var arr = json.nodes[key];//json.nodes[key].toString().split(',');
               item.useragent = arr[1] + '<br>' + arr[0];
-              item.hight = arr[4];
+              //item.hight = arr[4];
+              item.hight = #{bitnodeslist.latest_height};
               item.location = arr[21];//json.nodes[key][13].country;
               item.city = arr[20];//json.nodes[key][13].city;
               item.network = arr[12] + '<br>' + arr[11];
