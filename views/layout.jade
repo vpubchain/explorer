@@ -41,6 +41,17 @@ html
     //<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     //<span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span>
     script.
+      function changed() {
+      var name = $("input[name='search']").val();
+      if (name == '') {
+      return
+      }
+      if (!name.match("^[a-zA-Z0-9_\\u4e00-\u9fa5]+$")) {
+      alert("请不要输入特殊字符!")
+      $("input[name='search']").val("")
+      }
+      return
+      }
       $(document).ready(function(){
         $('##{active}').addClass('active');
         function update_stats(){   
@@ -351,7 +362,7 @@ html
         form.form-inline(method='post', action='/search')      
           #index-search.form-group
             - searchPlaceholder = (settings.baseType === 'ripple') ? settings.locale.ex_search_message_ripple : settings.locale.ex_search_message;
-            input.form-control(type='text', name='search', placeholder='#{searchPlaceholder}', style='min-width:80%;margin-right:5px;')
+            input.form-control(type='text', name='search', placeholder='#{searchPlaceholder}', style='min-width:80%;margin-right:5px;', oninput='changed()', minlength="1",maxlength="128")
             button.btn.btn-success(type='submit') #{settings.locale.ex_search_button}
     block content
     .navbar.navbar-default.navbar-fixed-bottom.hidden-xs
