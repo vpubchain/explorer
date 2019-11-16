@@ -312,6 +312,18 @@ block content
 
     var bigChangeTable = null;
     var showInterval = null;
+    function changed() {
+      var name = $("input[name='address']").val();
+      if (name == '') {
+        return
+      }
+      if (!name.match("^[a-zA-Z0-9_\\u4e00-\u9fa5]+$")) {
+        alert("请不要输入特殊字符!")
+        $("input[name='search']").val("")
+      }
+      return
+    }
+
     function updateValue()
     {
       var date = document.getElementById("selectDate");
@@ -439,7 +451,7 @@ block content
         input#amount(type='number', value='1000', onchange='updateValue()', style="width:50px; height:40px;")
         | &nbsp;#{settings.symbol} &nbsp;&nbsp;&nbsp;&nbsp;
         | #{settings.locale.mn_address}：
-        input#address(type='text', value='#{settings.locale.inputaddress}', onchange='updateValue()', style="width:600px; height:40px;")
+        input#address(type='text', value='#{settings.locale.inputaddress}', oninput='changed()', name='address', minlength="1",maxlength="128", onchange='updateValue()', style="width:600px; height:40px;")
 
   .col-xs-12.col-md-10.col-md-offset-1(style="margin-bottom: 5%")
     table#big-change-table.table.table-striped.table-bordered
