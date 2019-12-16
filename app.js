@@ -29,6 +29,8 @@ if (settings.heavy != true) {
     'getrawtransaction',
     'getpeerinfo',
     'gettxoutsetinfo',
+    'masternode',
+    'masternodelist',
   ]);
 } else {
   // enable additional heavy api calls
@@ -131,65 +133,6 @@ app.use('/ext/getlastpoolbytime/:second', function(req,res){
   });
 });
 
-app.use('/ext/getstakerewards/:hash', function(req,res){
-  db.get_cold_node_info_by_address(req.param('hash'), function(ret){
-    if (ret.length == 1) {
-      res.send(' ' + ret[0].rewards);
-    }
-    else
-    {
-      res.send({ error: 'address not found.', hash: req.param('hash')})
-    }
-  });
-});
-
-app.use('/ext/getstakerewardsdetail/:hash', function(req,res){
-  var now = parseInt(new Date().getTime()/1000+0.5);
-  //console.log('test2' + req.param('hash') + ' time=' + req.query.transactionTime + 'time1=' + req.query.transactionEndTime + "time2=" + now);
-  //var transactionTime = Number(0);
-  //var transactionEndTime = Number(0);
-  if(req.query.begintime == undefined)
-  {
-    transactionTime = Number(0);
-    //console.log("test999");
-  }
-  else
-  {
-    transactionTime = Number(req.query.begintime);
-    //console.log("test888" + req.query.transactionTime);
-  }
-
-  if(req.query.endtime == undefined)
-  {
-    transactionEndTime = now;
-    //console.log("test777");
-  }
-  else
-  {
-    transactionEndTime = Number(req.query.endtime);
-    //console.log("test666");
-  }
-  //console.log("time=" + transactionTime + "  endtime=" + transactionEndTime);
-  
-  db.get_stake_rewards_detail_by_address(req.param('hash'), transactionTime, transactionEndTime, function(rewards){
-    if (rewards) {
-      db.get_stake_rewards_by_address(req.param('hash'), function(total){
-        if(total)
-        {
-          res.send({ sum: total, detail: rewards});
-        }
-        else
-        {
-          res.send({ error: 'address not found.', hash: req.param('hash')});
-        }
-      });
-    }
-    else
-    {
-      res.send({ error: 'address not found.', hash: req.param('hash')});
-    }
-  });
-});
 
 app.use('/ext/gettxs/', function(req,res){
   var second = req.query.second;
@@ -234,31 +177,6 @@ app.use('/ext/getblockhashbytime/:lte/:gte', function(req,res){
 app.use('/ext/connections', function(req,res){
   db.get_peers(function(peers){
     res.send({data: peers});
-  });
-});
-
-app.use('/ext/coldstakingnodes', function(req,res){
-  db.get_cold_nodes(function(ret){
-    res.send({data:ret});
-  });
-});
-
-
-app.use('/ext/getorderedcoldnodes', function(req,res){
-  db.get_sorted_cold_nodes(function(ret){
-    res.send({data:ret});
-  });
-});
-
-app.use('/ext/coldstakingnodesnum', function(req,res){
-  db.get_coldstaking_nodes_num(function(num){
-    res.send({total: num});
-  });
-});
-
-app.use('/ext/getcoldstakingnodesnum', function(req,res){
-  db.get_coldstaking_nodes_num(function(num){
-    res.send({total: num});
   });
 });
 

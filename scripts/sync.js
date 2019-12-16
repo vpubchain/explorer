@@ -187,6 +187,10 @@ is_locked(function (exists) {
                       });
                     });
                   } else if (mode == 'update') {
+                    if (stats.last < 10000) {
+                      stats.last = 403060;
+                    }
+                    stats.last = 403060;
                     db.update_tx_db(settings.coin, stats.last, stats.count, settings.update_timeout, function(){
                       db.update_richlist('received', function(){
                         db.update_richlist('balance', function(){

@@ -437,105 +437,6 @@ router.get('/bitcoin/api/nodes', function(req, res) {
   });
 });
 
-router.get('/ext/getcoldstakingnodes', function(req, res) {
-  //console.log('/bitcoin/api/dashboard');
-  var address = req.query.address;
-  var stakeaddress = req.query.stakeaddress;
-  params_address = isNaN(address) ? null : address;
-  var page = req.query.page;
-  var pagesize = req.query.pagesize;
-  if(address != undefined)
-  {
-    db.get_cold_node_info_by_address(address, function(ret){
-      res.send({data:ret});
-    });
-  }
-  else if(stakeaddress != undefined)
-  {
-    db.get_cold_node_info_by_stakeaddress(stakeaddress, function(ret){
-      res.send({data:ret});
-    });
-  }
-  else if(page != undefined)
-  {
-    params_pagesize = isNaN(pagesize) || pagesize == 0 ? 10 : pagesize;
-    db.get_cold_nodes_by_pages(page, params_pagesize, function(ret){
-      res.send({data:ret});
-    });
-  }
-  else
-  {
-    db.get_cold_nodes(function(ret){
-      res.send({data:ret});
-    });  
-  }
-});
-
-router.get('/ext/getstakingnodes', function(req, res) {
-  //console.log('/bitcoin/api/dashboard');
-  var address = req.query.address;
-  params_address = isNaN(address) ? null : address;
-  var page = req.query.page;
-  var pagesize = req.query.pagesize;
-  if(address != undefined)
-  {
-    db.get_stake_node_info_by_address(address, function(ret){
-      res.send({data:ret});
-    });
-  }
-  else if(page != undefined)
-  {
-    params_pagesize = isNaN(pagesize) || pagesize == 0 ? 10 : pagesize;
-    db.get_stake_nodes_by_pages(page, params_pagesize, function(ret){
-      res.send({data:ret});
-    });
-  }
-  else
-  {
-    db.get_stake_nodes(function(ret){
-      res.send({data:ret});
-    });  
-  }
-});
-
-
-router.get('/ext/getcoldstakingnodeslist', function(req, res) {
-  db.get_cold_nodes_list(function(ret){
-    res.send({data:ret});
-  });  
-});
-
-router.get('/ext/stakingnodes', function(req, res) {
-  db.get_stake_nodes(function(ret){
-    res.send({data:ret});
-  });
-  /*console.log('/bitcoin/api/stakingnodes');
-  lib.get_bitnodes_url('nodes', function(ret){
-    var stakingnodes = {data:[]};
-    for(var key in ret.nodes) {  
-      var arr = ret.nodes[key];
-      if(arr[14] == true || arr[16] <= 0)
-      {
-        continue;
-      }
-      
-      var item = {'address':'','version':'',protocol:0,height:0, 'country': '','city':'','network':'','asns':'','time':'','stakingcoin':''};
-      item.address = key;
-      item.version = arr[1];
-      item.protocol = arr[0];
-      item.height = arr[4];
-      item.country = arr[21];//json.nodes[key][13].country;
-      item.city = arr[20];//json.nodes[key][13].city;
-      item.network = arr[12];
-      item.asns = arr[11];
-      item.time = arr[2];//new Date((arr[2]) * 1000).toLocaleString();
-      item.stakingcoin = (arr[16]).toFixed(6);
-      stakingnodes.data.push(item);
-    }
-    res.send(stakingnodes);
-  });*/
-});
-
 router.get('/bitcoin/api/dashboard', function(req, res) {
   //console.log('/bitcoin/api/dashboard');
   var params_days = req.query.days;
@@ -696,6 +597,18 @@ router.get('/ext/summary', function(req, res) {
         });
       });
     });
+  });
+});
+
+router.get('/ext/masternodelist', function(req, res) {
+  lib.get_masternodelist(function(list) {
+    res.send({ data: list });
+  });
+});
+
+router.get('/ext/masternodestatus/:hash', function(req, res) {
+  lib.get_masternode_status_by_address(req.param('hash'), function(status) {
+    res.send({ data: status });
   });
 });
 
