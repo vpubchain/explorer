@@ -256,6 +256,13 @@ app.use('/ext/gettxs/', function(req,res){
   });
 });
 
+app.use('/ext/gettxd/', function(req,res){
+  var txid = req.query.txid;
+  db.get_tx(txid, function(txs){
+    res.send(txs);
+  });
+});
+
 app.use('/ext/getrealtxsbytime/', function(req,res){
   console.log("getrealtxsbytime");
   var second = req.query.second;
