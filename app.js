@@ -11,6 +11,7 @@ var express = require('express')
   , db = require('./lib/database')
   , locale = require('./lib/locale')
   , request = require('request')
+  , BigNumber = require('bignumber.js')
   , BigInteger = require('big-integer');
 
 var app = express();
