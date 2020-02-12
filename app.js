@@ -256,7 +256,7 @@ app.use('/ext/gettxs/', function(req,res){
   });
 });
 
-app.use('/ext/gettxd/', function(req,res){
+app.use('/ext/gettxdtl/', function(req,res){
   var txid = req.query.txid;
   db.get_tx(txid, function(txs){
     res.send(txs);
