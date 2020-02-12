@@ -100,6 +100,46 @@ app.use('/ext/getaddress/:hash', function(req,res){
   });
 });
 
+app.use('/ext/getaddressdetails/:hash', function(req,res){
+  db.get_address(req.param('hash'), function(address) {
+    if (address) {
+      var txs = [];
+      var hashes = address.txs.reverse();
+      if (address.txs.length < count) {
+        count = address.txs.length;
+      }
+      lib.syncLoop(count, function (loop) {
+        var i = loop.iteration();
+        db.get_tx(hashes[i].addresses, function(tx) {
+          if (tx) {
+            txs.push(tx);
+            loop.next();
+          } else {
+            loop.next();
+          }
+        });
+      }, function(){
+
+        // hack to support numbers longer than 15 digits.
+        var balance = new BigInteger(address.balance);
+        var viewBalance = balance.divide(100000000);
+        var balanceRemain = (new BigNumber(balance.toString().substr(
+          viewBalance.toString().length))/100).toFixed(0);
+        var a_ext = {
+          active: 'address',
+          address: address,
+          balance: viewBalance.toString()+'.'+balanceRemain.toString(),
+          txs: txs
+        }
+        res.send(a_ext);
+      });
+
+    } else {
+      res.send({ error: 'address not found.', hash: req.param('hash')});
+    }
+  });
+});
+
 
 app.use('/ext/getbalance/:hash', function(req,res){
   db.get_address(req.param('hash'), function(address){
