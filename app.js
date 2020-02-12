@@ -105,9 +105,7 @@ app.use('/ext/getaddressdetails/:hash', function(req,res){
     if (address) {
       var txs = [];
       var hashes = address.txs.reverse();
-      if (address.txs.length < count) {
-        count = address.txs.length;
-      }
+      var count = address.txs.length;
       lib.syncLoop(count, function (loop) {
         var i = loop.iteration();
         db.get_tx(hashes[i].addresses, function(tx) {
