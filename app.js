@@ -271,6 +271,34 @@ app.use('/ext/getrealtxsbytime/', function(req,res){
   });
 });
 
+app.use('/ext/getblockdetail/:hash', function(req,res){
+  var blockhash = req.params.hash
+  lib.get_block(blockhash, function (block) {
+    if (block != 'There was an error. Check your console.') {
+      if (blockhash == settings.genesis_block) {
+        res.send({ active: 'block', block: block, confirmations: settings.confirmations, txs: 'GENESIS'});
+      } else {
+        db.get_txs(block, function(txs) {
+          if (txs.length > 0) {
+            res.send({ active: 'block', block: block, confirmations: settings.confirmations, txs: txs});
+          } else {
+            db.create_txs(block, function(){
+              db.get_txs(block, function(ntxs) {
+                if (ntxs.length > 0) {
+                  res.send({ active: 'block', block: block, confirmations: settings.confirmations, txs: ntxs});
+                } else {
+                  res.send({ error: 'Block not found.', hash: blockhash});
+                }
+              });
+            });
+          }
+        });
+      }
+    } else {
+      res.send({ error: 'Block not found.', hash: blockhash});
+    }
+  });
+});
 
 app.use('/ext/getblockhashbytime/:lte/:gte', function(req,res){
   db.get_blockhash_by_time(req.params.lte, req.params.gte, function(txs){
