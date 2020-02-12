@@ -10,7 +10,8 @@ var express = require('express')
   , lib = require('./lib/explorer')
   , db = require('./lib/database')
   , locale = require('./lib/locale')
-  , request = require('request');
+  , request = require('request')
+  , BigInteger = require('big-integer');
 
 var app = express();
 
