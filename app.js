@@ -86,6 +86,22 @@ app.use('/ext/getmoneysupply', function(req,res){
   });
 });
 
+app.use('/ext/test',function(req,res){
+  var url = 'http://api.map.baidu.com/reverse_geocoding/v3/?ak=VRvx5Q5vwGvSRA6NQBcMa4ll2K3p77cU&output=json&coordtype=wgs84ll&location=30.294000033163506,120.16189999999992'
+  // var url = 'http://api.map.baidu.com/geocoder/v2/?ak=VRvx5Q5vwGvSRA6NQBcMa4ll2K3p77cU&callback=renderReverse&location=30.294000033163506,120.16189999999992&output=json&pois=1'
+  request({uri: url, json: true},(err,response) => {
+    console.log(err)
+    console.log(response)
+    res.send(response)
+  })
+})
+
+app.use('/ext/getmasternodepeers', function(req, res){
+  db.get_peers(function(peers){
+    res.send(peers)
+  })
+})
+
 app.use('/ext/getaddress/:hash', function(req,res){
   db.get_address(req.param('hash'), function(address){
     if (address) {

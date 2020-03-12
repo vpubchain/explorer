@@ -316,74 +316,74 @@ router.get('/movement', function(req, res) {
 });
 
 
-router.get('/network', function(req, res) {
-  lib.get_bitnodes_url('nodes', function(ret){
-    var user_agent_list_data = [];
-    var country_list_data = [];
-    var network_list_data = [];
-    var location_city = {};
-    console.log('length=' + ret.agents.length);
-    for(var i = 0; i < ret.agents.length; i++)
-    {
-      for(var key in ret.agents[i])
-      {
-        var data = {'user_agent':'','nodes':''};
-        data.user_agent = key;
-        data.nodes = ret.agents[i][key];
-        user_agent_list_data.push(data);
-      }
-    }
+// router.get('/network', function(req, res) {
+//   lib.get_bitnodes_url('nodes', function(ret){
+//     var user_agent_list_data = [];
+//     var country_list_data = [];
+//     var network_list_data = [];
+//     var location_city = {};
+//     console.log('length=' + ret.agents.length);
+//     for(var i = 0; i < ret.agents.length; i++)
+//     {
+//       for(var key in ret.agents[i])
+//       {
+//         var data = {'user_agent':'','nodes':''};
+//         data.user_agent = key;
+//         data.nodes = ret.agents[i][key];
+//         user_agent_list_data.push(data);
+//       }
+//     }
 
-    for(var j = 0; j < ret.countrys.length; j++)
-    {
-      for(var key in ret.countrys[j])
-      {
-        var data = {'county':'','nodes':''};
-        //data.country = country_data[key];
-        data.country = key;
-        data.nodes = ret.countrys[j][key];
-        country_list_data.push(data);
-      }
-    }
+//     for(var j = 0; j < ret.countrys.length; j++)
+//     {
+//       for(var key in ret.countrys[j])
+//       {
+//         var data = {'county':'','nodes':''};
+//         //data.country = country_data[key];
+//         data.country = key;
+//         data.nodes = ret.countrys[j][key];
+//         country_list_data.push(data);
+//       }
+//     }
     
-    for(var k = 0; k < ret.networks.length; k++)
-    {
-      for(var key in ret.networks[k])
-      {
-        var data = {'network':'','nodes':''};
-        data.network = key;
-        data.nodes = ret.networks[k][key];
-        network_list_data.push(data);
-      }
-    }
-/*
-    for(var key in ret.nodes)
-    {
-      var location_key = ret.nodes[key][8] + '' + ret.nodes[key][9] + '';
-      if(!location_city.hasOwnProperty(location_key))
-      {
-        lib.get_location(ret.nodes[key][8], ret.nodes[key][9], function(location_ret){
-          console.log("x=" + ret.nodes[key][8] + " y=" + ret.nodes[key][9] + " city=" + location_ret.result.addressComponent.city + "key=", location_key);
-          location_city[location_key] = location_ret.result.addressComponent.city;
-        });
-      }
-    }*/
+//     for(var k = 0; k < ret.networks.length; k++)
+//     {
+//       for(var key in ret.networks[k])
+//       {
+//         var data = {'network':'','nodes':''};
+//         data.network = key;
+//         data.nodes = ret.networks[k][key];
+//         network_list_data.push(data);
+//       }
+//     }
+// /*
+//     for(var key in ret.nodes)
+//     {
+//       var location_key = ret.nodes[key][8] + '' + ret.nodes[key][9] + '';
+//       if(!location_city.hasOwnProperty(location_key))
+//       {
+//         lib.get_location(ret.nodes[key][8], ret.nodes[key][9], function(location_ret){
+//           console.log("x=" + ret.nodes[key][8] + " y=" + ret.nodes[key][9] + " city=" + location_ret.result.addressComponent.city + "key=", location_key);
+//           location_city[location_key] = location_ret.result.addressComponent.city;
+//         });
+//       }
+//     }*/
 
-    var snapshot_localtime = (new Date((ret.timestamp) * 1000)).toLocaleString();
+//     var snapshot_localtime = (new Date((ret.timestamp) * 1000)).toLocaleString();
     
-    console.log('snapshot_localtime=' + snapshot_localtime + ret.timestamp);
+//     console.log('snapshot_localtime=' + snapshot_localtime + ret.timestamp);
     
-    res.render('network', {
-                        active: 'network',
-                        bitnodeslist: ret,
-                        useragentlist: user_agent_list_data,
-                        country_list: country_list_data,
-                        network_list: network_list_data,
-                        location_city_list: location_city,
-                        snapshotlocaltime: snapshot_localtime
-                        });
-  });
-});
+//     res.render('network', {
+//                         active: 'network',
+//                         bitnodeslist: ret,
+//                         useragentlist: user_agent_list_data,
+//                         country_list: country_list_data,
+//                         network_list: network_list_data,
+//                         location_city_list: location_city,
+//                         snapshotlocaltime: snapshot_localtime
+//                         });
+//   });
+// });
 
 router.get('/nodes', function(req, res) {
   res.render('nodes', {active: 'nodes'});
@@ -430,34 +430,34 @@ router.get('/reward', function(req, res){
   //});
 });
 
-router.get('/bitcoin/api/nodes', function(req, res) {
-  console.log('/bitcoin/api/nodes');
-  lib.get_bitnodes_url('nodes', function(ret){
-    res.send(ret);
-  });
-});
+//监控平台网络节点页面
+// router.get('/bitcoin/api/nodes', function(req, res) {
+//   lib.get_bitnodes_url('nodes', function(ret){
+//     res.send(ret);
+//   });
+// });
 
 router.get('/ext/getnodesnum', function(req, res) {
-  lib.get_bitnodes_url('nodesnum', function(ret){
+  db.find_peer_count(function(ret){
       res.send(ret);
   });
 });
 
-router.get('/ext/getnodesinfo', function(req, res) {
-  var page = req.query.page;
-  var pagesize = req.query.pagesize;
+// router.get('/ext/getnodesinfo', function(req, res) {
+//   var page = req.query.page;
+//   var pagesize = req.query.pagesize;
 
-  if(undefined == page){
-    page = 1;
-  }
-  if(undefined == pagesize){
-    pagesize = 10;
-  }
-  url = 'nodesinfo?page=' + page + '&pagesize=' + pagesize;
-  lib.get_bitnodes_url(url, function(ret){
-    res.send(ret);
-  });
-});
+//   if(undefined == page){
+//     page = 1;
+//   }
+//   if(undefined == pagesize){
+//     pagesize = 10;
+//   }
+//   url = 'nodesinfo?page=' + page + '&pagesize=' + pagesize;
+//   lib.get_bitnodes_url(url, function(ret){
+//     res.send(ret);
+//   });
+// });
 
 
 router.get('/ext/getnodesinfobyip', function(req, res) {
@@ -466,10 +466,9 @@ router.get('/ext/getnodesinfobyip', function(req, res) {
     res.send({'error':'ip is not defined!'});
     return;
   }
-  url = 'getnodesinfobyip?ip=' + ip;
-  lib.get_bitnodes_url(url, function(ret){
-    res.send(ret);
-  });
+  db.find_peer(ip,peer => {
+    res.send(peer)
+  })
 });
 
 router.get('/ext/getmininginfo', function(req, res) {
@@ -739,19 +738,19 @@ router.get('/bitcoin/api/vpubboard', function(req, res) {
   });
 });
 
-router.get('/bitcoin/api/snapshots', function(req, res) {
-  console.log('/bitcoin/api/snapshots');
-  lib.get_bitnodes_url('snapshots', function(ret){
-    res.send(ret);
-  });
-});
+// router.get('/bitcoin/api/snapshots', function(req, res) {
+//   console.log('/bitcoin/api/snapshots');
+//   lib.get_bitnodes_url('snapshots', function(ret){
+//     res.send(ret);
+//   });
+// });
 
-router.get('/bitcoin/api/leaderboard', function(req, res) {
-  console.log('/bitcoin/api/leaderboard');
-  lib.get_bitnodes_url('leaderboard', function(ret){
-    res.send(ret);
-  });
-});
+// router.get('/bitcoin/api/leaderboard', function(req, res) {
+//   console.log('/bitcoin/api/leaderboard');
+//   lib.get_bitnodes_url('leaderboard', function(ret){
+//     res.send(ret);
+//   });
+// });
 
 router.get('/getlocation/:x/:y', function(req, res) {
   //console.log('/bitcoin/api/leaderboard');
