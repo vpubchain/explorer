@@ -424,7 +424,7 @@ router.get('/ext/getminingrewardsdetail', function(req, res) {
       }
       lib.syncLoop(count, function (loop) {
         var i = loop.iteration();
-        if(hashes[i].version != 160) {
+        if(hashes[i].iscoinbase == true) {
           db.get_tx(hashes[i].addresses, function(tx) {
             if (tx) {
               txs.push(tx);
