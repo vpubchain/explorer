@@ -37,14 +37,14 @@ db.connect(dbString, function() {
     });  
   } 
   
-  db.check_richlist(settings.coin, function(exists){
-    if (exists == false) {
-      console.log('no richlist entry found, creating now..');
-      db.create_richlist(settings.coin, function() {
+  // db.check_richlist(settings.coin, function(exists){
+  //   if (exists == false) {
+  //     console.log('no richlist entry found, creating now..');
+  //     db.create_richlist(settings.coin, function() {
 
-      });
-    }
-  });  
+  //     });
+  //   }
+  // });  
   if ( settings.heavy == true ) {
     db.check_heavy(settings.coin, function(exists){
       if (exists == false) {
