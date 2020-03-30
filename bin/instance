@@ -17,7 +17,7 @@ db.connect(dbString, function() {
     if (exists == false) {
       console.log('no stats entry found, creating now..');
       db.create_stats(settings.coin, function(){
-        //console.log('stats entry created successfully.');
+        console.log('stats entry created successfully.');
       });
     } else {
       db.get_stats(settings.coin, function (stats) {
