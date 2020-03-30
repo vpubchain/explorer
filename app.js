@@ -169,16 +169,6 @@ app.use('/ext/getbalance/:hash', function(req,res){
 });
 
 
-app.use('/ext/getdistribution', function(req,res){
-  db.get_richlist(settings.coin, function(richlist){
-    db.get_stats(settings.coin, function(stats){
-      db.get_distribution(richlist, stats, function(dist){
-        res.send(dist);
-      });
-    });
-  });
-});
-
 app.use('/ext/getlasttxs/:min', function(req,res){
   db.get_last_txs(settings.index.last_txs, (req.params.min * 100000000), function(txs){
     res.send({data: txs});

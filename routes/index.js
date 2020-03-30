@@ -174,42 +174,6 @@ router.get('/markets/:market', function(req, res) {
   }
 });
 
-router.get('/richlist', function(req, res) {
-  if (settings.display.richlist == true ) {
-    db.get_stats(settings.coin, function (stats) {
-      db.get_richlist(settings.coin, function(richlist){
-        //console.log(richlist);
-        if (richlist) {
-          db.get_distribution(richlist, stats, function(distribution) {
-            var addresses = '';
-            console.log('addresses=' + addresses);
-            res.render('richlist', {
-              active: 'richlist',
-              balance: richlist.balance,
-              received: richlist.received,
-              stats: stats,
-              coin_supply: new BigNumber(stats.supply).toFixed(6),
-              dista: distribution.t_1_25,
-              distb: distribution.t_26_50,
-              distc: distribution.t_51_75,
-              distd: distribution.t_76_100,
-              diste: distribution.t_101plus,
-              show_dist: settings.richlist.distribution,
-              show_coin_supply: settings.richlist.coin_supply,
-              show_received: settings.richlist.received,
-              show_balance: settings.richlist.balance,
-              masternode_addresses: addresses
-            });
-          });
-        } else {
-          route_get_index(res, null);
-        }
-      });
-    });
-  } else {
-    route_get_index(res, null);
-  }
-});
 
 router.get('/masternodes', function(req, res) {
   res.render('masternodes', {active: 'masternodes'});
