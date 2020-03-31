@@ -11,6 +11,7 @@ var TxSchema = new Schema({
   blockindex: {type: Number, default: 0},
   difficult: {type: Number, default: 0},
   version: {type: Number, default: 0},
+  iscoinbase: {type: Boolean, default: false},
 }, {id: false});
 
 module.exports = mongoose.model('Tx', TxSchema);
