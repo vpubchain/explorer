@@ -12,6 +12,9 @@ var TxSchema = new Schema({
   difficult: {type: Number, default: 0},
   version: {type: Number, default: 0},
   iscoinbase: {type: Boolean, default: false},
+  performancefundreward: { type: Number, default: 0 },
+  ecologicalfundreward: { type: Number, default: 0 },
+  developmentfundreward: { type: Number, default: 0 },
 }, {id: false});
 
 module.exports = mongoose.model('Tx', TxSchema);

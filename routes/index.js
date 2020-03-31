@@ -538,6 +538,15 @@ router.get('/ext/getblocksupply', function(req, res) {
   });
 });
 
+router.get('/ext/getperformancesupply', function(req, res) {
+  //console.log("getblockrewards");
+  var starttime = req.query.starttime;
+  var endtime = req.query.endtime;
+  db.get_performance_supply(starttime, endtime, function(ret){
+    res.send({data:ret});
+  });
+});
+
 router.get('/ext/getsupplybytime', function(req, res) {
   //console.log("getblockrewards");
   var starttime = req.query.starttime;
