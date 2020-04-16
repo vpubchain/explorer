@@ -375,6 +375,7 @@ app.set('labels', settings.labels);
 app.set('ecological_funds_address', settings.ecological_funds_address);
 app.set('performance_funds_address', settings.performance_funds_address);
 app.set('development_team_fund_address', settings.development_team_fund_address);
+app.set('pension_fund_address', settings.pension_fund_address);
 app.set('email_sender', settings.email_sender);
 app.set('email_receiver', settings.email_receiver);
 app.set('email_passwd', settings.email_passwd);

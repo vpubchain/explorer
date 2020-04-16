@@ -15,6 +15,7 @@ var TxSchema = new Schema({
   performancefundreward: { type: Number, default: 0 },
   ecologicalfundreward: { type: Number, default: 0 },
   developmentfundreward: { type: Number, default: 0 },
+  pensionfundreward: { type: Number, default: 0 },
 }, {id: false});
 
 module.exports = mongoose.model('Tx', TxSchema);

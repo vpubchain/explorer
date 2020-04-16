@@ -759,24 +759,33 @@ router.get('/ext/summary', function(req, res) {
                         } else {
                           df_balance = 0;
                         }
-                        res.send({ data: [{
-                          difficulty: formatNum(difficulty ,{ maxFraction: 6 }),
-                          difficultyHybrid: formatNum(difficultyHybrid ,{ maxFraction: 6 }),
-                          //masternodeCount: masternodecount,
-                          //masternodeOnlineCount: masternodeonlinecount,
-                          supply: formatNum(stats.supply, { maxFraction: 6 }),
-                          hashrate: hashrate,
-                          lastPriceBtc: formatNum(stats.last_price, { maxFraction: 6 }),
-                          // lastPriceUsd: formatCurrency(cmc.price_usd, { maxFraction: 6 }),
-                          // marketCapUsd: formatCurrency(cmc.market_cap_usd, { maxFraction: 6 }),
-                          // marketVolumeUsd: formatCurrency(cmc.volume_24h_usd, { maxFraction: 6 }),
-                          connections: connections,
-                          blockcount: blockcount,
-                          // cmc: cmc,
-                          ef_balance: formatCurrency(ef_balance, { maxFraction: 6 }),
-                          pf_balance: formatCurrency(pf_balance, { maxFraction: 6 }),
-                          df_balance: formatCurrency(df_balance, { maxFraction: 6 }),
-                        }]});
+                        db.get_address(settings.pension_fund_address, function(pe_address) {
+                          if(pe_address) {
+                            pe_balance = (pe_address.balance / 100000000).toString().replace(/(^-+)/mg, '');
+                          } else {
+                            pe_balance = 0;
+                          }
+
+                          res.send({ data: [{
+                            difficulty: formatNum(difficulty ,{ maxFraction: 6 }),
+                            difficultyHybrid: formatNum(difficultyHybrid ,{ maxFraction: 6 }),
+                            //masternodeCount: masternodecount,
+                            //masternodeOnlineCount: masternodeonlinecount,
+                            supply: formatNum(stats.supply, { maxFraction: 6 }),
+                            hashrate: hashrate,
+                            lastPriceBtc: formatNum(stats.last_price, { maxFraction: 6 }),
+                            // lastPriceUsd: formatCurrency(cmc.price_usd, { maxFraction: 6 }),
+                            // marketCapUsd: formatCurrency(cmc.market_cap_usd, { maxFraction: 6 }),
+                            // marketVolumeUsd: formatCurrency(cmc.volume_24h_usd, { maxFraction: 6 }),
+                            connections: connections,
+                            blockcount: blockcount,
+                            // cmc: cmc,
+                            ef_balance: formatCurrency(ef_balance, { maxFraction: 6 }),
+                            pf_balance: formatCurrency(pf_balance, { maxFraction: 6 }),
+                            df_balance: formatCurrency(df_balance, { maxFraction: 6 }),
+                            pe_balance: formatCurrency(pe_balance, { maxFraction: 6 }),
+                          }]});
+                        });
                       });
                     });
                   });
