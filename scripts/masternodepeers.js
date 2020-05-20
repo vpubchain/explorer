@@ -144,6 +144,9 @@ mongoose.connect(dbString, function(err) {
                         loop.next()
                       })
                     })
+                    .catch(() => {
+                      loop.next()
+                    })
                   } else {
                     console.log(response.body.status)
                     loop.next()
@@ -152,6 +155,9 @@ mongoose.connect(dbString, function(err) {
               }else {
                 loop.next();
               }
+            })
+            .catch(e => {
+              loop.next();
             })
           }
         });

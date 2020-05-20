@@ -1,0 +1,226 @@
+/*
+  This file must be valid JSON. But comments are allowed
+
+  Please edit settings.json, not settings.json.template
+*/
+{
+  // name your instance!
+  "title": "链监控平台",
+
+  "address": "127.0.0.1:3001",
+
+  // coin name
+  "coin": "vircle",
+
+  // coin symbol
+  "symbol": "VCL",
+
+  // coin type
+  //  Options:
+  //    bitcoin = Default Bitcoin/Dash/... clones
+  //    ripple = Ripple clones
+  "baseType": "bitcoin",
+  //"baseType": "pivx",
+  // The epoch time for a ripple based coin.
+  // You can ignore this setting if you're not using a ripple based coin.
+  "rippleEpoch": 946684800,
+
+  // logo
+  "logo": "/images/logo.png",
+
+  // favicon
+  "favicon": "public/wcl.ico",
+
+  // Uses bootswatch themes (http://bootswatch.com/)
+  // Valid options:
+  //     Cerulean, Cosmo, Cyborg, Darkly, Flatly, Journal, Lumen, Paper,
+  //     Readable, Sandstone, Simplex, Slate, Spacelab, Superhero, United, Yeti
+  // theme (see /public/themes for available themes)
+//  "theme": "Cyborg",
+//   "theme": "Flatly",
+//    "theme": "Simplex",
+   "theme": "Lumen",
+  // port to listen for requests on.
+  "port" : 3001,
+
+  "maxMoney": 100000000,
+
+  // database settings (MongoDB)
+  "dbsettings": {
+    "user": "iquidus",
+    "password": "123456",
+    "database": "explorerdb",
+    "address": "127.0.0.1",
+    "port": 27017
+  },
+
+  //update script settings
+  "update_timeout": 10,
+  "check_timeout": 250,
+
+  // wallet settings
+  "wallet": {
+    "host": "127.0.0.1",
+    "port": 9902, 
+    "user": "rpcuser",
+    "pass": "123456"
+  },
+
+  // confirmations
+  "confirmations": 40,
+
+  // language settings
+  "locale": "locale/cn.json",
+
+  // menu settings
+  "display": {
+    "api": true,
+    "markets": false,
+    "richlist": true,
+    "twitter": true,
+    "facebook": false,
+    "googleplus": false,
+    "search": true,
+    "movement": true,
+    "network": true,
+    "masternodes": false,
+    "coininfo": false,
+    "coinmarketcap": false, 
+  },
+
+  // index page (valid options for difficulty are POW, POS or Hybrid)
+  "index": {
+    "show_hashrate": true,
+    "show_coin_supply": true,
+    "difficulty": "POW",
+    "last_txs": 100
+  },
+
+  // ensure links on API page are valid
+  "api": {
+    "blockindex": 1337,
+    "blockhash": "35d674c097e3bb3a34245d7c43d59f4cbb71cf5d32e6e0e127de2438b84f04f1",
+    "txhash": "a329636498f35c4aa4563f3dc0533741b975b5cfd2fd2fd1afd91992b1aafe9a",
+    "address": "RBiXWscC63Jdn1GfDtRj8hgv4Q6Zppvpwb"
+  },
+
+  // market settings
+  //supported markets: bittrex, poloniex, yobit, empoex, bleutrade, cryptopia, ccex
+  //default market is loaded by default and determines last price in header
+  "markets": {
+    "coin": "JBS",
+    "exchange": "BTC",
+    "enabled": ["bittrex"],
+    "cryptopia_id": "1658",
+    "ccex_key" : "Get-Your-Own-Key",
+    "default": "bittrex"
+  },
+
+  // richlist/top100 settings
+  "richlist": {
+    "distribution": true,
+    "received": true,
+    "balance": true,
+    "coin_supply": true
+  },
+  // movement page settings
+  // min amount: show transactions greater than this value
+  // low flag: greater than this value flagged yellow
+  // high flag: greater than this value flagged red
+  "movement": {
+    "min_amount": 0,
+    "low_flag": 1000,
+    "high_flag": 5000
+  },
+
+  // Masternodes page
+  // default port: Default port a masternode is running. 
+  "masternodes": {
+    "default_port": 8369,
+
+    // Use index-based values (starting with 0).
+    // 0 is the key of the masterlist data.
+    // -1 means that the info is not available.
+    "list_format": {
+      "address": 3,
+      "status": 1,
+      "lastseen": 4,
+      "lastpaid": 6,
+      "ip": 8 
+    }
+  },
+
+
+  // Coin info page
+  "coininfo": {
+    "basic_info_links": [
+      ["Github", "http://github.com/"]
+    ],
+    "masternode_required": 1000,
+    "block_time_sec": 120,
+    "block_reward_mn": 5
+  },
+
+  // CoinMarketCap integration
+  "coinmarketcap": {
+    "ticker": "BTC"
+  },
+
+  // twitter, facebook, googleplus
+  "twitter": "explorerztop",
+  "facebook": "yourfacebookpage",
+  "googleplus": "yourgooglepluspage",
+
+  //genesis
+  "genesis_tx": "65f705d2f385dc85763a317b3ec000063003d6b039546af5d8195a5ec27ae410",
+  "genesis_block": "00000d6f81d96969bfa1f195a1e349a6129c720c50a255c50ca38163d8286579",
+
+  // Fetch blocks from <index>
+  "fetch_blocks_from": 0,
+
+  //heavy (enable/disable additional heavy features)
+  "heavy": false,
+
+  //amount of txs to index per address (stores latest n txs)
+  "txcount": 100000,
+
+  //show total sent & received on address page (set false if PoS)
+  "show_sent_received": true,
+
+  // how to calculate current coin supply
+  // COINBASE : total sent from coinbase (PoW)
+  // GETINFO : retreive from getinfo api call (PoS)
+  // HEAVY: retreive from heavys getsupply api call
+  // BALANCES : total of all address balances
+  // TXOUTSET : retreive from gettxoutsetinfo api call
+  "supply": "TXOUTSET",
+
+  // how to acquire network hashrate
+  // getnetworkhashps: uses getnetworkhashps api call, returns in GH/s
+  // netmhashps: uses getmininginfo.netmhashpsm returns in MH/s
+  "nethash": "getnetworkhashps",
+
+  // nethash unitd: sets nethash API return units
+  // valid options: "P" (PH/s), "T" (TH/s), "G" (GH/s), "M" (MH/s), "K" (KH/s)
+  "nethash_units": "G",
+
+  "ecological_funds_address": "sys1q773ajal8zjmf6wxfe4duts3yqrpptucqgfqsghf0k720xglafkws7qs3lq",
+  "performance_funds_address": "sys1qyfa7q4zrhlk64e7jcsrhh6thmmm4wepwt42rfaveq2jwpj0hl3rstvmss5",
+  "development_team_fund_address": "sys1q4w078u9x495ng2n4xe2qp9hmmu0ds66up4xffvhhz8l7gyvyfwwsh2uyu6",
+  "destroy_fund_address": "sys1q4w078u9x495ng2n4xe2qp9hmmu0ds66up4xffvhhz8l7gyvyfwwsh2uyu6",
+  "pension_fund_address": "3JqhExXJ6mN4n4r2sucyvJsm2xG6CbcJ9w",
+
+  "email_sender": "jiuling-monitor@qq.com",
+  "email_passwd": "yfuruymkbtqlfgie",
+  "email_receiver": "dev@vpubchain.org",
+
+  // Address labels
+  // example : "JhbrvAmM7kNpwA6wD5KoAsbtikLWWMNPcM": {"label": "This is a burn address", "type":"danger", "url":"http://example.com"}
+  // label (required) = test to display
+  // type (optional) = class of label, valid types: default, primary, warning, danger, success
+  // url (optional) = url to link to for more information
+  "labels": {
+  //  "JSoEdU717hvz8KQVq2HfcqV9A79Wihzusu": {"label": "Developers address", "type":"primary", "url":"http://example.com"},
+  //  "JSWVXHWeYNknPdG9uDrcBoZHztKMFCsndw": {"label": "Cryptsy"}
+  }
+}
